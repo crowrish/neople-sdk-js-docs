@@ -1,0 +1,549 @@
+---
+title: 예제
+description: neople-sdk-js의 실용적인 예제와 사용 패턴
+---
+
+# 예제
+
+neople-sdk-js 라이브러리의 실용적인 예제와 일반적인 사용 패턴을 제공합니다.
+
+## 던전앤파이터 예제
+
+### 캐릭터 조회 도구
+
+```typescript
+import { NeopleDFClient } from 'neople-sdk-js';
+
+class CharacterLookup {
+  private dfClient: NeopleDFClient;
+
+  constructor(apiKey: string) {
+    this.dfClient = new NeopleDFClient(apiKey);
+  }
+
+  async findCharacter(name: string, serverName?: string) {
+    try {
+      // 캐릭터 검색
+      const searchResults = await this.dfClient.searchCharacter(name);
+      
+      if (searchResults.rows.length === 0) {
+        return { error: '캐릭터를 찾을 수 없습니다' };
+      }
+
+      // 서버가 지정된 경우 필터링
+      let character = searchResults.rows[0];
+      if (serverName) {
+        const filtered = searchResults.rows.find(
+          char => char.serverId === serverName
+        );
+        if (filtered) character = filtered;
+      }
+
+      // 상세 정보 조회
+      const [details, equipment, skills] = await Promise.all([
+        this.dfClient.getCharacter(character.serverId, character.characterId),
+        this.dfClient.getCharacterEquipment(character.serverId, character.characterId),
+        this.dfClient.getCharacterSkill(character.serverId, character.characterId)
+      ]);
+
+      return {
+        character: details,
+        equipment: equipment,
+        skills: skills
+      };
+    } catch (error) {
+      return { error: error.message };
+    }
+  }
+}
+
+// 사용 예시
+const lookup = new CharacterLookup(process.env.NEOPLE_DF_API_KEY!);
+const result = await lookup.findCharacter('홍길동');
+console.log(result);
+```
+
+### 장비 분석기
+
+```typescript
+import { NeopleDFClient } from 'neople-sdk-js';
+
+class EquipmentAnalyzer {
+  private dfClient: NeopleDFClient;
+
+  constructor(apiKey: string) {
+    this.dfClient = new NeopleDFClient(apiKey);
+  }
+
+  async analyzeEquipment(serverId: string, characterId: string) {
+    try {
+      const equipment = await this.dfClient.getCharacterEquipment(serverId, characterId);
+      
+      const analysis = {
+        totalItems: equipment.equipment.length,
+        rarityDistribution: {},
+        upgradeLevel: {
+          average: 0,
+          highest: 0,
+          lowest: 100
+        },
+        setItems: new Map()
+      };
+
+      equipment.equipment.forEach(item => {
+        // 희귀도 분포
+        const rarity = item.itemRarity;
+        analysis.rarityDistribution[rarity] = 
+          (analysis.rarityDistribution[rarity] || 0) + 1;
+
+        // 강화 수치
+        const upgrade = item.upgradeInfo?.upgrade || 0;
+        analysis.upgradeLevel.highest = Math.max(analysis.upgradeLevel.highest, upgrade);
+        analysis.upgradeLevel.lowest = Math.min(analysis.upgradeLevel.lowest, upgrade);
+
+        // 세트 아이템
+        if (item.setItemInfo) {
+          const setName = item.setItemInfo.setItemName;
+          const count = analysis.setItems.get(setName) || 0;
+          analysis.setItems.set(setName, count + 1);
+        }
+      });
+
+      // 평균 강화 수치 계산
+      const totalUpgrade = equipment.equipment.reduce(
+        (sum, item) => sum + (item.upgradeInfo?.upgrade || 0), 0
+      );
+      analysis.upgradeLevel.average = totalUpgrade / equipment.equipment.length;
+
+      return analysis;
+    } catch (error) {
+      throw new Error(`장비 분석 실패: ${error.message}`);
+    }
+  }
+}
+```
+
+### 경매장 모니터
+
+```typescript
+import { NeopleDFClient } from 'neople-sdk-js';
+
+class AuctionMonitor {
+  private dfClient: NeopleDFClient;
+  private watchList: string[] = [];
+
+  constructor(apiKey: string) {
+    this.dfClient = new NeopleDFClient(apiKey);
+  }
+
+  addToWatchList(itemName: string) {
+    if (!this.watchList.includes(itemName)) {
+      this.watchList.push(itemName);
+    }
+  }
+
+  async checkPrices() {
+    const results = [];
+
+    for (const itemName of this.watchList) {
+      try {
+        const auctions = await this.dfClient.searchAuction({
+          itemName,
+          limit: 50
+        });
+
+        if (auctions.rows.length > 0) {
+          const prices = auctions.rows.map(auction => auction.currentPrice);
+          const analysis = {
+            itemName,
+            totalListings: auctions.rows.length,
+            lowestPrice: Math.min(...prices),
+            highestPrice: Math.max(...prices),
+            averagePrice: prices.reduce((a, b) => a + b, 0) / prices.length,
+            recentListings: auctions.rows.slice(0, 10)
+          };
+          
+          results.push(analysis);
+        }
+      } catch (error) {
+        console.error(`${itemName} 확인 실패:`, error.message);
+      }
+    }
+
+    return results;
+  }
+
+  async findBargains(maxPrice: number) {
+    const allResults = await this.checkPrices();
+    return allResults
+      .filter(result => result.lowestPrice <= maxPrice)
+      .sort((a, b) => a.lowestPrice - b.lowestPrice);
+  }
+}
+
+// 사용 예시
+const monitor = new AuctionMonitor(process.env.NEOPLE_DF_API_KEY!);
+monitor.addToWatchList('강화의 숨결');
+monitor.addToWatchList('모험가의 징표');
+
+const prices = await monitor.checkPrices();
+const bargains = await monitor.findBargains(1000000);
+```
+
+## 사이퍼즈 예제
+
+### 플레이어 통계 추적기
+
+```typescript
+import { NeopleCyphersClient } from 'neople-sdk-js';
+
+class PlayerStats {
+  private cyphersClient: NeopleCyphersClient;
+
+  constructor(apiKey: string) {
+    this.cyphersClient = new NeopleCyphersClient(apiKey);
+  }
+
+  async getPlayerProfile(playerName: string) {
+    try {
+      // 플레이어 검색
+      const searchResults = await this.cyphersClient.searchPlayer(playerName);
+      if (searchResults.rows.length === 0) {
+        throw new Error('플레이어를 찾을 수 없습니다');
+      }
+
+      const playerId = searchResults.rows[0].playerId;
+
+      // 종합적인 플레이어 데이터 조회
+      const [player, ranking, recentMatches] = await Promise.all([
+        this.cyphersClient.getPlayer(playerId),
+        this.cyphersClient.getPlayerRanking(playerId),
+        this.cyphersClient.getMatches(playerId, 'rating', undefined, undefined, 20)
+      ]);
+
+      // 최근 성과 분석
+      const winRate = this.calculateWinRate(recentMatches.rows);
+      const favoriteCharacters = this.getFavoriteCharacters(recentMatches.rows);
+
+      return {
+        player,
+        ranking,
+        recentPerformance: {
+          totalGames: recentMatches.rows.length,
+          winRate,
+          favoriteCharacters
+        }
+      };
+    } catch (error) {
+      throw new Error(`플레이어 프로필 조회 실패: ${error.message}`);
+    }
+  }
+
+  private calculateWinRate(matches: any[]): number {
+    if (matches.length === 0) return 0;
+    
+    const wins = matches.filter(match => {
+      const playerTeam = match.teams.find(team => 
+        team.players.some(p => p.playerId === match.playerId)
+      );
+      return playerTeam?.result === 'win';
+    }).length;
+
+    return (wins / matches.length) * 100;
+  }
+
+  private getFavoriteCharacters(matches: any[]): Array<{character: string, usage: number}> {
+    const characterUsage = {};
+    
+    matches.forEach(match => {
+      const character = match.players.find(p => p.playerId === match.playerId)?.characterName;
+      if (character) {
+        characterUsage[character] = (characterUsage[character] || 0) + 1;
+      }
+    });
+
+    return Object.entries(characterUsage)
+      .map(([character, usage]) => ({ character, usage: usage as number }))
+      .sort((a, b) => b.usage - a.usage)
+      .slice(0, 5);
+  }
+}
+```
+
+### 경기 분석기
+
+```typescript
+import { NeopleCyphersClient } from 'neople-sdk-js';
+
+class MatchAnalyzer {
+  private cyphersClient: NeopleCyphersClient;
+
+  constructor(apiKey: string) {
+    this.cyphersClient = new NeopleCyphersClient(apiKey);
+  }
+
+  async analyzeMatch(matchId: string) {
+    try {
+      const match = await this.cyphersClient.getMatch(matchId);
+      
+      const analysis = {
+        basicInfo: {
+          matchId: match.matchId,
+          gameType: match.gameTypeId,
+          playTime: match.playTime,
+          map: match.mapId
+        },
+        teams: await this.analyzeTeams(match.teams),
+        mvp: this.findMVP(match.players),
+        characterDistribution: this.getCharacterDistribution(match.players)
+      };
+
+      return analysis;
+    } catch (error) {
+      throw new Error(`경기 분석 실패: ${error.message}`);
+    }
+  }
+
+  private async analyzeTeams(teams: any[]) {
+    const teamAnalysis = [];
+
+    for (const team of teams) {
+      const players = team.players;
+      const totalKills = players.reduce((sum, p) => sum + (p.killCount || 0), 0);
+      const totalDeaths = players.reduce((sum, p) => sum + (p.deathCount || 0), 0);
+      const totalAssists = players.reduce((sum, p) => sum + (p.assistCount || 0), 0);
+
+      teamAnalysis.push({
+        teamId: team.teamId,
+        result: team.result,
+        players: players.length,
+        teamKDA: {
+          kills: totalKills,
+          deaths: totalDeaths,
+          assists: totalAssists,
+          ratio: totalDeaths > 0 ? (totalKills + totalAssists) / totalDeaths : totalKills + totalAssists
+        }
+      });
+    }
+
+    return teamAnalysis;
+  }
+
+  private findMVP(players: any[]) {
+    return players.reduce((mvp, player) => {
+      const score = (player.killCount || 0) * 2 + (player.assistCount || 0) - (player.deathCount || 0);
+      const mvpScore = (mvp.killCount || 0) * 2 + (mvp.assistCount || 0) - (mvp.deathCount || 0);
+      
+      return score > mvpScore ? player : mvp;
+    });
+  }
+
+  private getCharacterDistribution(players: any[]) {
+    const distribution = {};
+    players.forEach(player => {
+      const char = player.characterName;
+      distribution[char] = (distribution[char] || 0) + 1;
+    });
+    return distribution;
+  }
+}
+```
+
+### 랭킹 추적기
+
+```typescript
+import { NeopleCyphersClient } from 'neople-sdk-js';
+
+class RankingTracker {
+  private cyphersClient: NeopleCyphersClient;
+  private trackedPlayers: Set<string> = new Set();
+
+  constructor(apiKey: string) {
+    this.cyphersClient = new NeopleCyphersClient(apiKey);
+  }
+
+  addPlayer(playerId: string) {
+    this.trackedPlayers.add(playerId);
+  }
+
+  async getTopPlayers(rankingType = 'mmr', limit = 100) {
+    try {
+      const ranking = await this.cyphersClient.getRanking(rankingType, 0, limit);
+      
+      return ranking.rows.map((player, index) => ({
+        rank: index + 1,
+        playerName: player.nickname,
+        playerId: player.playerId,
+        rating: player.grade,
+        isTracked: this.trackedPlayers.has(player.playerId)
+      }));
+    } catch (error) {
+      throw new Error(`상위 플레이어 조회 실패: ${error.message}`);
+    }
+  }
+
+  async trackPlayerProgress(playerId: string, days = 30) {
+    try {
+      const player = await this.cyphersClient.getPlayer(playerId);
+      const matches = await this.cyphersClient.getMatches(
+        playerId, 
+        'rating', 
+        this.getDateString(days), 
+        this.getDateString(0),
+        100
+      );
+
+      const progress = {
+        currentRating: player.clanGrade,
+        totalMatches: matches.rows.length,
+        winRate: this.calculateWinRate(matches.rows),
+        ratingChange: this.calculateRatingChange(matches.rows),
+        streaks: this.calculateStreaks(matches.rows)
+      };
+
+      return progress;
+    } catch (error) {
+      throw new Error(`플레이어 진행상황 추적 실패: ${error.message}`);
+    }
+  }
+
+  private getDateString(daysAgo: number): string {
+    const date = new Date();
+    date.setDate(date.getDate() - daysAgo);
+    return date.toISOString().split('T')[0];
+  }
+
+  private calculateWinRate(matches: any[]): number {
+    if (matches.length === 0) return 0;
+    const wins = matches.filter(match => match.result === 'win').length;
+    return (wins / matches.length) * 100;
+  }
+
+  private calculateRatingChange(matches: any[]): number {
+    if (matches.length < 2) return 0;
+    const latest = matches[0];
+    const oldest = matches[matches.length - 1];
+    return latest.grade - oldest.grade;
+  }
+
+  private calculateStreaks(matches: any[]) {
+    let currentStreak = 0;
+    let maxWinStreak = 0;
+    let maxLossStreak = 0;
+    let currentType = null;
+
+    matches.reverse().forEach(match => {
+      const isWin = match.result === 'win';
+      
+      if (currentType === isWin) {
+        currentStreak++;
+      } else {
+        if (currentType === true) {
+          maxWinStreak = Math.max(maxWinStreak, currentStreak);
+        } else if (currentType === false) {
+          maxLossStreak = Math.max(maxLossStreak, currentStreak);
+        }
+        currentStreak = 1;
+        currentType = isWin;
+      }
+    });
+
+    return { maxWinStreak, maxLossStreak, currentStreak, currentType };
+  }
+}
+```
+
+## 통합 사용 예제
+
+### 멀티 게임 대시보드
+
+```typescript
+import { NeopleDFClient, NeopleCyphersClient } from 'neople-sdk-js';
+
+class GameDashboard {
+  private dfClient: NeopleDFClient;
+  private cyphersClient: NeopleCyphersClient;
+
+  constructor(dfApiKey: string, cyphersApiKey: string) {
+    this.dfClient = new NeopleDFClient(dfApiKey);
+    this.cyphersClient = new NeopleCyphersClient(cyphersApiKey);
+  }
+
+  async getUserDashboard(dfCharacterName?: string, cyphersPlayerName?: string) {
+    const dashboard = {
+      dungeonFighter: null,
+      cyphers: null,
+      timestamp: new Date().toISOString()
+    };
+
+    // 던전앤파이터 데이터 조회
+    if (dfCharacterName) {
+      try {
+        const dfData = await this.getDFCharacterSummary(dfCharacterName);
+        dashboard.dungeonFighter = dfData;
+      } catch (error) {
+        dashboard.dungeonFighter = { error: error.message };
+      }
+    }
+
+    // 사이퍼즈 데이터 조회
+    if (cyphersPlayerName) {
+      try {
+        const cyphersData = await this.getCyphersPlayerSummary(cyphersPlayerName);
+        dashboard.cyphers = cyphersData;
+      } catch (error) {
+        dashboard.cyphers = { error: error.message };
+      }
+    }
+
+    return dashboard;
+  }
+
+  private async getDFCharacterSummary(characterName: string) {
+    const searchResults = await this.dfClient.searchCharacter(characterName);
+    if (searchResults.rows.length === 0) {
+      throw new Error('캐릭터를 찾을 수 없습니다');
+    }
+
+    const character = searchResults.rows[0];
+    const details = await this.dfClient.getCharacter(character.serverId, character.characterId);
+    
+    return {
+      name: character.characterName,
+      server: character.serverId,
+      level: details.level,
+      job: details.jobName,
+      lastUpdated: details.adventureName
+    };
+  }
+
+  private async getCyphersPlayerSummary(playerName: string) {
+    const searchResults = await this.cyphersClient.searchPlayer(playerName);
+    if (searchResults.rows.length === 0) {
+      throw new Error('플레이어를 찾을 수 없습니다');
+    }
+
+    const player = searchResults.rows[0];
+    const ranking = await this.cyphersClient.getPlayerRanking(player.playerId);
+    
+    return {
+      name: player.nickname,
+      playerId: player.playerId,
+      grade: ranking.grade,
+      ranking: ranking.rank,
+      clanName: player.clanName
+    };
+  }
+}
+
+// 사용 예시
+const dashboard = new GameDashboard(
+  process.env.NEOPLE_DF_API_KEY!,
+  process.env.NEOPLE_CYPHERS_API_KEY!
+);
+
+const userDash = await dashboard.getUserDashboard('홍길동', '플레이어명');
+console.log(userDash);
+```
+
+이 예제들은 네오플의 게임 API와 상호작용하는 애플리케이션을 구축하는 다양한 방법을 보여줍니다. 각 예제는 오류 처리와 특정 필요에 맞게 적용할 수 있는 실용적인 사용 패턴을 포함합니다.

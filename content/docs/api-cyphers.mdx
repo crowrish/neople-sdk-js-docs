@@ -1,0 +1,287 @@
+---
+title: 사이퍼즈 API 레퍼런스
+description: 사이퍼즈 클라이언트의 완전한 API 레퍼런스
+---
+
+# 사이퍼즈 API 레퍼런스
+
+`NeopleCyphersClient`는 네오플 오픈 API를 통해 사이퍼즈 게임 데이터에 접근을 제공합니다.
+
+## 클라이언트 초기화
+
+```typescript
+import { NeopleCyphersClient } from 'neople-sdk-js';
+
+const cyphersClient = new NeopleCyphersClient(apiKey, options?);
+```
+
+### 매개변수
+
+- `apiKey` (string): 사이퍼즈 API 키
+- `options` (object, 선택사항): 설정 옵션
+  - `httpAdapter`: 사용자 지정 HTTP 클라이언트 어댑터
+  - `baseURL`: API 요청을 위한 사용자 지정 기본 URL
+
+## 플레이어 메서드
+
+### searchPlayer(playerName, limit?)
+
+이름으로 플레이어를 검색합니다.
+
+```typescript
+const players = await cyphersClient.searchPlayer('플레이어명');
+```
+
+**매개변수:**
+- `playerName` (string): 검색할 플레이어 이름
+- `limit` (number, 선택사항): 최대 결과 개수 (기본값: 10)
+
+**반환값:** 기본 정보가 포함된 플레이어 검색 결과
+
+### getPlayer(playerId)
+
+상세한 플레이어 정보를 가져옵니다.
+
+```typescript
+const player = await cyphersClient.getPlayer('playerId');
+```
+
+**매개변수:**
+- `playerId` (string): 플레이어 식별자
+
+**반환값:** 스탯과 랭킹이 포함된 상세 플레이어 정보
+
+### getPlayerRanking(playerId)
+
+플레이어의 랭킹 정보를 가져옵니다.
+
+```typescript
+const ranking = await cyphersClient.getPlayerRanking('playerId');
+```
+
+**매개변수:**
+- `playerId` (string): 플레이어 식별자
+
+**반환값:** 다양한 게임 모드의 플레이어 랭킹
+
+## 경기 메서드
+
+### getMatches(playerId, gameTypeId?, startDate?, endDate?, limit?)
+
+플레이어의 경기 기록을 가져옵니다.
+
+```typescript
+const matches = await cyphersClient.getMatches('playerId', 'rating');
+```
+
+**매개변수:**
+- `playerId` (string): 플레이어 식별자
+- `gameTypeId` (string, 선택사항): 게임 타입 필터 ('normal', 'rating' 등)
+- `startDate` (string, 선택사항): 시작 날짜 필터 (YYYY-MM-DD)
+- `endDate` (string, 선택사항): 끝 날짜 필터 (YYYY-MM-DD)
+- `limit` (number, 선택사항): 최대 결과 개수
+
+**반환값:** 상세 정보가 포함된 경기 목록
+
+### getMatch(matchId)
+
+상세한 경기 정보를 가져옵니다.
+
+```typescript
+const match = await cyphersClient.getMatch('matchId');
+```
+
+**매개변수:**
+- `matchId` (string): 경기 식별자
+
+**반환값:** 모든 플레이어와 결과를 포함한 상세 경기 정보
+
+## 캐릭터 메서드
+
+### getCharacters()
+
+사용 가능한 모든 캐릭터 목록을 가져옵니다.
+
+```typescript
+const characters = await cyphersClient.getCharacters();
+```
+
+**반환값:** 기본 정보가 포함된 모든 사이퍼즈 캐릭터 목록
+
+### getCharacter(characterId)
+
+상세한 캐릭터 정보를 가져옵니다.
+
+```typescript
+const character = await cyphersClient.getCharacter('characterId');
+```
+
+**매개변수:**
+- `characterId` (string): 캐릭터 식별자
+
+**반환값:** 능력과 스탯을 포함한 상세 캐릭터 정보
+
+## 아이템 메서드
+
+### getItems()
+
+사용 가능한 모든 아이템 목록을 가져옵니다.
+
+```typescript
+const items = await cyphersClient.getItems();
+```
+
+**반환값:** 기본 정보가 포함된 모든 아이템 목록
+
+### getItem(itemId)
+
+상세한 아이템 정보를 가져옵니다.
+
+```typescript
+const item = await cyphersClient.getItem('itemId');
+```
+
+**매개변수:**
+- `itemId` (string): 아이템 식별자
+
+**반환값:** 스탯과 효과를 포함한 상세 아이템 정보
+
+## 포지션 및 속성 메서드
+
+### getPositions()
+
+사용 가능한 포지션 목록을 가져옵니다.
+
+```typescript
+const positions = await cyphersClient.getPositions();
+```
+
+**반환값:** 캐릭터 포지션 목록
+
+### getAttributes()
+
+사용 가능한 속성 목록을 가져옵니다.
+
+```typescript
+const attributes = await cyphersClient.getAttributes();
+```
+
+**반환값:** 캐릭터 속성 목록
+
+## 랭킹 메서드
+
+### getRanking(rankingType, offset?, limit?)
+
+전체 랭킹을 가져옵니다.
+
+```typescript
+const ranking = await cyphersClient.getRanking('mmr', 0, 100);
+```
+
+**매개변수:**
+- `rankingType` (string): 랭킹 타입 ('mmr', 'bp' 등)
+- `offset` (number, 선택사항): 페이지네이션을 위한 결과 오프셋
+- `limit` (number, 선택사항): 최대 결과 개수
+
+**반환값:** 전체 랭킹 목록
+
+## 오류 처리
+
+모든 메서드는 다양한 이유로 오류를 발생시킬 수 있습니다:
+
+```typescript
+try {
+  const player = await cyphersClient.getPlayer('invalidId');
+} catch (error) {
+  if (error.status === 404) {
+    console.log('플레이어를 찾을 수 없습니다');
+  } else if (error.status === 401) {
+    console.log('잘못된 API 키입니다');
+  } else {
+    console.error('API 오류:', error.message);
+  }
+}
+```
+
+## 속도 제한
+
+네오플 API에는 속도 제한이 있습니다. SDK가 자동으로 속도 제한을 처리하지만 다음 사항을 주의하세요:
+
+- 요청 빈도 제한
+- 일일 할당량 제한
+- 동시 요청 제한
+
+## 사용 예시
+
+```typescript
+import { NeopleCyphersClient } from 'neople-sdk-js';
+
+async function getPlayerStats(playerName: string) {
+  const cyphersClient = new NeopleCyphersClient(process.env.NEOPLE_CYPHERS_API_KEY);
+  
+  try {
+    // 플레이어 검색
+    const searchResults = await cyphersClient.searchPlayer(playerName);
+    
+    if (searchResults.rows.length === 0) {
+      console.log('플레이어를 찾을 수 없습니다');
+      return;
+    }
+    
+    const playerId = searchResults.rows[0].playerId;
+    
+    // 플레이어 세부 정보와 최근 경기 조회
+    const [player, ranking, matches] = await Promise.all([
+      cyphersClient.getPlayer(playerId),
+      cyphersClient.getPlayerRanking(playerId),
+      cyphersClient.getMatches(playerId, 'rating', undefined, undefined, 10)
+    ]);
+    
+    console.log('플레이어:', player);
+    console.log('랭킹:', ranking);
+    console.log('최근 경기:', matches);
+    
+  } catch (error) {
+    console.error('오류:', error.message);
+  }
+}
+
+async function analyzeMatch(matchId: string) {
+  const cyphersClient = new NeopleCyphersClient(process.env.NEOPLE_CYPHERS_API_KEY);
+  
+  try {
+    const match = await cyphersClient.getMatch(matchId);
+    
+    console.log('경기 시간:', match.playTime);
+    console.log('승자:', match.teams.find(team => team.result === 'win'));
+    
+    // 각 플레이어의 캐릭터 정보 조회
+    const characterPromises = match.players.map(player =>
+      cyphersClient.getCharacter(player.characterId)
+    );
+    
+    const characters = await Promise.all(characterPromises);
+    console.log('사용된 캐릭터:', characters.map(char => char.characterName));
+    
+  } catch (error) {
+    console.error('오류:', error.message);
+  }
+}
+```
+
+## 게임 타입
+
+일반적인 게임 타입 식별자:
+- `normal`: 일반 경기
+- `rating`: 랭킹 경기
+- `tutorial`: 튜토리얼 경기
+- `custom`: 커스텀 경기
+
+## 경기 결과 구조
+
+경기 결과에 포함되는 정보:
+- 플레이어 정보 및 통계
+- 캐릭터 선택 및 빌드
+- 팀 구성
+- 경기 시간 및 결과
+- 개별 플레이어 성능 지표

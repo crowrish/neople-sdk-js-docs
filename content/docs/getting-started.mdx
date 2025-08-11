@@ -1,0 +1,108 @@
+---
+title: 시작하기
+description: neople-sdk-js 설치 및 설정 방법 배우기
+---
+
+# 시작하기
+
+neople-sdk-js는 던전앤파이터와 사이퍼즈 게임 API를 지원하는 네오플 오픈 API용 TypeScript SDK입니다.
+
+## 설치
+
+npm 또는 선호하는 패키지 매니저를 사용하여 패키지를 설치하세요:
+
+```bash
+npm install neople-sdk-js
+```
+
+```bash
+yarn add neople-sdk-js
+```
+
+```bash
+pnpm add neople-sdk-js
+```
+
+## 요구사항
+
+- Node.js 18 이상
+- TypeScript 지원 (권장)
+- 네오플 오픈 API 키
+
+## API 키
+
+각기 다른 게임 API를 위해 별도의 API 키가 필요합니다:
+
+1. **던전앤파이터 API 키**: 던전앤파이터 게임 데이터 접근에 필요
+2. **사이퍼즈 API 키**: 사이퍼즈 게임 데이터 접근에 필요
+
+[네오플 오픈 API 웹사이트](https://developers.neople.co.kr/)에서 API 키를 발급받으세요.
+
+## 환경 설정
+
+프로젝트 루트에 `.env` 파일을 생성하세요:
+
+```dotenv
+NEOPLE_DF_API_KEY=your_dungeon_fighter_api_key
+NEOPLE_CYPHERS_API_KEY=your_cyphers_api_key
+```
+
+## 빠른 시작
+
+### 던전앤파이터 클라이언트
+
+```typescript
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const dfClient = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
+
+// 캐릭터 검색
+const characters = await dfClient.searchCharacter('홍길동');
+console.log(characters);
+
+// 캐릭터 정보 조회
+if (characters.rows.length > 0) {
+  const character = await dfClient.getCharacter(
+    characters.rows[0].serverId,
+    characters.rows[0].characterId
+  );
+  console.log(character);
+}
+```
+
+### 사이퍼즈 클라이언트
+
+```typescript
+import { NeopleCyphersClient } from 'neople-sdk-js';
+
+const cyphersClient = new NeopleCyphersClient(process.env.NEOPLE_CYPHERS_API_KEY);
+
+// 플레이어 검색
+const players = await cyphersClient.searchPlayer('플레이어명');
+console.log(players);
+```
+
+## 지원 환경
+
+- ✅ Node.js 백엔드 애플리케이션
+- ✅ Next.js API 라우트
+- ✅ 서버리스 함수
+- ❌ 브라우저 환경 (CORS 제한으로 인해 지원되지 않음)
+
+## 오류 처리
+
+SDK는 포괄적인 오류 처리를 제공합니다:
+
+```typescript
+try {
+  const character = await dfClient.getCharacter('cain', 'characterId');
+} catch (error) {
+  console.error('API 오류:', error.message);
+}
+```
+
+## 다음 단계
+
+- [API 레퍼런스 - 던전앤파이터](/ko/docs/api-dungeon-fighter)
+- [API 레퍼런스 - 사이퍼즈](/ko/docs/api-cyphers)
+- [예제 및 사용 패턴](/ko/docs/examples)

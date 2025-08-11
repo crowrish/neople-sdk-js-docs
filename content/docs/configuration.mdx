@@ -1,0 +1,369 @@
+---
+title: 설정
+description: 다양한 환경과 사용 사례에 맞게 neople-sdk-js를 설정하는 방법
+---
+
+# 설정
+
+다양한 환경에 맞게 neople-sdk-js를 설정하고 동작을 사용자 지정하는 방법을 알아보세요.
+
+## 환경 변수
+
+### 필수 API 키
+
+```dotenv
+# 던전앤파이터 API 키
+NEOPLE_DF_API_KEY=your_df_api_key_here
+
+# 사이퍼즈 API 키
+NEOPLE_CYPHERS_API_KEY=your_cyphers_api_key_here
+```
+
+### 선택적 설정
+
+```dotenv
+# 사용자 지정 API 기본 URL (선택사항)
+NEOPLE_DF_BASE_URL=https://api.neople.co.kr
+NEOPLE_CYPHERS_BASE_URL=https://api.neople.co.kr
+
+# 요청 타임아웃 (밀리초) (선택사항)
+NEOPLE_REQUEST_TIMEOUT=30000
+
+# 디버그 로깅 활성화 (선택사항)
+NEOPLE_DEBUG=true
+```
+
+## 클라이언트 설정 옵션
+
+`NeopleDFClient`와 `NeopleCyphersClient` 모두 설정 옵션을 받습니다:
+
+```typescript
+import { NeopleDFClient, NeopleCyphersClient } from 'neople-sdk-js';
+
+const dfClient = new NeopleDFClient(apiKey, {
+  baseURL: 'https://api.neople.co.kr',
+  timeout: 30000,
+  httpAdapter: 'fetch', // 'fetch' | 'axios' | 'got' | 'node-fetch'
+  retryAttempts: 3,
+  retryDelay: 1000,
+  userAgent: 'MyApp/1.0.0'
+});
+```
+
+### 사용 가능한 옵션
+
+| 옵션 | 타입 | 기본값 | 설명 |
+|------|------|--------|------|
+| `baseURL` | string | API 기본값 | API 요청을 위한 사용자 지정 기본 URL |
+| `timeout` | number | 30000 | 요청 타임아웃 (밀리초) |
+| `httpAdapter` | string | 'fetch' | 사용할 HTTP 클라이언트 어댑터 |
+| `retryAttempts` | number | 3 | 실패한 요청에 대한 재시도 횟수 |
+| `retryDelay` | number | 1000 | 재시도 간격 (밀리초) |
+| `userAgent` | string | SDK 기본값 | 사용자 지정 User-Agent 헤더 |
+
+## HTTP 어댑터
+
+SDK는 여러 HTTP 클라이언트 어댑터를 지원합니다:
+
+### Fetch (기본값)
+
+```typescript
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'fetch'
+});
+```
+
+Node.js 18+와 브라우저 환경 모두에서 작동합니다.
+
+### Axios
+
+```typescript
+import axios from 'axios';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance: axios.create({
+    // 사용자 지정 axios 설정
+    headers: {
+      'Custom-Header': 'value'
+    }
+  })
+});
+```
+
+### Got (Node.js 전용)
+
+```typescript
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got'
+});
+```
+
+### Node-fetch
+
+```typescript
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'node-fetch'
+});
+```
+
+## Next.js 설정
+
+### API 라우트
+
+```typescript
+// pages/api/character/[name].ts
+import { NeopleDFClient } from 'neople-sdk-js';
+import { NextApiRequest, NextApiResponse } from 'next';
+
+const dfClient = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  try {
+    const { name } = req.query;
+    const characters = await dfClient.searchCharacter(name as string);
+    res.status(200).json(characters);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+```
+
+### 앱 라우터
+
+```typescript
+// app/api/character/[name]/route.ts
+import { NeopleDFClient } from 'neople-sdk-js';
+import { NextRequest, NextResponse } from 'next/server';
+
+const dfClient = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { name: string } }
+) {
+  try {
+    const characters = await dfClient.searchCharacter(params.name);
+    return NextResponse.json(characters);
+  } catch (error) {
+    return NextResponse.json(
+      { error: error.message },
+      { status: 500 }
+    );
+  }
+}
+```
+
+## 서버리스 함수
+
+### Vercel 함수
+
+```typescript
+// api/character.ts
+import { NeopleDFClient } from 'neople-sdk-js';
+import { VercelRequest, VercelResponse } from '@vercel/node';
+
+const dfClient = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
+
+export default async function handler(
+  req: VercelRequest,
+  res: VercelResponse
+) {
+  const { name } = req.query;
+  
+  try {
+    const characters = await dfClient.searchCharacter(name as string);
+    res.json(characters);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+```
+
+### AWS Lambda
+
+```typescript
+import { NeopleDFClient } from 'neople-sdk-js';
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+
+const dfClient = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
+
+export const handler = async (
+  event: APIGatewayProxyEvent
+): Promise<APIGatewayProxyResult> => {
+  try {
+    const name = event.pathParameters?.name;
+    if (!name) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: '이름 매개변수가 필요합니다' })
+      };
+    }
+    
+    const characters = await dfClient.searchCharacter(name);
+    
+    return {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(characters)
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message })
+    };
+  }
+};
+```
+
+## 오류 처리 설정
+
+### 전역 오류 핸들러
+
+```typescript
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  onError: (error) => {
+    // 모니터링 서비스에 오류 로깅
+    console.error('API 오류:', error);
+    
+    // 오류 추적 서비스로 전송 가능
+    // errorTracker.captureException(error);
+  }
+});
+```
+
+### 사용자 지정 재시도 로직
+
+```typescript
+const client = new NeopleDFClient(apiKey, {
+  retryAttempts: 5,
+  retryDelay: 2000,
+  shouldRetry: (error) => {
+    // 사용자 지정 재시도 로직
+    if (error.status === 429) { // 속도 제한
+      return true;
+    }
+    if (error.status >= 500) { // 서버 오류
+      return true;
+    }
+    return false;
+  }
+});
+```
+
+## 속도 제한
+
+### 내장 속도 제한
+
+```typescript
+const client = new NeopleDFClient(apiKey, {
+  rateLimit: {
+    requestsPerSecond: 10,
+    burstLimit: 20
+  }
+});
+```
+
+### 사용자 지정 속도 제한기
+
+```typescript
+import pLimit from 'p-limit';
+
+const limit = pLimit(5); // 최대 5개의 동시 요청
+
+async function fetchMultipleCharacters(characterIds: string[]) {
+  const promises = characterIds.map(id => 
+    limit(() => dfClient.getCharacter('cain', id))
+  );
+  
+  return Promise.all(promises);
+}
+```
+
+## 개발 vs 프로덕션
+
+### 개발 설정
+
+```typescript
+const client = new NeopleDFClient(apiKey, {
+  debug: true,
+  timeout: 10000, // 개발용 짧은 타임아웃
+  retryAttempts: 1 // 개발에서 적은 재시도
+});
+```
+
+### 프로덕션 설정
+
+```typescript
+const client = new NeopleDFClient(apiKey, {
+  debug: false,
+  timeout: 30000,
+  retryAttempts: 3,
+  userAgent: `MyApp/${process.env.APP_VERSION}`
+});
+```
+
+## TypeScript 설정
+
+### 엄격한 타입 검사
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true
+  }
+}
+```
+
+### 타입 안전 환경 변수
+
+```typescript
+// types/env.d.ts
+declare namespace NodeJS {
+  interface ProcessEnv {
+    NEOPLE_DF_API_KEY: string;
+    NEOPLE_CYPHERS_API_KEY: string;
+    NODE_ENV: 'development' | 'production' | 'test';
+  }
+}
+```
+
+## 보안 모범 사례
+
+### API 키 관리
+
+```typescript
+// ❌ 이렇게 하지 마세요
+const client = new NeopleDFClient('hardcoded-api-key');
+
+// ✅ 이렇게 하세요
+const client = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
+```
+
+### 요청 검증
+
+```typescript
+function validateApiKey(apiKey: string | undefined): string {
+  if (!apiKey) {
+    throw new Error('API 키가 필요합니다');
+  }
+  if (apiKey.length < 32) {
+    throw new Error('잘못된 API 키 형식입니다');
+  }
+  return apiKey;
+}
+
+const client = new NeopleDFClient(
+  validateApiKey(process.env.NEOPLE_DF_API_KEY)
+);
+```

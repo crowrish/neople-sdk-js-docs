@@ -1,0 +1,239 @@
+---
+title: 던전앤파이터 API 레퍼런스
+description: 던전앤파이터 클라이언트의 완전한 API 레퍼런스
+---
+
+# 던전앤파이터 API 레퍼런스
+
+`NeopleDFClient`는 네오플 오픈 API를 통해 던전앤파이터 게임 데이터에 접근을 제공합니다.
+
+## 클라이언트 초기화
+
+```typescript
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const dfClient = new NeopleDFClient(apiKey, options?);
+```
+
+### 매개변수
+
+- `apiKey` (string): 던전앤파이터 API 키
+- `options` (object, 선택사항): 설정 옵션
+  - `httpAdapter`: 사용자 지정 HTTP 클라이언트 어댑터
+  - `baseURL`: API 요청을 위한 사용자 지정 기본 URL
+
+## 캐릭터 메서드
+
+### searchCharacter(characterName, serverId?, limit?)
+
+이름으로 캐릭터를 검색합니다.
+
+```typescript
+const characters = await dfClient.searchCharacter('홍길동');
+```
+
+**매개변수:**
+- `characterName` (string): 검색할 캐릭터 이름
+- `serverId` (string, 선택사항): 결과를 필터링할 서버 ID
+- `limit` (number, 선택사항): 최대 결과 개수 (기본값: 10)
+
+**반환값:** 페이지 정보가 포함된 캐릭터 검색 결과
+
+### getCharacter(serverId, characterId)
+
+상세한 캐릭터 정보를 가져옵니다.
+
+```typescript
+const character = await dfClient.getCharacter('cain', 'characterId');
+```
+
+**매개변수:**
+- `serverId` (string): 서버 식별자
+- `characterId` (string): 캐릭터 식별자
+
+**반환값:** 기본 스탯과 직업 정보를 포함한 상세 캐릭터 정보
+
+### getCharacterEquipment(serverId, characterId)
+
+캐릭터의 장착 아이템을 가져옵니다.
+
+```typescript
+const equipment = await dfClient.getCharacterEquipment('cain', 'characterId');
+```
+
+**매개변수:**
+- `serverId` (string): 서버 식별자
+- `characterId` (string): 캐릭터 식별자
+
+**반환값:** 상세 스탯이 포함된 장착 아이템 목록
+
+### getCharacterAvatar(serverId, characterId)
+
+캐릭터의 아바타 장비를 가져옵니다.
+
+```typescript
+const avatar = await dfClient.getCharacterAvatar('cain', 'characterId');
+```
+
+**매개변수:**
+- `serverId` (string): 서버 식별자
+- `characterId` (string): 캐릭터 식별자
+
+**반환값:** 아바타 장비 정보
+
+### getCharacterSkill(serverId, characterId, jobId?, jobGrowId?)
+
+캐릭터의 스킬 정보를 가져옵니다.
+
+```typescript
+const skills = await dfClient.getCharacterSkill('cain', 'characterId');
+```
+
+**매개변수:**
+- `serverId` (string): 서버 식별자
+- `characterId` (string): 캐릭터 식별자
+- `jobId` (string, 선택사항): 직업 식별자
+- `jobGrowId` (string, 선택사항): 전직 식별자
+
+**반환값:** 캐릭터 스킬 정보와 레벨
+
+### getCharacterStatus(serverId, characterId)
+
+캐릭터의 상세 상태 정보를 가져옵니다.
+
+```typescript
+const status = await dfClient.getCharacterStatus('cain', 'characterId');
+```
+
+**매개변수:**
+- `serverId` (string): 서버 식별자
+- `characterId` (string): 캐릭터 식별자
+
+**반환값:** 상세 캐릭터 스탯과 속성
+
+## 아이템 메서드
+
+### searchItem(itemName, limit?)
+
+이름으로 아이템을 검색합니다.
+
+```typescript
+const items = await dfClient.searchItem('무기');
+```
+
+**매개변수:**
+- `itemName` (string): 검색할 아이템 이름
+- `limit` (number, 선택사항): 최대 결과 개수
+
+**반환값:** 아이템 검색 결과
+
+### getItem(itemId)
+
+상세한 아이템 정보를 가져옵니다.
+
+```typescript
+const item = await dfClient.getItem('itemId');
+```
+
+**매개변수:**
+- `itemId` (string): 아이템 식별자
+
+**반환값:** 스탯과 설명을 포함한 상세 아이템 정보
+
+## 경매장 메서드
+
+### searchAuction(params)
+
+경매장 목록을 검색합니다.
+
+```typescript
+const auctions = await dfClient.searchAuction({
+  itemName: '무기',
+  minLevel: 85,
+  maxLevel: 90
+});
+```
+
+**매개변수:**
+- `params` (object): 검색 매개변수
+  - `itemName` (string, 선택사항): 아이템 이름
+  - `minLevel` (number, 선택사항): 최소 아이템 레벨
+  - `maxLevel` (number, 선택사항): 최대 아이템 레벨
+  - `rarity` (string, 선택사항): 아이템 희귀도
+  - `limit` (number, 선택사항): 결과 제한
+
+**반환값:** 경매장 검색 결과
+
+## 서버 정보
+
+### getServers()
+
+사용 가능한 서버 목록을 가져옵니다.
+
+```typescript
+const servers = await dfClient.getServers();
+```
+
+**반환값:** 식별자가 포함된 사용 가능한 서버 목록
+
+## 오류 처리
+
+모든 메서드는 다양한 이유로 오류를 발생시킬 수 있습니다:
+
+```typescript
+try {
+  const character = await dfClient.getCharacter('cain', 'invalidId');
+} catch (error) {
+  if (error.status === 404) {
+    console.log('캐릭터를 찾을 수 없습니다');
+  } else if (error.status === 401) {
+    console.log('잘못된 API 키입니다');
+  } else {
+    console.error('API 오류:', error.message);
+  }
+}
+```
+
+## 속도 제한
+
+네오플 API에는 속도 제한이 있습니다. SDK가 자동으로 속도 제한을 처리하지만 다음 사항을 주의하세요:
+
+- 요청 빈도 제한
+- 일일 할당량 제한
+- 동시 요청 제한
+
+## 사용 예시
+
+```typescript
+import { NeopleDFClient } from 'neople-sdk-js';
+
+async function getCharacterInfo(characterName: string) {
+  const dfClient = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
+  
+  try {
+    // 캐릭터 검색
+    const searchResults = await dfClient.searchCharacter(characterName);
+    
+    if (searchResults.rows.length === 0) {
+      console.log('캐릭터를 찾을 수 없습니다');
+      return;
+    }
+    
+    const { serverId, characterId } = searchResults.rows[0];
+    
+    // 캐릭터 세부 정보 조회
+    const [character, equipment, skills] = await Promise.all([
+      dfClient.getCharacter(serverId, characterId),
+      dfClient.getCharacterEquipment(serverId, characterId),
+      dfClient.getCharacterSkill(serverId, characterId)
+    ]);
+    
+    console.log('캐릭터:', character);
+    console.log('장비:', equipment);
+    console.log('스킬:', skills);
+    
+  } catch (error) {
+    console.error('오류:', error.message);
+  }
+}
+```
