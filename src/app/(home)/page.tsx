@@ -1,4 +1,7 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export default function HomePage() {
   return (
@@ -10,10 +13,10 @@ export default function HomePage() {
             Neople SDK
           </h1>
           <p className="mb-8 text-xl sm:text-2xl text-fd-muted-foreground max-w-2xl mx-auto">
-            네오플 오픈 API를 위한 공식 TypeScript SDK
+            네오플 오픈 API를 위한 TypeScript/JavaScript SDK
           </p>
           <p className="mb-12 text-lg text-fd-muted-foreground max-w-3xl mx-auto">
-            던전앤파이터와 사이퍼즈 게임 데이터에 쉽고 안전하게 접근하세요. 
+            네오플 오픈 API에 쉽고 안전하게 접근하세요. 
             완전한 타입 안전성과 다양한 HTTP 어댑터를 지원합니다.
           </p>
           
@@ -59,67 +62,116 @@ export default function HomePage() {
           <div className="text-left max-w-2xl mx-auto space-y-4">
             <div>
               <p className="text-sm text-fd-muted-foreground mb-2">설치</p>
-              <pre className="bg-fd-background border border-fd-border rounded-lg p-4 overflow-x-auto">
-                <code className="text-sm text-fd-foreground">npm install neople-sdk-js</code>
-              </pre>
+              <div className="rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-900">
+                <SyntaxHighlighter
+                  language="bash"
+                  style={{
+                    ...oneLight,
+                    'pre[class*="language-"]': {
+                      ...oneLight['pre[class*="language-"]'],
+                      background: 'transparent',
+                    }
+                  }}
+                  customStyle={{
+                    margin: 0,
+                    padding: '1rem',
+                    fontSize: '0.875rem',
+                    background: 'transparent',
+                  }}
+                  className="dark:hidden"
+                >
+                  npm install neople-sdk-js
+                </SyntaxHighlighter>
+                <SyntaxHighlighter
+                  language="bash"
+                  style={{
+                    ...oneDark,
+                    'pre[class*="language-"]': {
+                      ...oneDark['pre[class*="language-"]'],
+                      background: 'transparent',
+                    }
+                  }}
+                  customStyle={{
+                    margin: 0,
+                    padding: '1rem',
+                    fontSize: '0.875rem',
+                    background: 'transparent',
+                  }}
+                  className="hidden dark:block"
+                >
+                  npm install neople-sdk-js
+                </SyntaxHighlighter>
+              </div>
             </div>
             <div>
               <p className="text-sm text-fd-muted-foreground mb-2">사용법</p>
-              <pre className="bg-fd-background border border-fd-border rounded-lg p-4 overflow-x-auto">
-                <code className="text-sm text-fd-foreground">
+              <div className="rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-900">
+                <SyntaxHighlighter
+                  language="typescript"
+                  style={{
+                    ...oneLight,
+                    'pre[class*="language-"]': {
+                      ...oneLight['pre[class*="language-"]'],
+                      background: 'transparent',
+                    }
+                  }}
+                  customStyle={{
+                    margin: 0,
+                    padding: '1rem',
+                    fontSize: '0.875rem',
+                    background: 'transparent',
+                  }}
+                  className="dark:hidden"
+                >
 {`import { NeopleDFClient } from 'neople-sdk-js';
 
 const client = new NeopleDFClient(apiKey);
 const characters = await client.searchCharacter('홍길동');`}
-                </code>
-              </pre>
+                </SyntaxHighlighter>
+                <SyntaxHighlighter
+                  language="typescript"
+                  style={{
+                    ...oneDark,
+                    'pre[class*="language-"]': {
+                      ...oneDark['pre[class*="language-"]'],
+                      background: 'transparent',
+                    }
+                  }}
+                  customStyle={{
+                    margin: 0,
+                    padding: '1rem',
+                    fontSize: '0.875rem',
+                    background: 'transparent',
+                  }}
+                  className="hidden dark:block"
+                >
+{`import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey);
+const characters = await client.searchCharacter('홍길동');`}
+                </SyntaxHighlighter>
+              </div>
             </div>
-          </div>
-        </div>
-
-        {/* Supported Games */}
-        <div className="mb-16">
-          <h2 className="mb-6 text-2xl font-bold">지원 게임</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            <Link
-              href="/docs/api-dungeon-fighter"
-              className="group p-6 rounded-lg border border-fd-border hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950 transition-all duration-200"
-            >
-              <h3 className="mb-2 text-lg font-semibold group-hover:text-blue-600">던전앤파이터</h3>
-              <p className="text-sm text-fd-muted-foreground mb-4">
-                캐릭터, 장비, 경매장, 아바타 마켓 등 모든 API 지원
-              </p>
-              <span className="text-blue-600 group-hover:text-blue-700 font-medium">
-                API 문서 →
-              </span>
-            </Link>
             
-            <Link
-              href="/docs/api-cyphers"
-              className="group p-6 rounded-lg border border-fd-border hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950 transition-all duration-200"
-            >
-              <h3 className="mb-2 text-lg font-semibold group-hover:text-blue-600">사이퍼즈</h3>
-              <p className="text-sm text-fd-muted-foreground mb-4">
-                플레이어, 경기 기록, 랭킹, 캐릭터 정보 등 완전 지원
-              </p>
-              <span className="text-blue-600 group-hover:text-blue-700 font-medium">
-                API 문서 →
-              </span>
-            </Link>
           </div>
         </div>
 
-        {/* Footer CTA */}
-        <div className="text-center py-8 border-t border-fd-border">
-          <p className="mb-4 text-fd-muted-foreground">
-            지금 바로 시작해보세요
-          </p>
-          <Link
-            href="/docs/getting-started"
-            className="inline-flex items-center px-6 py-2 text-lg font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+        {/* Neople Attribution */}
+        <div className="text-center py-6 border-t border-fd-border mt-8">
+          <a 
+            href="https://developers.neople.co.kr" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-block hover:opacity-80 transition-opacity"
           >
-            설치 및 설정 가이드 →
-          </Link>
+            <Image 
+              src="/images/neople.png" 
+              alt="Neople 오픈 API" 
+              width={180}
+              height={32}
+              className="h-8 mx-auto"
+            />
+          </a>
         </div>
       </div>
     </main>

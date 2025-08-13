@@ -50,23 +50,16 @@ const advancedSearch = await dfClient.searchCharacter('홍길동', {
 | 매개변수 | 타입 | 필수 | 기본값 | 설명 |
 |---------|------|------|--------|------|
 | `characterName` | string | ✅ | - | 검색할 캐릭터 이름 (URL 인코딩 필요) |
+| `options` | SearchCharacterOptions | - | - | 검색 옵션 |
 | `options.serverId` | string | - | 'all' | 서버 ID ('all'로 전체 서버 검색 가능) |
 | `options.jobId` | string | - | - | 직업 코드로 필터링 |
 | `options.jobGrowId` | string | - | - | 전직 코드로 필터링 |
 | `options.limit` | number | - | 10 | 반환할 결과 수 (최대 200) |
 
 **서버 ID 값:**
-- `'all'`: 전체 서버
-- `'cain'`: 카인
-- `'diregie'`: 디레지에
-- `'siroco'`: 시로코
-- `'prey'`: 프레이
-- `'casillas'`: 카시야스
-- `'hilder'`: 힐더
-- `'anton'`: 안톤
-- `'bakal'`: 바칼
+서버 타입은 [던전앤파이터 타입 → DFServerType](/docs/types-df#dfservertype)을 참조하세요.
 
-**반환값:** 페이지 정보가 포함된 캐릭터 검색 결과
+**반환값:** CharacterSearchResult - 페이지 정보가 포함된 캐릭터 검색 결과
 
 **응답 구조:**
 ```json
@@ -107,7 +100,7 @@ const character = await dfClient.getCharacter('cain', 'characterId');
 | `serverId` | string | ✅ | 서버 ID |
 | `characterId` | string | ✅ | 캐릭터 고유 코드 |
 
-**반환값:** 기본 스탯과 직업 정보를 포함한 상세 캐릭터 정보
+**반환값:** CharacterDetail - 기본 스탯과 직업 정보를 포함한 상세 캐릭터 정보
 
 **응답 구조:**
 ```json
@@ -160,7 +153,7 @@ const equipment = await dfClient.getCharacterEquipment('cain', 'characterId');
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
-**반환값:** 상세 스탯이 포함된 장착 아이템 목록
+**반환값:** Equipment[] - 상세 스탯이 포함된 장착 아이템 목록
 
 ### getCharacterAvatar(serverId, characterId)
 
@@ -176,7 +169,7 @@ const avatar = await dfClient.getCharacterAvatar('cain', 'characterId');
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
-**반환값:** 아바타 장비 정보
+**반환값:** Avatar[] - 아바타 장비 정보
 
 ### getCharacterSkill(serverId, characterId, jobId?, jobGrowId?)
 
@@ -194,7 +187,7 @@ const skills = await dfClient.getCharacterSkill('cain', 'characterId');
 - `jobId` (string, 선택사항): 직업 식별자
 - `jobGrowId` (string, 선택사항): 전직 식별자
 
-**반환값:** 캐릭터 스킬 정보와 레벨
+**반환값:** CharacterSkill[] - 캐릭터 스킬 정보와 레벨
 
 ### getCharacterTalisman(serverId, characterId)
 
@@ -210,7 +203,7 @@ const talisman = await dfClient.getCharacterTalisman('cain', 'characterId');
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
-**반환값:** 탈리스만 장비 정보
+**반환값:** Talisman[] - 탈리스만 장비 정보
 
 ### getCharacterTimeline(serverId, characterId, code?, startDate?, endDate?, limit?)
 
@@ -239,7 +232,7 @@ const timeline = await dfClient.getCharacterTimeline('cain', 'characterId', null
 - `'dungeon'`: 던전 입장 기록
 - `'quest'`: 퀘스트 완료 기록
 
-**반환값:** 캐릭터 활동 타임라인
+**반환값:** Timeline[] - 캐릭터 활동 타임라인
 
 ### getCharacterSkillStyle(serverId, characterId)
 
@@ -255,7 +248,7 @@ const skillStyle = await dfClient.getCharacterSkillStyle('cain', 'characterId');
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
-**반환값:** 스킬 스타일 정보
+**반환값:** SkillStyle - 스킬 스타일 정보
 
 ### getCharacterBuffSkillEquipment(serverId, characterId)
 
@@ -271,7 +264,7 @@ const buffSkills = await dfClient.getCharacterBuffSkillEquipment('cain', 'charac
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
-**반환값:** 장비 버프 스킬 정보
+**반환값:** BuffSkill[] - 장비 버프 스킬 정보
 
 ### getCharacterBuffSkillAvatar(serverId, characterId)
 
@@ -287,7 +280,7 @@ const avatarBuffSkills = await dfClient.getCharacterBuffSkillAvatar('cain', 'cha
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
-**반환값:** 아바타 버프 스킬 정보
+**반환값:** BuffSkill[] - 아바타 버프 스킬 정보
 
 ### getCharacterBuffSkillCreature(serverId, characterId)
 
@@ -303,7 +296,7 @@ const creatureBuffSkills = await dfClient.getCharacterBuffSkillCreature('cain', 
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
-**반환값:** 크리처 버프 스킬 정보
+**반환값:** BuffSkill[] - 크리처 버프 스킬 정보
 
 ### getCharactersByFame(serverId, jobId?, jobGrowId?, limit?)
 
@@ -324,7 +317,7 @@ const famousCharacters = await dfClient.getCharactersByFame('cain', 'jobId');
 | `jobGrowId` | string | - | - | 전직 코드로 필터링 |
 | `limit` | number | - | 100 | 반환할 결과 수 (최대 200) |
 
-**반환값:** 명성도 상위 캐릭터 목록
+**반환값:** Character[] - 명성도 상위 캐릭터 목록
 
 ### getCharacterStatus(serverId, characterId)
 
@@ -340,7 +333,7 @@ const status = await dfClient.getCharacterStatus('cain', 'characterId');
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
-**반환값:** 상세 캐릭터 스탯과 속성
+**반환값:** CharacterStatus - 상세 캐릭터 스탯과 속성
 
 ## 아이템 메서드
 
@@ -361,7 +354,7 @@ const items = await dfClient.searchItem('무기');
 | `itemName` | string | ✅ | - | 검색할 아이템 이름 |
 | `limit` | number | - | 10 | 반환할 결과 수 (최대 30) |
 
-**반환값:** 아이템 검색 결과
+**반환값:** ItemSearchResult - 아이템 검색 결과
 
 ### getItem(itemId)
 
@@ -379,7 +372,7 @@ const item = await dfClient.getItem('itemId');
 |---------|------|------|------|
 | `itemId` | string | ✅ | 아이템 고유 코드 |
 
-**반환값:** 스탯과 설명을 포함한 상세 아이템 정보
+**반환값:** ItemDetail - 스탯과 설명을 포함한 상세 아이템 정보
 
 ### getSetItem(setItemId)
 
@@ -394,7 +387,7 @@ const setItem = await dfClient.getSetItem('setItemId');
 **매개변수:**
 - `setItemId` (string): 세트 아이템 식별자
 
-**반환값:** 세트 효과와 구성 아이템 정보
+**반환값:** SetItemDetail - 세트 효과와 구성 아이템 정보
 
 ### searchSetItems(setItemName, limit?)
 
@@ -410,7 +403,7 @@ const setItems = await dfClient.searchSetItems('세트이름');
 - `setItemName` (string): 검색할 세트 아이템 이름
 - `limit` (number, 선택사항): 최대 결과 개수
 
-**반환값:** 세트 아이템 검색 결과
+**반환값:** SetItemSearchResult - 세트 아이템 검색 결과
 
 ### getMultiItems(itemIds)
 
@@ -425,7 +418,7 @@ const items = await dfClient.getMultiItems(['itemId1', 'itemId2', 'itemId3']);
 **매개변수:**
 - `itemIds` (string[]): 아이템 식별자 배열
 
-**반환값:** 여러 아이템의 상세 정보
+**반환값:** ItemDetail[] - 여러 아이템의 상세 정보
 
 ### getMultiSetItems(setItemIds)
 
@@ -440,7 +433,7 @@ const setItems = await dfClient.getMultiSetItems(['setId1', 'setId2']);
 **매개변수:**
 - `setItemIds` (string[]): 세트 아이템 식별자 배열
 
-**반환값:** 여러 세트 아이템의 상세 정보
+**반환값:** SetItemDetail[] - 여러 세트 아이템의 상세 정보
 
 ### getItemHashtags()
 
@@ -452,7 +445,7 @@ const setItems = await dfClient.getMultiSetItems(['setId1', 'setId2']);
 const hashtags = await dfClient.getItemHashtags();
 ```
 
-**반환값:** 아이템 검색에 사용할 수 있는 해시태그 목록
+**반환값:** string[] - 아이템 검색에 사용할 수 있는 해시태그 목록
 
 ## 직업 및 스킬 메서드
 
@@ -466,7 +459,7 @@ const hashtags = await dfClient.getItemHashtags();
 const jobs = await dfClient.getJobs();
 ```
 
-**반환값:** 직업 ID와 이름이 포함된 직업 목록
+**반환값:** Job[] - 직업 ID와 이름이 포함된 직업 목록
 
 ### getSkillsByJob(jobId)
 
@@ -484,7 +477,7 @@ const skills = await dfClient.getSkillsByJob('jobId');
 |---------|------|------|------|
 | `jobId` | string | ✅ | 직업 고유 코드 |
 
-**반환값:** 해당 직업의 모든 스킬 정보
+**반환값:** Skill[] - 해당 직업의 모든 스킬 정보
 
 ### getSkillDetail(jobId, skillId)
 
@@ -503,7 +496,7 @@ const skill = await dfClient.getSkillDetail('jobId', 'skillId');
 | `jobId` | string | ✅ | 직업 고유 코드 |
 | `skillId` | string | ✅ | 스킬 고유 코드 |
 
-**반환값:** 스킬 상세 정보와 효과
+**반환값:** SkillDetail - 스킬 상세 정보와 효과
 
 ### getMultiSkills(jobId, skillIds)
 
@@ -519,7 +512,7 @@ const skills = await dfClient.getMultiSkills('jobId', ['skillId1', 'skillId2']);
 - `jobId` (string): 직업 식별자
 - `skillIds` (string[]): 스킬 식별자 배열
 
-**반환값:** 여러 스킬의 상세 정보
+**반환값:** SkillDetail[] - 여러 스킬의 상세 정보
 
 ## 아바타 마켓 메서드
 
@@ -542,7 +535,7 @@ const sales = await dfClient.getAvatarMarketSale({
   - `limit` (number, 선택사항): 최대 결과 개수
   - `hashtags` (string[], 선택사항): 해시태그 필터
 
-**반환값:** 아바타 마켓 판매 목록
+**반환값:** AvatarMarketSale[] - 아바타 마켓 판매 목록
 
 ### getAvatarMarketSold(params)
 
@@ -559,7 +552,7 @@ const sold = await dfClient.getAvatarMarketSold({
 **매개변수:**
 - `params` (object): 검색 매개변수
 
-**반환값:** 아바타 마켓 판매 완료 목록
+**반환값:** AvatarMarketSold[] - 아바타 마켓 판매 완료 목록
 
 ### getAvatarMarketItem(itemId)
 
@@ -574,7 +567,7 @@ const item = await dfClient.getAvatarMarketItem('itemId');
 **매개변수:**
 - `itemId` (string): 아바타 아이템 식별자
 
-**반환값:** 아바타 아이템 상세 정보
+**반환값:** AvatarItem - 아바타 아이템 상세 정보
 
 ### getAvatarMarketSoldItem(itemId)
 
@@ -589,7 +582,7 @@ const soldItem = await dfClient.getAvatarMarketSoldItem('itemId');
 **매개변수:**
 - `itemId` (string): 아바타 아이템 식별자
 
-**반환값:** 판매 완료된 아바타 아이템 정보
+**반환값:** AvatarItem - 판매 완료된 아바타 아이템 정보
 
 ### getAvatarMarketHashtags()
 
@@ -601,7 +594,7 @@ const soldItem = await dfClient.getAvatarMarketSoldItem('itemId');
 const hashtags = await dfClient.getAvatarMarketHashtags();
 ```
 
-**반환값:** 아바타 마켓에서 사용할 수 있는 해시태그 목록
+**반환값:** string[] - 아바타 마켓에서 사용할 수 있는 해시태그 목록
 
 ## 기타 메서드
 
@@ -615,7 +608,7 @@ const hashtags = await dfClient.getAvatarMarketHashtags();
 const shop = await dfClient.getItemShop();
 ```
 
-**반환값:** 아이템 상점 판매 목록
+**반환값:** ItemShop - 아이템 상점 판매 목록
 
 ## 경매장 메서드
 
@@ -688,7 +681,7 @@ const advancedAuction = await dfClient.searchAuction({
     - `'level_desc'`: 레벨 높은 순
   - `limit` (number, 선택사항): 결과 제한
 
-**반환값:** 경매장 검색 결과
+**반환값:** AuctionSearchResult - 경매장 검색 결과
 
 ### getAuctionItem(auctionNo)
 
@@ -703,7 +696,7 @@ const auctionItem = await dfClient.getAuctionItem('auctionNo');
 **매개변수:**
 - `auctionNo` (string): 경매 번호
 
-**반환값:** 경매 아이템 상세 정보
+**반환값:** AuctionItem - 경매 아이템 상세 정보
 
 ## 서버 정보
 
@@ -717,7 +710,7 @@ const auctionItem = await dfClient.getAuctionItem('auctionNo');
 const servers = await dfClient.getServers();
 ```
 
-**반환값:** 식별자가 포함된 사용 가능한 서버 목록
+**반환값:** Server[] - 식별자가 포함된 사용 가능한 서버 목록
 
 ## 오류 처리
 

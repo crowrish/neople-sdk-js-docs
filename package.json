@@ -9,13 +9,15 @@
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
+    "@types/react-syntax-highlighter": "^15.5.13",
     "fumadocs-core": "15.6.9",
     "fumadocs-mdx": "11.7.3",
     "fumadocs-ui": "15.6.9",
     "neople-sdk-js": "0.2.2",
     "next": "15.4.5",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-syntax-highlighter": "^15.6.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.11",

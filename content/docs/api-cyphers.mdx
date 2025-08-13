@@ -43,14 +43,14 @@ const advancedSearch = await cyphersClient.searchPlayer('플레이어명', {
 
 **매개변수:**
 - `playerName` (string): 검색할 플레이어 이름
-- `options` (object, 선택사항): 검색 옵션
+- `options` (SearchPlayerOptions, 선택사항): 검색 옵션
   - `limit` (number, 선택사항): 최대 결과 개수 (기본값: 10)
   - `wordType` (string, 선택사항): 검색 방식
     - `'match'`: 정확히 일치 (기본값)
     - `'front'`: 앞 글자 일치
     - `'full'`: 전체 검색
 
-**반환값:** 기본 정보가 포함된 플레이어 검색 결과
+**반환값:** PlayerSearchResult - 기본 정보가 포함된 플레이어 검색 결과
 
 **응답 구조:**
 ```json
@@ -86,7 +86,7 @@ const player = await cyphersClient.getPlayer('playerId');
 **매개변수:**
 - `playerId` (string): 플레이어 식별자
 
-**반환값:** 스탯과 랭킹이 포함된 상세 플레이어 정보
+**반환값:** PlayerDetail - 스탯과 랭킹이 포함된 상세 플레이어 정보
 
 ### getPlayerRanking(playerId)
 
@@ -101,7 +101,7 @@ const ranking = await cyphersClient.getPlayerRanking('playerId');
 **매개변수:**
 - `playerId` (string): 플레이어 식별자
 
-**반환값:** 다양한 게임 모드의 플레이어 랭킹
+**반환값:** PlayerRanking - 다양한 게임 모드의 플레이어 랭킹
 
 ## 경기 메서드
 
@@ -127,7 +127,7 @@ const filteredMatches = await cyphersClient.getMatches('playerId', {
 
 **매개변수:**
 - `playerId` (string): 플레이어 식별자
-- `options` (object, 선택사항): 조회 옵션
+- `options` (GetMatchesOptions, 선택사항): 조회 옵션
   - `gameTypeId` (string, 선택사항): 게임 타입 필터
     - `'normal'`: 일반 경기
     - `'rating'`: 랭킹 경기
@@ -138,7 +138,7 @@ const filteredMatches = await cyphersClient.getMatches('playerId', {
   - `limit` (number, 선택사항): 최대 결과 개수 (기본값: 10)
   - `next` (string, 선택사항): 페이지네이션을 위한 다음 페이지 토큰
 
-**반환값:** 상세 정보가 포함된 경기 목록
+**반환값:** MatchesResult - 상세 정보가 포함된 경기 목록
 
 **응답 구조:**
 ```json
@@ -194,7 +194,7 @@ const match = await cyphersClient.getMatch('matchId');
 **매개변수:**
 - `matchId` (string): 경기 식별자
 
-**반환값:** 모든 플레이어와 결과를 포함한 상세 경기 정보
+**반환값:** MatchDetail - 모든 플레이어와 결과를 포함한 상세 경기 정보
 
 ## 캐릭터 메서드
 
@@ -208,7 +208,7 @@ const match = await cyphersClient.getMatch('matchId');
 const characters = await cyphersClient.getCharacters();
 ```
 
-**반환값:** 기본 정보가 포함된 모든 사이퍼즈 캐릭터 목록
+**반환값:** Character[] - 기본 정보가 포함된 모든 사이퍼즈 캐릭터 목록
 
 ### getCharacter(characterId)
 
@@ -223,7 +223,7 @@ const character = await cyphersClient.getCharacter('characterId');
 **매개변수:**
 - `characterId` (string): 캐릭터 식별자
 
-**반환값:** 능력과 스탯을 포함한 상세 캐릭터 정보
+**반환값:** CharacterDetail - 능력과 스탯을 포함한 상세 캐릭터 정보
 
 ## 아이템 메서드
 
@@ -237,7 +237,7 @@ const character = await cyphersClient.getCharacter('characterId');
 const items = await cyphersClient.getItems();
 ```
 
-**반환값:** 기본 정보가 포함된 모든 아이템 목록
+**반환값:** Item[] - 기본 정보가 포함된 모든 아이템 목록
 
 ### getItem(itemId)
 
@@ -252,7 +252,7 @@ const item = await cyphersClient.getItem('itemId');
 **매개변수:**
 - `itemId` (string): 아이템 식별자
 
-**반환값:** 스탯과 효과를 포함한 상세 아이템 정보
+**반환값:** ItemDetail - 스탯과 효과를 포함한 상세 아이템 정보
 
 ## 포지션 및 속성 메서드
 
@@ -266,7 +266,7 @@ const item = await cyphersClient.getItem('itemId');
 const positions = await cyphersClient.getPositions();
 ```
 
-**반환값:** 캐릭터 포지션 목록
+**반환값:** Position[] - 캐릭터 포지션 목록
 
 ### getAttributes()
 
@@ -278,7 +278,7 @@ const positions = await cyphersClient.getPositions();
 const attributes = await cyphersClient.getAttributes();
 ```
 
-**반환값:** 캐릭터 속성 목록
+**반환값:** Attribute[] - 캐릭터 속성 목록
 
 ## 랭킹 메서드
 
@@ -297,7 +297,7 @@ const ranking = await cyphersClient.getRanking('mmr', 0, 100);
 - `offset` (number, 선택사항): 페이지네이션을 위한 결과 오프셋
 - `limit` (number, 선택사항): 최대 결과 개수
 
-**반환값:** 전체 랭킹 목록
+**반환값:** RankingResult - 전체 랭킹 목록
 
 ### getTsjRanking(rankingType, offset?, limit?)
 
@@ -314,7 +314,7 @@ const tsjRanking = await cyphersClient.getTsjRanking('melee', 0, 50);
 - `offset` (number, 선택사항): 페이지네이션을 위한 결과 오프셋
 - `limit` (number, 선택사항): 최대 결과 개수
 
-**반환값:** TSJ 랭킹 목록
+**반환값:** TsjRankingResult - TSJ 랭킹 목록
 
 ## 아이템 상세 메서드
 
@@ -331,7 +331,7 @@ const itemDetail = await cyphersClient.getItemDetail('itemId');
 **매개변수:**
 - `itemId` (string): 아이템 식별자
 
-**반환값:** 상세 아이템 정보 및 스탯
+**반환값:** ItemDetail - 상세 아이템 정보 및 스탯
 
 ### getMultiItems(itemIds)
 
@@ -346,7 +346,7 @@ const items = await cyphersClient.getMultiItems(['itemId1', 'itemId2', 'itemId3'
 **매개변수:**
 - `itemIds` (string[]): 아이템 식별자 배열
 
-**반환값:** 여러 아이템의 상세 정보
+**반환값:** ItemDetail[] - 여러 아이템의 상세 정보
 
 ## 추천 아이템 메서드
 
@@ -363,7 +363,7 @@ const recommendedItems = await cyphersClient.getRecommendedItems('characterId');
 **매개변수:**
 - `characterId` (string): 캐릭터 식별자
 
-**반환값:** 캐릭터별 추천 아이템 목록
+**반환값:** RecommendedItem[] - 캐릭터별 추천 아이템 목록
 
 ## 사이퍼 정보 메서드
 
@@ -377,7 +377,7 @@ const recommendedItems = await cyphersClient.getRecommendedItems('characterId');
 const cyphers = await cyphersClient.getCyphers();
 ```
 
-**반환값:** 모든 사이퍼 목록
+**반환값:** Cypher[] - 모든 사이퍼 목록
 
 ### getCypher(cypherId)
 
@@ -392,7 +392,7 @@ const cypher = await cyphersClient.getCypher('cypherId');
 **매개변수:**
 - `cypherId` (string): 사이퍼 식별자
 
-**반환값:** 사이퍼 상세 정보
+**반환값:** CypherDetail - 사이퍼 상세 정보
 
 ## 오류 처리
 
