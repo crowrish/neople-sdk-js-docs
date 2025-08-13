@@ -40,18 +40,18 @@ export default function HomePage() {
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-2xl mx-auto">
           <div className="text-center p-6 rounded-lg border border-fd-border">
-            <div className="mb-4 text-2xl">🔧</div>
-            <h3 className="mb-2 text-lg font-semibold">다중 HTTP 어댑터</h3>
-            <p className="text-sm text-fd-muted-foreground">
-              Fetch, Axios, Got, Node-fetch 어댑터 지원
-            </p>
-          </div>
-          
-          <div className="text-center p-6 rounded-lg border border-fd-border">
             <div className="mb-4 text-2xl">📝</div>
             <h3 className="mb-2 text-lg font-semibold">완전한 TypeScript</h3>
             <p className="text-sm text-fd-muted-foreground">
               모든 API에 대한 타입 안전성과 자동완성
+            </p>
+          </div>
+
+          <div className="text-center p-6 rounded-lg border border-fd-border">
+            <div className="mb-4 text-2xl">🔧</div>
+            <h3 className="mb-2 text-lg font-semibold">다중 HTTP 어댑터</h3>
+            <p className="text-sm text-fd-muted-foreground">
+              Fetch, Axios, Got, Node-fetch 어댑터 지원
             </p>
           </div>
         </div>
