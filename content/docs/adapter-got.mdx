@@ -1,0 +1,512 @@
+---
+title: Got 어댑터  
+description: Got HTTP 클라이언트 어댑터 설정 및 사용법 (Node.js 전용)
+---
+
+# Got 어댑터
+
+Got HTTP 클라이언트를 사용하는 Node.js 전용 어댑터입니다. 고성능과 풍부한 기능을 제공합니다.
+
+## 설치
+
+먼저 got을 설치해야 합니다:
+
+```bash
+npm install got
+# 또는
+yarn add got
+```
+
+## 기본 사용법
+
+```typescript
+import { NeopleDFClient, NeopleCyphersClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got'
+});
+```
+
+## 사용자 지정 Got 인스턴스
+
+```typescript
+import got from 'got';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const customGot = got.extend({
+  timeout: {
+    request: 30000
+  },
+  headers: {
+    'User-Agent': 'MyApp/1.0.0'
+  },
+  retry: {
+    limit: 3,
+    methods: ['GET', 'POST']
+  }
+});
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: customGot
+});
+```
+
+## 고급 설정
+
+### 재시도 정책
+
+```typescript
+import got from 'got';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    retry: {
+      limit: 5,
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      statusCodes: [408, 413, 429, 500, 502, 503, 504, 521, 522, 524],
+      errorCodes: [
+        'ETIMEDOUT',
+        'ECONNRESET',
+        'EADDRINUSE',
+        'ECONNREFUSED',
+        'EPIPE',
+        'ENOTFOUND',
+        'ENETUNREACH',
+        'EAI_AGAIN'
+      ],
+      calculateDelay: ({ attemptCount }) => {
+        // 지수 백오프 구현
+        return Math.min(1000 * Math.pow(2, attemptCount - 1), 30000);
+      }
+    }
+  })
+});
+```
+
+### 훅(Hooks) 사용
+
+```typescript
+import got from 'got';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    hooks: {
+      beforeRequest: [
+        (options) => {
+          console.log('요청 전송:', options.url?.toString());
+          console.log('헤더:', options.headers);
+        }
+      ],
+      afterResponse: [
+        (response) => {
+          console.log('응답 받음:', response.statusCode);
+          return response;
+        }
+      ],
+      beforeError: [
+        (error) => {
+          console.error('오류 발생:', error.message);
+          return error;
+        }
+      ]
+    }
+  })
+});
+```
+
+## 스트리밍
+
+### 응답 스트리밍
+
+```typescript
+import got from 'got';
+import { NeopleDFClient } from 'neople-sdk-js';
+import { pipeline } from 'stream';
+import { createWriteStream } from 'fs';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    isStream: true // 스트리밍 모드 활성화
+  })
+});
+
+// 대용량 데이터 스트리밍 다운로드
+async function downloadLargeData(url: string, filePath: string) {
+  const stream = got.stream(url);
+  const writeStream = createWriteStream(filePath);
+  
+  return new Promise((resolve, reject) => {
+    pipeline(stream, writeStream, (error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(void 0);
+      }
+    });
+  });
+}
+```
+
+## 캐싱
+
+### 인메모리 캐싱
+
+```typescript
+import got from 'got';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const cache = new Map();
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    cache: cache,
+    cacheOptions: {
+      shared: false,
+      cacheHeuristic: 0.1,
+      immutableMinTimeToLive: 24 * 3600 * 1000, // 24시간
+      ignoreCargoCult: false
+    }
+  })
+});
+```
+
+### Redis 캐싱
+
+```bash
+npm install ioredis
+```
+
+```typescript
+import got from 'got';
+import Redis from 'ioredis';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const redis = new Redis();
+
+class RedisCache extends Map {
+  async get(key: string) {
+    const value = await redis.get(key);
+    return value ? JSON.parse(value) : undefined;
+  }
+
+  async set(key: string, value: any) {
+    await redis.setex(key, 3600, JSON.stringify(value)); // 1시간 TTL
+    return this;
+  }
+
+  async has(key: string) {
+    return (await redis.exists(key)) === 1;
+  }
+
+  async delete(key: string) {
+    return (await redis.del(key)) === 1;
+  }
+}
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    cache: new RedisCache()
+  })
+});
+```
+
+## 프록시 설정
+
+### HTTP/HTTPS 프록시
+
+```typescript
+import got from 'got';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    agent: {
+      http: new HttpsProxyAgent('http://proxy.example.com:8080'),
+      https: new HttpsProxyAgent('https://proxy.example.com:8080')
+    }
+  })
+});
+```
+
+### SOCKS 프록시
+
+```bash
+npm install socks-proxy-agent
+```
+
+```typescript
+import got from 'got';
+import { SocksProxyAgent } from 'socks-proxy-agent';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const socksAgent = new SocksProxyAgent('socks5://127.0.0.1:1080');
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    agent: {
+      http: socksAgent,
+      https: socksAgent
+    }
+  })
+});
+```
+
+## SSL/TLS 설정
+
+### 인증서 검증
+
+```typescript
+import got from 'got';
+import https from 'https';
+import fs from 'fs';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    https: {
+      certificateAuthority: fs.readFileSync('path/to/ca.pem'),
+      key: fs.readFileSync('path/to/client-key.pem'),
+      certificate: fs.readFileSync('path/to/client-cert.pem'),
+      rejectUnauthorized: true
+    }
+  })
+});
+```
+
+## 요청 압축
+
+### Gzip/Deflate 압축
+
+```typescript
+import got from 'got';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    decompress: true,
+    headers: {
+      'Accept-Encoding': 'gzip, deflate, br'
+    }
+  })
+});
+```
+
+## 진행률 추적
+
+### 다운로드 진행률
+
+```typescript
+import got from 'got';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    hooks: {
+      downloadProgress: [
+        (progress) => {
+          const percent = Math.round((progress.transferred / progress.total) * 100);
+          console.log(`다운로드 진행률: ${percent}%`);
+        }
+      ]
+    }
+  })
+});
+```
+
+### 업로드 진행률
+
+```typescript
+import got from 'got';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    hooks: {
+      uploadProgress: [
+        (progress) => {
+          const percent = Math.round((progress.transferred / progress.total) * 100);
+          console.log(`업로드 진행률: ${percent}%`);
+        }
+      ]
+    }
+  })
+});
+```
+
+## 타임아웃 설정
+
+### 세분화된 타임아웃
+
+```typescript
+import got from 'got';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    timeout: {
+      lookup: 100,        // DNS 조회
+      connect: 50,        // 소켓 연결
+      secureConnect: 50,  // TLS 핸드셰이크
+      socket: 1000,       // 소켓 비활성
+      send: 10000,        // 요청 전송
+      response: 1000,     // 첫 번째 응답 바이트
+      request: 30000      // 전체 요청
+    }
+  })
+});
+```
+
+## HTTP/2 지원
+
+```typescript
+import got from 'got';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    http2: true,
+    allowH2: true
+  })
+});
+```
+
+## 에러 처리
+
+### 상세한 에러 정보
+
+```typescript
+import got from 'got';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  onError: (error) => {
+    if (error instanceof got.HTTPError) {
+      console.error('HTTP 에러:', {
+        statusCode: error.response.statusCode,
+        statusMessage: error.response.statusMessage,
+        headers: error.response.headers,
+        body: error.response.body
+      });
+    } else if (error instanceof got.RequestError) {
+      console.error('요청 에러:', error.message);
+    } else if (error instanceof got.TimeoutError) {
+      console.error('타임아웃 에러:', error.message);
+    }
+  }
+});
+```
+
+## 성능 최적화
+
+### Keep-Alive 연결
+
+```typescript
+import got from 'got';
+import http from 'http';
+import https from 'https';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    agent: {
+      http: new http.Agent({
+        keepAlive: true,
+        keepAliveMsecs: 1000,
+        maxSockets: 10,
+        maxFreeSockets: 10
+      }),
+      https: new https.Agent({
+        keepAlive: true,
+        keepAliveMsecs: 1000,
+        maxSockets: 10,
+        maxFreeSockets: 10
+      })
+    }
+  })
+});
+```
+
+## 디버깅
+
+### 상세 로깅
+
+```typescript
+import got from 'got';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    hooks: {
+      beforeRequest: [
+        (options) => {
+          console.log('🚀 요청 시작:', {
+            method: options.method,
+            url: options.url?.toString(),
+            headers: options.headers
+          });
+        }
+      ],
+      afterResponse: [
+        (response) => {
+          console.log('✅응답 완료:', {
+            statusCode: response.statusCode,
+            headers: response.headers,
+            timing: response.timings
+          });
+          return response;
+        }
+      ]
+    }
+  })
+});
+```
+
+## 마이그레이션
+
+### Axios에서 Got으로
+
+```typescript
+// Before (Axios)
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance: axios.create({
+    timeout: 30000,
+    proxy: {
+      host: 'proxy.example.com',
+      port: 8080
+    }
+  })
+});
+
+// After (Got)
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'got',
+  gotInstance: got.extend({
+    timeout: {
+      request: 30000
+    },
+    agent: {
+      https: new HttpsProxyAgent('http://proxy.example.com:8080')
+    }
+  })
+});
+```

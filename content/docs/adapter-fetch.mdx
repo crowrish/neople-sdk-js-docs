@@ -1,0 +1,230 @@
+---
+title: Fetch 어댑터
+description: Fetch API를 사용하는 HTTP 클라이언트 어댑터 설정 및 사용법
+---
+
+# Fetch 어댑터
+
+Fetch API 기반의 기본 HTTP 클라이언트 어댑터입니다. Node.js 18+와 브라우저 환경 모두에서 작동합니다.
+
+## 기본 사용법
+
+```typescript
+import { NeopleDFClient, NeopleCyphersClient } from 'neople-sdk-js';
+
+// 기본 설정 (fetch 어댑터 자동 사용)
+const dfClient = new NeopleDFClient(apiKey);
+const cyphersClient = new NeopleCyphersClient(apiKey);
+
+// 명시적 설정
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'fetch'
+});
+```
+
+## 설정 옵션
+
+### 기본 옵션
+
+```typescript
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'fetch',
+  timeout: 30000,
+  retryAttempts: 3,
+  retryDelay: 1000
+});
+```
+
+### 고급 설정
+
+```typescript
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'fetch',
+  fetchOptions: {
+    // 추가 fetch 옵션
+    keepalive: true,
+    mode: 'cors',
+    credentials: 'omit',
+    headers: {
+      'Custom-Header': 'value'
+    }
+  }
+});
+```
+
+## 브라우저 환경
+
+### 기본 사용
+
+```typescript
+// 브라우저에서 직접 사용
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'fetch'
+});
+
+// CORS 설정
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'fetch',
+  fetchOptions: {
+    mode: 'cors',
+    credentials: 'include'
+  }
+});
+```
+
+### React 컴포넌트에서
+
+```typescript
+import React, { useEffect, useState } from 'react';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const CharacterSearch: React.FC = () => {
+  const [client] = useState(() => 
+    new NeopleDFClient(process.env.REACT_APP_API_KEY, {
+      httpAdapter: 'fetch'
+    })
+  );
+
+  const [character, setCharacter] = useState(null);
+
+  useEffect(() => {
+    const fetchCharacter = async () => {
+      try {
+        const result = await client.searchCharacter('테스트');
+        setCharacter(result);
+      } catch (error) {
+        console.error('캐릭터 검색 실패:', error);
+      }
+    };
+
+    fetchCharacter();
+  }, [client]);
+
+  return <div>{/* 컴포넌트 내용 */}</div>;
+};
+```
+
+## Node.js 환경
+
+### Express.js 서버
+
+```typescript
+import express from 'express';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const app = express();
+const client = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY, {
+  httpAdapter: 'fetch'
+});
+
+app.get('/api/character/:name', async (req, res) => {
+  try {
+    const characters = await client.searchCharacter(req.params.name);
+    res.json(characters);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+```
+
+### 서버리스 함수
+
+```typescript
+// Vercel 함수
+import { NeopleDFClient } from 'neople-sdk-js';
+import { VercelRequest, VercelResponse } from '@vercel/node';
+
+const client = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY, {
+  httpAdapter: 'fetch'
+});
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const { name } = req.query;
+  
+  try {
+    const characters = await client.searchCharacter(name as string);
+    res.json(characters);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+```
+
+## 오류 처리
+
+### 네트워크 오류
+
+```typescript
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'fetch',
+  onError: (error) => {
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      console.error('네트워크 연결 오류:', error);
+    }
+  }
+});
+```
+
+### 타임아웃 처리
+
+```typescript
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'fetch',
+  timeout: 10000, // 10초
+  onTimeout: () => {
+    console.log('요청 타임아웃');
+  }
+});
+```
+
+## 성능 최적화
+
+### Keep-Alive 연결
+
+```typescript
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'fetch',
+  fetchOptions: {
+    keepalive: true
+  }
+});
+```
+
+### 요청 병렬 처리
+
+```typescript
+async function fetchMultipleCharacters(names: string[]) {
+  const client = new NeopleDFClient(apiKey, {
+    httpAdapter: 'fetch'
+  });
+
+  const promises = names.map(name => 
+    client.searchCharacter(name)
+  );
+
+  try {
+    const results = await Promise.all(promises);
+    return results;
+  } catch (error) {
+    console.error('병렬 요청 중 오류:', error);
+    throw error;
+  }
+}
+```
+
+## 디버깅
+
+### 요청/응답 로깅
+
+```typescript
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'fetch',
+  debug: true,
+  onRequest: (url, options) => {
+    console.log('요청:', url, options);
+  },
+  onResponse: (response) => {
+    console.log('응답:', response.status, response.headers);
+  }
+});
+```

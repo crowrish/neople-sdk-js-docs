@@ -1,0 +1,525 @@
+---
+title: URL Builder
+description: 네오플 API URL을 프로그래밍 방식으로 구성하는 URL Builder 클래스 가이드
+---
+
+# URL Builder
+
+URL Builder 클래스는 네오플 API의 URL을 프로그래밍 방식으로 구성할 수 있는 강력한 도구입니다. 복잡한 쿼리 매개변수나 여러 API 호출을 위한 URL을 쉽게 생성할 수 있습니다.
+
+## 개요
+
+URL Builder는 다음과 같은 이점을 제공합니다:
+
+- **타입 안전성**: TypeScript 지원으로 컴파일 타임 오류 방지
+- **재사용성**: 동일한 패턴의 URL을 반복적으로 생성
+- **배치 처리**: 여러 URL을 한 번에 생성
+- **유연성**: 동적 매개변수로 URL 구성
+
+## NeopleDFUrlBuilder
+
+던전앤파이터 API용 URL Builder입니다.
+
+### 기본 사용법
+
+```typescript
+import { NeopleDFUrlBuilder } from 'neople-sdk-js';
+
+const builder = new NeopleDFUrlBuilder(apiKey);
+```
+
+### 캐릭터 URL 생성
+
+```typescript
+// 캐릭터 검색 URL
+const searchUrl = builder.character.search('홍길동', {
+  serverId: 'cain',
+  limit: 20
+});
+
+// 캐릭터 상세 정보 URL
+const characterUrl = builder.character.info('cain', 'characterId');
+
+// 캐릭터 장비 URL
+const equipmentUrl = builder.character.equipment('cain', 'characterId');
+
+// 캐릭터 아바타 URL
+const avatarUrl = builder.character.avatar('cain', 'characterId');
+
+// 캐릭터 스킬 URL
+const skillUrl = builder.character.skill('cain', 'characterId', {
+  jobId: 'mage',
+  jobGrowId: 'elementalist'
+});
+
+// 캐릭터 상태 URL
+const statusUrl = builder.character.status('cain', 'characterId');
+
+// 캐릭터 탈리스만 URL
+const talismanUrl = builder.character.talisman('cain', 'characterId');
+
+// 캐릭터 타임라인 URL
+const timelineUrl = builder.character.timeline('cain', 'characterId', {
+  code: 'all',
+  startDate: '2024-01-01',
+  endDate: '2024-01-31',
+  limit: 50
+});
+```
+
+### 캐릭터 버프 스킬 URL
+
+```typescript
+// 장비 버프 스킬 URL
+const equipBuffUrl = builder.character.buffSkill.equipment('cain', 'characterId');
+
+// 아바타 버프 스킬 URL
+const avatarBuffUrl = builder.character.buffSkill.avatar('cain', 'characterId');
+
+// 크리처 버프 스킬 URL
+const creatureBuffUrl = builder.character.buffSkill.creature('cain', 'characterId');
+```
+
+### 아이템 URL 생성
+
+```typescript
+// 아이템 검색 URL
+const itemSearchUrl = builder.item.search('무기', {
+  limit: 50,
+  wordType: 'match'
+});
+
+// 아이템 상세 URL
+const itemDetailUrl = builder.item.detail('itemId');
+
+// 세트 아이템 검색 URL
+const setSearchUrl = builder.setItem.search('세트이름', {
+  limit: 30
+});
+
+// 세트 아이템 상세 URL
+const setDetailUrl = builder.setItem.detail('setItemId');
+
+// 여러 아이템 URL
+const multiItemUrl = builder.item.multi(['itemId1', 'itemId2', 'itemId3']);
+
+// 여러 세트 아이템 URL
+const multiSetUrl = builder.setItem.multi(['setId1', 'setId2']);
+
+// 아이템 해시태그 URL
+const itemHashtagsUrl = builder.item.hashtags();
+```
+
+### 경매장 URL 생성
+
+```typescript
+// 경매장 검색 URL
+const auctionSearchUrl = builder.auction.search({
+  itemName: '무기',
+  minLevel: 85,
+  maxLevel: 90,
+  rarity: 'unique',
+  minReinforce: 10,
+  maxReinforce: 15,
+  sort: 'price_asc',
+  limit: 100
+});
+
+// 경매 아이템 상세 URL
+const auctionItemUrl = builder.auction.item('auctionNo');
+
+// 경매장 판매 기록 URL
+const auctionSoldUrl = builder.auction.sold({
+  itemName: '무기',
+  limit: 50
+});
+```
+
+### 아바타 마켓 URL 생성
+
+```typescript
+// 아바타 마켓 판매 목록 URL
+const avatarSaleUrl = builder.avatarMarket.sale({
+  jobId: 'mage',
+  hashtags: ['cool', 'rare'],
+  limit: 20
+});
+
+// 아바타 마켓 판매 완료 목록 URL
+const avatarSoldUrl = builder.avatarMarket.sold({
+  jobId: 'mage',
+  limit: 20
+});
+
+// 아바타 마켓 아이템 상세 URL
+const avatarItemUrl = builder.avatarMarket.item('itemId');
+
+// 아바타 마켓 판매 완료 아이템 URL
+const avatarSoldItemUrl = builder.avatarMarket.soldItem('itemId');
+
+// 아바타 마켓 해시태그 URL
+const avatarHashtagsUrl = builder.avatarMarket.hashtags();
+```
+
+### 직업 및 스킬 URL 생성
+
+```typescript
+// 직업 목록 URL
+const jobsUrl = builder.job.list();
+
+// 직업별 스킬 목록 URL
+const jobSkillsUrl = builder.skill.byJob('jobId');
+
+// 스킬 상세 URL
+const skillDetailUrl = builder.skill.detail('jobId', 'skillId');
+
+// 여러 스킬 URL
+const multiSkillUrl = builder.skill.multi('jobId', ['skillId1', 'skillId2']);
+```
+
+### 기타 URL 생성
+
+```typescript
+// 서버 목록 URL
+const serversUrl = builder.server.list();
+
+// 명성도 상위 캐릭터 URL
+const famousCharactersUrl = builder.character.famous('cain', {
+  jobId: 'mage',
+  jobGrowId: 'elementalist',
+  limit: 50
+});
+
+// 아이템 상점 URL
+const itemShopUrl = builder.shop.items();
+```
+
+## NeopleCyphersUrlBuilder
+
+사이퍼즈 API용 URL Builder입니다.
+
+### 기본 사용법
+
+```typescript
+import { NeopleCyphersUrlBuilder } from 'neople-sdk-js';
+
+const builder = new NeopleCyphersUrlBuilder(apiKey);
+```
+
+### 플레이어 URL 생성
+
+```typescript
+// 플레이어 검색 URL
+const playerSearchUrl = builder.player.search('플레이어명', {
+  limit: 20,
+  wordType: 'match'
+});
+
+// 플레이어 상세 정보 URL
+const playerDetailUrl = builder.player.detail('playerId');
+
+// 플레이어 랭킹 URL
+const playerRankingUrl = builder.player.ranking('playerId');
+
+// 플레이어 경기 기록 URL
+const playerMatchesUrl = builder.player.matches('playerId', {
+  gameTypeId: 'rating',
+  startDate: '2024-01-01',
+  endDate: '2024-01-31',
+  limit: 50
+});
+```
+
+### 경기 URL 생성
+
+```typescript
+// 경기 상세 URL
+const matchDetailUrl = builder.match.detail('matchId');
+```
+
+### 랭킹 URL 생성
+
+```typescript
+// 전체 랭킹 URL
+const rankingUrl = builder.ranking.overall('mmr', {
+  offset: 0,
+  limit: 100
+});
+
+// TSJ 랭킹 URL
+const tsjRankingUrl = builder.ranking.tsj('melee', {
+  offset: 0,
+  limit: 50
+});
+
+// 캐릭터별 랭킹 URL
+const characterRankingUrl = builder.ranking.character('characterId', 'mmr', {
+  offset: 0,
+  limit: 100
+});
+```
+
+### 캐릭터 URL 생성
+
+```typescript
+// 캐릭터 목록 URL
+const charactersUrl = builder.character.list();
+
+// 캐릭터 상세 URL
+const characterDetailUrl = builder.character.detail('characterId');
+
+// 캐릭터 추천 아이템 URL
+const recommendedItemsUrl = builder.character.recommendedItems('characterId');
+```
+
+### 아이템 URL 생성
+
+```typescript
+// 아이템 목록 URL
+const itemsUrl = builder.item.list();
+
+// 아이템 상세 URL
+const itemDetailUrl = builder.item.detail('itemId');
+
+// 아이템 검색 URL
+const itemSearchUrl = builder.item.search('아이템명', {
+  limit: 50,
+  wordType: 'front'
+});
+
+// 여러 아이템 URL
+const multiItemUrl = builder.item.multi(['itemId1', 'itemId2', 'itemId3']);
+```
+
+### 사이퍼 URL 생성
+
+```typescript
+// 사이퍼 목록 URL
+const cyphersUrl = builder.cypher.list();
+
+// 사이퍼 상세 URL
+const cypherDetailUrl = builder.cypher.detail('cypherId');
+```
+
+### 기타 URL 생성
+
+```typescript
+// 포지션 목록 URL
+const positionsUrl = builder.position.list();
+
+// 속성 목록 URL
+const attributesUrl = builder.attribute.list();
+```
+
+## 배치 URL 생성
+
+여러 URL을 한 번에 생성할 수 있는 강력한 기능입니다.
+
+### NeopleDFUrlBuilder 배치
+
+```typescript
+const dfBuilder = new NeopleDFUrlBuilder(apiKey);
+
+const urls = dfBuilder.batch([
+  dfBuilder.character.search('홍길동'),
+  dfBuilder.character.info('cain', 'characterId1'),
+  dfBuilder.character.equipment('cain', 'characterId1'),
+  dfBuilder.auction.search({ itemName: '무기' }),
+  dfBuilder.item.search('방어구')
+]);
+
+console.log(urls);
+// [
+//   'https://api.neople.co.kr/df/characters?characterName=홍길동&apikey=...',
+//   'https://api.neople.co.kr/df/servers/cain/characters/characterId1?apikey=...',
+//   'https://api.neople.co.kr/df/servers/cain/characters/characterId1/equip/equipment?apikey=...',
+//   'https://api.neople.co.kr/df/auction?itemName=무기&apikey=...',
+//   'https://api.neople.co.kr/df/items?itemName=방어구&apikey=...'
+// ]
+```
+
+### NeopleCyphersUrlBuilder 배치
+
+```typescript
+const cyphersBuilder = new NeopleCyphersUrlBuilder(apiKey);
+
+const urls = cyphersBuilder.batch([
+  cyphersBuilder.player.search('플레이어명'),
+  cyphersBuilder.player.detail('playerId1'),
+  cyphersBuilder.player.matches('playerId1', { gameTypeId: 'rating' }),
+  cyphersBuilder.ranking.overall('mmr', { limit: 50 }),
+  cyphersBuilder.character.list()
+]);
+```
+
+## BaseUrlBuilder
+
+모든 URL Builder의 기반이 되는 클래스입니다.
+
+### 공통 기능
+
+```typescript
+import { BaseUrlBuilder } from 'neople-sdk-js';
+
+class CustomUrlBuilder extends BaseUrlBuilder {
+  constructor(apiKey: string, baseUrl: string) {
+    super(apiKey, baseUrl);
+  }
+
+  // 사용자 정의 URL 생성 메서드 구현
+  customEndpoint(param: string) {
+    return this.buildUrl('/custom/endpoint', { param });
+  }
+}
+```
+
+### 유틸리티 메서드
+
+```typescript
+const builder = new NeopleDFUrlBuilder(apiKey);
+
+// 쿼리 매개변수 빌드
+const queryString = builder.buildQueryString({
+  name: '홍길동',
+  limit: 20,
+  server: 'cain'
+});
+// 결과: "name=홍길동&limit=20&server=cain&apikey=..."
+
+// URL과 쿼리 매개변수 결합
+const fullUrl = builder.buildUrl('/df/characters', {
+  characterName: '홍길동',
+  limit: 20
+});
+// 결과: "https://api.neople.co.kr/df/characters?characterName=홍길동&limit=20&apikey=..."
+
+// API 키 자동 추가
+const urlWithApiKey = builder.appendApiKey('https://api.neople.co.kr/df/servers');
+// 결과: "https://api.neople.co.kr/df/servers?apikey=..."
+```
+
+## 고급 사용법
+
+### 조건부 URL 생성
+
+```typescript
+const builder = new NeopleDFUrlBuilder(apiKey);
+
+function createCharacterUrl(characterName: string, options: {
+  includeEquipment?: boolean;
+  includeSkills?: boolean;
+  serverId?: string;
+}) {
+  const urls = [
+    builder.character.search(characterName, { serverId: options.serverId })
+  ];
+
+  if (options.includeEquipment) {
+    // 실제 사용 시에는 characterId가 필요하므로 검색 후 사용
+    urls.push(builder.character.equipment(options.serverId || 'cain', 'characterId'));
+  }
+
+  if (options.includeSkills) {
+    urls.push(builder.character.skill(options.serverId || 'cain', 'characterId'));
+  }
+
+  return builder.batch(urls);
+}
+```
+
+### 동적 쿼리 빌드
+
+```typescript
+const builder = new NeopleDFUrlBuilder(apiKey);
+
+function createFlexibleAuctionUrl(filters: {
+  itemName?: string;
+  minLevel?: number;
+  maxLevel?: number;
+  rarity?: string;
+  sort?: string;
+}) {
+  // 빈 값들 제거
+  const cleanFilters = Object.fromEntries(
+    Object.entries(filters).filter(([_, value]) => value !== undefined)
+  );
+
+  return builder.auction.search(cleanFilters);
+}
+
+const url = createFlexibleAuctionUrl({
+  itemName: '무기',
+  minLevel: 85,
+  rarity: 'unique'
+  // maxLevel과 sort는 undefined이므로 제외됨
+});
+```
+
+### URL 검증 및 디버깅
+
+```typescript
+const builder = new NeopleDFUrlBuilder(apiKey);
+
+// 개발 모드에서 URL 확인
+if (process.env.NODE_ENV === 'development') {
+  const url = builder.character.search('홍길동');
+  console.log('Generated URL:', url);
+  
+  // URL 구조 분석
+  const urlObj = new URL(url);
+  console.log('Base URL:', urlObj.origin + urlObj.pathname);
+  console.log('Query Params:', Object.fromEntries(urlObj.searchParams));
+}
+```
+
+## 모범 사례
+
+### 1. Builder 인스턴스 재사용
+
+```typescript
+// ✅ 좋은 예
+const dfBuilder = new NeopleDFUrlBuilder(apiKey);
+const urls = dfBuilder.batch([
+  dfBuilder.character.search('홍길동'),
+  dfBuilder.character.search('김철수'),
+  dfBuilder.character.search('이영희')
+]);
+
+// ❌ 나쁜 예
+const urls = [
+  new NeopleDFUrlBuilder(apiKey).character.search('홍길동'),
+  new NeopleDFUrlBuilder(apiKey).character.search('김철수'),
+  new NeopleDFUrlBuilder(apiKey).character.search('이영희')
+];
+```
+
+### 2. 타입 안전성 활용
+
+```typescript
+// TypeScript 인터페이스 활용
+interface CharacterSearchOptions {
+  serverId?: string;
+  limit?: number;
+  wordType?: 'match' | 'front' | 'full';
+}
+
+function searchCharacters(name: string, options: CharacterSearchOptions) {
+  const builder = new NeopleDFUrlBuilder(apiKey);
+  return builder.character.search(name, options);
+}
+```
+
+### 3. 오류 처리
+
+```typescript
+const builder = new NeopleDFUrlBuilder(apiKey);
+
+try {
+  const url = builder.character.search(''); // 빈 문자열
+  // URL Builder는 유효성을 검사하고 오류를 발생시킬 수 있음
+} catch (error) {
+  console.error('URL 생성 오류:', error.message);
+}
+```
+
+URL Builder를 사용하면 복잡한 API URL 구성을 간단하고 안전하게 처리할 수 있으며, 특히 대량의 API 호출이나 동적 쿼리가 필요한 상황에서 매우 유용합니다.

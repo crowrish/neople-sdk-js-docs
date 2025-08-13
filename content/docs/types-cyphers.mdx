@@ -1,0 +1,748 @@
+---
+title: 사이퍼즈 타입
+description: 사이퍼즈 API에서 사용하는 TypeScript 타입 정의 및 인터페이스
+---
+
+# 사이퍼즈 타입 정의
+
+사이퍼즈 API에서 사용하는 TypeScript 타입 정의와 인터페이스에 대한 상세한 설명입니다.
+
+## 플레이어 타입
+
+### CyphersPlayerBasic
+
+플레이어 검색 결과의 기본 정보 타입입니다.
+
+```typescript
+interface CyphersPlayerBasic {
+  playerId: string;
+  nickname: string;
+  grade: number;
+  clanName?: string;
+  represent?: CyphersCharacterInfo;
+}
+```
+
+
+
+- **playerId** (string): 플레이어 고유 식별자
+- **nickname** (string): 플레이어 닉네임
+- **grade** (number): 플레이어 등급
+- **clanName** (string, 선택사항): 소속 클랜 이름
+- **represent** (CyphersCharacterInfo, 선택사항): 대표 캐릭터 정보
+
+### CyphersPlayerDetail
+
+상세 플레이어 정보 타입입니다.
+
+```typescript
+interface CyphersPlayerDetail {
+  playerId: string;
+  nickname: string;
+  grade: number;
+  clanName?: string;
+  ratingPoint: number;
+  maxRatingPoint: number;
+  tierName: string;
+  records: CyphersPlayerRecord[];
+}
+```
+
+
+
+- **ratingPoint** (number): 현재 레이팅 점수
+- **maxRatingPoint** (number): 최고 레이팅 점수
+- **tierName** (string): 티어명
+- **records** (CyphersPlayerRecord[]): 게임 모드별 기록
+
+### CyphersPlayerRecord
+
+플레이어 게임 기록 타입입니다.
+
+```typescript
+interface CyphersPlayerRecord {
+  gameTypeId: string;
+  winCount: number;
+  loseCount: number;
+  stopCount: number;
+}
+```
+
+
+
+- **gameTypeId** (string): 게임 타입 식별자
+- **winCount** (number): 승리 횟수
+- **loseCount** (number): 패배 횟수
+- **stopCount** (number): 정지 횟수
+
+## 랭킹 타입
+
+### CyphersPlayerRanking
+
+플레이어 랭킹 정보 타입입니다.
+
+```typescript
+interface CyphersPlayerRanking {
+  playerId: string;
+  nickname: string;
+  ratingPoint: number;
+  rank: number;
+  tierName: string;
+  records: CyphersRankingRecord[];
+}
+```
+
+
+
+- **rank** (number): 순위
+- **records** (CyphersRankingRecord[]): 랭킹 기록 상세 정보
+
+### CyphersRankingRecord
+
+랭킹 기록 상세 정보 타입입니다.
+
+```typescript
+interface CyphersRankingRecord {
+  gameTypeId: string;
+  rank: number;
+  ratingPoint: number;
+  playCount: number;
+  winCount: number;
+  loseCount: number;
+  stopCount: number;
+}
+```
+
+
+
+- **playCount** (number): 총 게임 수
+- **rank** (number): 해당 게임 타입에서의 순위
+- **ratingPoint** (number): 해당 게임 타입에서의 레이팅
+
+### CyphersRanking
+
+전체 랭킹 정보 타입입니다.
+
+```typescript
+interface CyphersRanking {
+  playerId: string;
+  nickname: string;
+  ratingPoint: number;
+  rank: number;
+  tierName: string;
+  grade: number;
+  playCount: number;
+  winCount: number;
+  loseCount: number;
+  stopCount: number;
+}
+```
+
+## 경기 타입
+
+### CyphersMatch
+
+경기 정보 타입입니다.
+
+```typescript
+interface CyphersMatch {
+  matchId: string;
+  gameTypeId: string;
+  gameResult: string;
+  playTime: string;
+  playTimeSeconds: number;
+  teams: CyphersTeam[];
+  players: CyphersMatchPlayer[];
+}
+```
+
+
+
+- **matchId** (string): 경기 고유 식별자
+- **gameTypeId** (string): 게임 타입 식별자
+- **gameResult** (string): 경기 결과
+- **playTime** (string): 경기 시간 (문자열 형태)
+- **playTimeSeconds** (number): 경기 시간 (초 단위)
+- **teams** (CyphersTeam[]): 팀 정보 배열
+- **players** (CyphersMatchPlayer[]): 플레이어 정보 배열
+
+### CyphersTeam
+
+팀 정보 타입입니다.
+
+```typescript
+interface CyphersTeam {
+  teamId: string;
+  result: 'win' | 'lose';
+  players: CyphersMatchPlayer[];
+}
+```
+
+
+
+- **teamId** (string): 팀 식별자
+- **result** ('win' | 'lose'): 팀 결과
+- **players** (CyphersMatchPlayer[]): 팀 소속 플레이어들
+
+### CyphersMatchPlayer
+
+경기에서의 플레이어 정보 타입입니다.
+
+```typescript
+interface CyphersMatchPlayer {
+  playerId: string;
+  nickname: string;
+  characterId: string;
+  characterName: string;
+  level: number;
+  killCount: number;
+  deathCount: number;
+  assistCount: number;
+  attackPoint: number;
+  damagePoint: number;
+  battlePoint: number;
+  sightPoint: number;
+  towerAttackPoint: number;
+  backAttackCount: number;
+  comboCount: number;
+  spellCount: number;
+  healAmount: number;
+  sentinelKillCount: number;
+  demolisherKillCount: number;
+  trooperKillCount: number;
+  guardianKillCount: number;
+  guardTowerKillCount: number;
+  getCoin: number;
+  spendCoin: number;
+  items: CyphersMatchItem[];
+}
+```
+
+
+
+- **characterId** (string): 사용한 캐릭터 식별자
+- **characterName** (string): 사용한 캐릭터 이름
+- **level** (number): 캐릭터 레벨
+- **killCount** (number): 킬 수
+- **deathCount** (number): 데스 수
+- **assistCount** (number): 어시스트 수
+- **attackPoint** (number): 공격 포인트
+- **damagePoint** (number): 데미지 포인트
+- **battlePoint** (number): 전투 포인트
+- **sightPoint** (number): 시야 포인트
+- **towerAttackPoint** (number): 타워 공격 포인트
+- **backAttackCount** (number): 백어택 횟수
+- **comboCount** (number): 콤보 횟수
+- **spellCount** (number): 스펠 사용 횟수
+- **healAmount** (number): 힐량
+- **sentinelKillCount** (number): 센티넬 킬 수
+- **demolisherKillCount** (number): 데몰리셔 킬 수
+- **trooperKillCount** (number): 트루퍼 킬 수
+- **guardianKillCount** (number): 가디언 킬 수
+- **guardTowerKillCount** (number): 가드타워 킬 수
+- **getCoin** (number): 획득 코인
+- **spendCoin** (number): 소모 코인
+- **items** (CyphersMatchItem[]): 사용한 아이템 목록
+
+## 캐릭터 타입
+
+### CyphersCharacter
+
+캐릭터 정보 타입입니다.
+
+```typescript
+interface CyphersCharacter {
+  characterId: string;
+  characterName: string;
+  school: string;
+  species: string;
+  mastery: string;
+  weapon: string[];
+  position: string[];
+  attribute: string[];
+}
+```
+
+
+
+- **characterId** (string): 캐릭터 식별자
+- **characterName** (string): 캐릭터 이름
+- **school** (string): 소속 학교
+- **species** (string): 종족
+- **mastery** (string): 특기
+- **weapon** (string[]): 사용 무기 목록
+- **position** (string[]): 포지션 목록
+- **attribute** (string[]): 속성 목록
+
+### CyphersCharacterInfo
+
+캐릭터 기본 정보 타입입니다.
+
+```typescript
+interface CyphersCharacterInfo {
+  characterId: string;
+  characterName: string;
+  level?: number;
+  killCount?: number;
+  deathCount?: number;
+  assistCount?: number;
+}
+```
+
+
+
+- **level** (number, 선택사항): 캐릭터 레벨
+- **killCount** (number, 선택사항): 킬 수
+- **deathCount** (number, 선택사항): 데스 수
+- **assistCount** (number, 선택사항): 어시스트 수
+
+## 아이템 타입
+
+### CyphersItem
+
+아이템 정보 타입입니다.
+
+```typescript
+interface CyphersItem {
+  itemId: string;
+  itemName: string;
+  itemType: string;
+  itemTypeId: string;
+  slotCode: string;
+  rarityCode: string;
+  rarityName: string;
+  needLevel: number;
+  explainText: string;
+  explainDetail: string;
+  itemActiveSkill?: CyphersItemSkill;
+  itemPassiveSkill?: CyphersItemSkill[];
+}
+```
+
+
+
+- **itemId** (string): 아이템 식별자
+- **itemName** (string): 아이템 이름
+- **itemType** (string): 아이템 타입명
+- **itemTypeId** (string): 아이템 타입 식별자
+- **slotCode** (string): 슬롯 코드
+- **rarityCode** (string): 희귀도 코드
+- **rarityName** (string): 희귀도 이름
+- **needLevel** (number): 필요 레벨
+- **explainText** (string): 아이템 설명
+- **explainDetail** (string): 상세 아이템 설명
+- **itemActiveSkill** (CyphersItemSkill, 선택사항): 액티브 스킬
+- **itemPassiveSkill** (CyphersItemSkill[], 선택사항): 패시브 스킬 목록
+
+### CyphersItemSkill
+
+아이템 스킬 정보 타입입니다.
+
+```typescript
+interface CyphersItemSkill {
+  skillId: string;
+  skillName: string;
+  skillType: string;
+  skillTypeId: string;
+  skillExplain: string;
+  skillExplainDetail: string;
+}
+```
+
+
+
+- **skillId** (string): 스킬 식별자
+- **skillName** (string): 스킬 이름
+- **skillType** (string): 스킬 타입명
+- **skillTypeId** (string): 스킬 타입 식별자
+- **skillExplain** (string): 스킬 설명
+- **skillExplainDetail** (string): 상세 스킬 설명
+
+### CyphersMatchItem
+
+경기에서 사용된 아이템 정보 타입입니다.
+
+```typescript
+interface CyphersMatchItem {
+  itemId: string;
+  itemName: string;
+  slotCode: string;
+  rarityCode: string;
+  equipSlotCode: string;
+}
+```
+
+
+
+- **equipSlotCode** (string): 장착 슬롯 코드
+
+## 포지션 및 속성 타입
+
+### CyphersPosition
+
+포지션 정보 타입입니다.
+
+```typescript
+interface CyphersPosition {
+  positionId: string;
+  positionName: string;
+  positionExplain: string;
+}
+```
+
+
+
+- **positionId** (string): 포지션 식별자
+- **positionName** (string): 포지션 이름
+- **positionExplain** (string): 포지션 설명
+
+### CyphersAttribute
+
+속성 정보 타입입니다.
+
+```typescript
+interface CyphersAttribute {
+  attributeId: string;
+  attributeName: string;
+  attributeExplain: string;
+}
+```
+
+
+
+- **attributeId** (string): 속성 식별자
+- **attributeName** (string): 속성 이름
+- **attributeExplain** (string): 속성 설명
+
+## 검색 매개변수 타입
+
+### CyphersMatchSearchParams
+
+경기 검색 매개변수 타입입니다.
+
+```typescript
+interface CyphersMatchSearchParams {
+  playerId: string;
+  gameTypeId?: string;
+  startDate?: string;
+  endDate?: string;
+  limit?: number;
+  next?: string;
+}
+```
+
+
+
+- **playerId** (string): 플레이어 식별자
+- **gameTypeId** (string, 선택사항): 게임 타입 필터
+- **startDate** (string, 선택사항): 시작 날짜 (YYYY-MM-DD)
+- **endDate** (string, 선택사항): 종료 날짜 (YYYY-MM-DD)
+- **limit** (number, 선택사항): 결과 제한 수
+- **next** (string, 선택사항): 다음 페이지 토큰
+
+### CyphersRankingSearchParams
+
+랭킹 검색 매개변수 타입입니다.
+
+```typescript
+interface CyphersRankingSearchParams {
+  rankingType: 'ratingpoint' | 'battlepoint';
+  offset?: number;
+  limit?: number;
+}
+```
+
+
+
+- **rankingType** ('ratingpoint' | 'battlepoint'): 랭킹 타입
+- **offset** (number, 선택사항): 결과 오프셋
+- **limit** (number, 선택사항): 결과 제한 수
+
+## 유니언 타입
+
+### CyphersGameType
+
+게임 타입 유니언입니다.
+
+```typescript
+type CyphersGameType = 
+  | 'normal'  // 일반전
+  | 'rating'; // 공식전
+```
+
+### CyphersTier
+
+티어 유니언 타입입니다.
+
+```typescript
+type CyphersTier = 
+  | 'Bronze'
+  | 'Silver'
+  | 'Gold'
+  | 'Platinum'
+  | 'Diamond'
+  | 'Joker'
+  | 'Ace';
+```
+
+### CyphersItemRarity
+
+아이템 희귀도 유니언 타입입니다.
+
+```typescript
+type CyphersItemRarity = 
+  | 'common'    // 일반 (101)
+  | 'uncommon'  // 고급 (102)
+  | 'rare'      // 희귀 (103)
+  | 'unique';   // 유니크 (104)
+```
+
+### CyphersPosition
+
+포지션 유니언 타입입니다.
+
+```typescript
+type CyphersPositionType = 
+  | 'tanker'   // 탱커
+  | 'melee'    // 근거리
+  | 'ranged'   // 원거리
+  | 'support'; // 서포터
+```
+
+### CyphersAttribute
+
+속성 유니언 타입입니다.
+
+```typescript
+type CyphersAttributeType = 
+  | 'fire'     // 화염
+  | 'water'    // 물
+  | 'wind'     // 바람  
+  | 'earth';   // 대지
+```
+
+### CyphersItemSlotCode
+
+아이템 슬롯 코드 유니언 타입입니다.
+
+```typescript
+type CyphersItemSlotCode = 
+  // 장비 슬롯
+  | '101'      // 손 (hand)
+  | '102'      // 머리 (head)
+  | '103'      // 가슴 (chest)
+  | '104'      // 허리 (waist)
+  | '105'      // 다리 (legs)
+  | '106'      // 발 (feet)
+  // 액세서리 슬롯
+  | '201'      // 액세서리 1
+  | '202'      // 액세서리 2
+  | '203'      // 액세서리 3
+  | '204'      // 액세서리 4
+  | '205'      // 액세서리 5
+  // 킷 슬롯
+  | '301'      // 회복킷
+  | '302'      // 가속킷
+  | '303'      // 공격킷
+  | '304'      // 방어킷
+  | '305';     // 특수킷
+```
+
+## 계산된 타입
+
+### CyphersPlayerStats
+
+플레이어 통계 계산 타입입니다.
+
+```typescript
+interface CyphersPlayerStats {
+  totalGames: number;
+  winRate: number;
+  averageKDA: number;
+  favoriteCharacters: Array<{
+    characterId: string;
+    characterName: string;
+    playCount: number;
+    winRate: number;
+  }>;
+}
+```
+
+### CyphersMatchAnalysis
+
+경기 분석 타입입니다.
+
+```typescript
+interface CyphersMatchAnalysis {
+  matchDuration: number;
+  teamBalance: number;
+  mvpPlayer: CyphersMatchPlayer;
+  totalKills: number;
+  averageLevel: number;
+  mostUsedCharacters: Array<{
+    characterId: string;
+    characterName: string;
+    pickCount: number;
+  }>;
+}
+```
+
+## 타입 가드
+
+### 사이퍼즈 타입 검증 함수
+
+런타임에서 사이퍼즈 타입을 안전하게 확인하는 함수들입니다.
+
+```typescript
+// 플레이어 기본 정보 타입 가드
+function isCyphersPlayerBasic(obj: any): obj is CyphersPlayerBasic {
+  return obj &&
+    typeof obj.playerId === 'string' &&
+    typeof obj.nickname === 'string' &&
+    typeof obj.grade === 'number';
+}
+
+// 플레이어 상세 정보 타입 가드
+function isCyphersPlayerDetail(obj: any): obj is CyphersPlayerDetail {
+  return isCyphersPlayerBasic(obj) &&
+    typeof obj.ratingPoint === 'number' &&
+    typeof obj.maxRatingPoint === 'number' &&
+    typeof obj.tierName === 'string' &&
+    Array.isArray(obj.records);
+}
+
+// 경기 정보 타입 가드
+function isCyphersMatch(obj: any): obj is CyphersMatch {
+  return obj &&
+    typeof obj.matchId === 'string' &&
+    typeof obj.gameTypeId === 'string' &&
+    typeof obj.playTimeSeconds === 'number' &&
+    Array.isArray(obj.teams) &&
+    Array.isArray(obj.players);
+}
+
+// 캐릭터 정보 타입 가드
+function isCyphersCharacter(obj: any): obj is CyphersCharacter {
+  return obj &&
+    typeof obj.characterId === 'string' &&
+    typeof obj.characterName === 'string' &&
+    typeof obj.school === 'string' &&
+    Array.isArray(obj.weapon) &&
+    Array.isArray(obj.position) &&
+    Array.isArray(obj.attribute);
+}
+
+// 아이템 정보 타입 가드
+function isCyphersItem(obj: any): obj is CyphersItem {
+  return obj &&
+    typeof obj.itemId === 'string' &&
+    typeof obj.itemName === 'string' &&
+    typeof obj.itemType === 'string' &&
+    typeof obj.needLevel === 'number';
+}
+
+// 게임 타입 검증
+function isValidGameType(gameType: string): gameType is CyphersGameType {
+  const validTypes: CyphersGameType[] = [
+    'normal', 'rating'
+  ];
+  return validTypes.includes(gameType as CyphersGameType);
+}
+```
+
+## 사용 예제
+
+### 타입 안전한 플레이어 정보 처리
+
+```typescript
+import { NeopleCyphersClient } from 'neople-sdk-js';
+import type { CyphersPlayerDetail, CyphersPlayerBasic } from 'neople-openapi-types';
+
+async function processPlayerData(
+  playerName: string
+): Promise<CyphersPlayerDetail | null> {
+  const client = new NeopleCyphersClient(process.env.NEOPLE_CYPHERS_API_KEY!);
+  
+  try {
+    const searchResult = await client.searchPlayer(playerName);
+    
+    if (searchResult.rows.length === 0) {
+      return null;
+    }
+    
+    const playerBasic: CyphersPlayerBasic = searchResult.rows[0];
+    
+    // 타입 가드를 사용한 안전한 타입 확인
+    if (!isCyphersPlayerBasic(playerBasic)) {
+      throw new Error('Invalid player data format');
+    }
+    
+    const playerDetail = await client.getPlayer(playerBasic.playerId);
+    
+    return playerDetail;
+  } catch (error) {
+    console.error('Error processing player data:', error);
+    return null;
+  }
+}
+```
+
+### 경기 통계 분석
+
+```typescript
+async function analyzeMatches(
+  playerId: string, 
+  gameType?: CyphersGameType
+): Promise<CyphersPlayerStats> {
+  const client = new NeopleCyphersClient(process.env.NEOPLE_CYPHERS_API_KEY!);
+  
+  // 타입 import 추가 필요:
+  // import type { CyphersGameType, CyphersPlayerStats } from 'neople-openapi-types';
+  
+  // 게임 타입 검증
+  if (gameType && !isValidGameType(gameType)) {
+    throw new Error(`Invalid game type: ${gameType}`);
+  }
+  
+  const matches = await client.getMatches(playerId, gameType);
+  
+  // 통계 계산
+  const totalGames = matches.rows.length;
+  const wins = matches.rows.filter(match => {
+    const player = match.players.find(p => p.playerId === playerId);
+    const playerTeam = match.teams.find(team => 
+      team.players.some(p => p.playerId === playerId)
+    );
+    return playerTeam?.result === 'win';
+  }).length;
+  
+  const winRate = totalGames > 0 ? (wins / totalGames) * 100 : 0;
+  
+  // KDA 계산
+  const totalKills = matches.rows.reduce((sum, match) => {
+    const player = match.players.find(p => p.playerId === playerId);
+    return sum + (player?.killCount || 0);
+  }, 0);
+  
+  const totalDeaths = matches.rows.reduce((sum, match) => {
+    const player = match.players.find(p => p.playerId === playerId);
+    return sum + (player?.deathCount || 0);
+  }, 0);
+  
+  const totalAssists = matches.rows.reduce((sum, match) => {
+    const player = match.players.find(p => p.playerId === playerId);
+    return sum + (player?.assistCount || 0);
+  }, 0);
+  
+  const averageKDA = totalDeaths > 0 
+    ? (totalKills + totalAssists) / totalDeaths 
+    : totalKills + totalAssists;
+  
+  return {
+    totalGames,
+    winRate,
+    averageKDA: Math.round(averageKDA * 100) / 100,
+    favoriteCharacters: [] // 캐릭터별 통계 계산 로직
+  };
+}
+```

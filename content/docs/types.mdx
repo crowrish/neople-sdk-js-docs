@@ -1,0 +1,383 @@
+---
+title: 타입 정의
+description: neople-sdk-js에서 사용하는 TypeScript 타입 정의 및 인터페이스
+---
+
+# 타입 정의
+
+SDK에서 사용하는 TypeScript 타입 정의와 인터페이스에 대한 상세한 설명입니다.
+
+## neople-openapi-types 패키지
+
+SDK는 [`neople-openapi-types`](https://www.npmjs.com/package/neople-openapi-types) 패키지의 타입 정의를 활용합니다.
+
+**최신 버전: 0.3.0** - 향상된 타입 안전성과 모든 API 엔드포인트에 대한 완전한 타입 정의를 제공합니다.
+
+### 설치
+
+```bash
+npm install -D neople-openapi-types
+```
+
+```bash
+yarn add -D neople-openapi-types
+```
+
+### 주요 개선사항 (0.3.0)
+
+- **업데이트된 API 스키마**: 최신 네오플 API 사양 반영
+- **정확한 타입 매핑**: 모든 요청/응답에 대한 정확한 TypeScript 타입
+- **게임별 특화 타입**: 던전앤파이터와 사이퍼즈 각각의 고유 데이터 구조
+- **런타임 타입 검증**: 타입 가드 함수 및 스키마 검증 지원
+
+
+## 클라이언트 설정 타입
+
+### ClientOptions
+
+클라이언트 초기화 시 사용하는 옵션 타입입니다.
+
+```typescript
+interface ClientOptions {
+  baseURL?: string;
+  timeout?: number;
+  httpAdapter?: 'fetch' | 'axios' | 'got' | 'node-fetch';
+  retryAttempts?: number;
+  retryDelay?: number;
+  userAgent?: string;
+  debug?: boolean;
+  onError?: (error: Error) => void;
+  onRequest?: (url: string, options: any) => void;
+  onResponse?: (response: any) => void;
+  rateLimit?: RateLimitOptions;
+  axiosInstance?: any; // Axios 어댑터 사용 시
+  gotInstance?: any;   // Got 어댑터 사용 시
+  fetchInstance?: any; // Fetch 어댑터 사용 시
+  fetchOptions?: any;  // Fetch 옵션
+}
+```
+
+- **baseURL** (string, 선택사항): API 요청을 위한 사용자 지정 기본 URL
+- **timeout** (number, 선택사항): 요청 타임아웃 (밀리초, 기본값: 30000)
+- **httpAdapter** (string, 선택사항): 사용할 HTTP 클라이언트 어댑터 (기본값: 'fetch')
+- **retryAttempts** (number, 선택사항): 실패한 요청에 대한 재시도 횟수 (기본값: 3)
+- **retryDelay** (number, 선택사항): 재시도 간격 (밀리초, 기본값: 1000)
+- **userAgent** (string, 선택사항): 사용자 지정 User-Agent 헤더
+- **debug** (boolean, 선택사항): 디버그 모드 활성화 (기본값: false)
+- **onError** (function, 선택사항): 오류 발생 시 호출되는 콜백 함수
+- **onRequest** (function, 선택사항): 요청 전 호출되는 콜백 함수
+- **onResponse** (function, 선택사항): 응답 후 호출되는 콜백 함수
+
+### RateLimitOptions
+
+속도 제한 옵션을 정의하는 타입입니다.
+
+```typescript
+interface RateLimitOptions {
+  requestsPerSecond?: number;
+  burstLimit?: number;
+  maxConcurrent?: number;
+}
+```
+
+- **requestsPerSecond** (number, 선택사항): 초당 최대 요청 수
+- **burstLimit** (number, 선택사항): 버스트 요청 한도
+- **maxConcurrent** (number, 선택사항): 최대 동시 요청 수
+
+## 공통 응답 타입
+
+### ApiResponse&lt;T&gt;
+
+모든 API 응답의 기본 구조를 나타내는 제네릭 타입입니다.
+
+```typescript
+interface ApiResponse<T> {
+  data: T;
+  status: number;
+  statusText: string;
+  headers: Record<string, string>;
+  timestamp: string;
+}
+```
+
+### PagedResponse&lt;T&gt;
+
+페이지네이션이 있는 응답을 나타내는 타입입니다.
+
+```typescript
+interface PagedResponse<T> {
+  rows: T[];
+  next: string | null;
+  prev: string | null;
+  total?: number;
+  totalPages?: number;
+  currentPage?: number;
+  pageSize?: number;
+}
+```
+
+- **rows** (T[]): 결과 데이터 배열
+- **next** (string | null): 다음 페이지 URL (없으면 null)
+- **prev** (string | null): 이전 페이지 URL (없으면 null)
+- **total** (number, 선택사항): 전체 결과 수
+- **totalPages** (number, 선택사항): 전체 페이지 수
+- **currentPage** (number, 선택사항): 현재 페이지 번호
+- **pageSize** (number, 선택사항): 페이지당 결과 수
+
+## 게임별 타입
+
+게임별 상세 타입 정의는 다음 페이지들을 참조하세요:
+
+- **[던전앤파이터 타입](/docs/types-df)**: 던전앤파이터 API의 모든 타입 정의
+- **[사이퍼즈 타입](/docs/types-cyphers)**: 사이퍼즈 API의 모든 타입 정의
+
+## 오류 타입
+
+### ApiError
+
+API 요청 중 발생하는 오류를 나타내는 타입입니다.
+
+```typescript
+class ApiError extends Error {
+  status: number;
+  statusText: string;
+  response?: any;
+  request?: any;
+  
+  constructor(
+    message: string,
+    status: number,
+    statusText: string,
+    response?: any,
+    request?: any
+  );
+}
+```
+
+- **message** (string): 오류 메시지
+- **status** (number): HTTP 상태 코드
+- **statusText** (string): HTTP 상태 텍스트
+- **response** (any, 선택사항): 응답 객체
+- **request** (any, 선택사항): 요청 객체
+
+### NetworkError
+
+네트워크 관련 오류를 나타내는 타입입니다.
+
+```typescript
+class NetworkError extends Error {
+  code: string;
+  errno?: number;
+  
+  constructor(message: string, code: string, errno?: number);
+}
+```
+
+### TimeoutError
+
+타임아웃 오류를 나타내는 타입입니다.
+
+```typescript
+class TimeoutError extends Error {
+  timeout: number;
+  
+  constructor(message: string, timeout: number);
+}
+```
+
+## 유틸리티 타입
+
+### Optional&lt;T, K&gt;
+
+특정 속성을 선택사항으로 만드는 유틸리티 타입입니다.
+
+```typescript
+type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+// 사용 예시
+type PartialClientOptions = Optional<ClientOptions, 'timeout' | 'retryAttempts'>;
+```
+
+### RequiredFields&lt;T, K&gt;
+
+특정 속성을 필수로 만드는 유틸리티 타입입니다.
+
+```typescript
+type RequiredFields<T, K extends keyof T> = T & Required<Pick<T, K>>;
+
+// 사용 예시
+type RequiredClientOptions = RequiredFields<ClientOptions, 'baseURL'>;
+```
+
+### SearchParams
+
+검색 매개변수를 정의하는 타입입니다.
+
+```typescript
+interface SearchParams {
+  [key: string]: string | number | boolean | undefined;
+}
+```
+
+## 타입 가드
+
+### 타입 검증 함수
+
+런타임에서 타입을 안전하게 확인하는 함수들입니다.
+
+```typescript
+// API 응답 타입 가드
+function isApiResponse<T>(obj: any): obj is ApiResponse<T> {
+  return obj && 
+    typeof obj.status === 'number' &&
+    typeof obj.statusText === 'string' &&
+    obj.data !== undefined;
+}
+
+// 페이지 응답 타입 가드
+function isPagedResponse<T>(obj: any): obj is PagedResponse<T> {
+  return obj && 
+    Array.isArray(obj.rows);
+}
+
+// 오류 타입 가드
+function isApiError(obj: any): obj is ApiError {
+  return obj instanceof Error &&
+    typeof obj.status === 'number' &&
+    typeof obj.statusText === 'string';
+}
+
+function isNetworkError(obj: any): obj is NetworkError {
+  return obj instanceof Error &&
+    typeof obj.code === 'string';
+}
+
+function isTimeoutError(obj: any): obj is TimeoutError {
+  return obj instanceof Error &&
+    typeof obj.timeout === 'number';
+}
+```
+
+## 타입 확장
+
+### 사용자 지정 타입 확장
+
+기본 타입을 확장하여 프로젝트에 맞는 사용자 지정 타입을 만들 수 있습니다.
+
+```typescript
+// 사용자 지정 클라이언트 옵션
+interface CustomClientOptions extends ClientOptions {
+  apiVersion?: string;
+  region?: 'kr' | 'global';
+  cacheEnabled?: boolean;
+  cacheTTL?: number;
+}
+
+// 사용자 지정 API 응답
+interface CustomApiResponse<T> extends ApiResponse<T> {
+  requestId: string;
+  serverTime: string;
+  version: string;
+}
+
+// 사용자 지정 오류 타입
+class CustomApiError extends ApiError {
+  errorCode: string;
+  errorDetails?: Record<string, any>;
+  
+  constructor(
+    message: string,
+    status: number,
+    statusText: string,
+    errorCode: string,
+    errorDetails?: Record<string, any>
+  ) {
+    super(message, status, statusText);
+    this.errorCode = errorCode;
+    this.errorDetails = errorDetails;
+  }
+}
+```
+
+
+## 사용 예제
+
+### 타입 안전한 클라이언트 설정
+
+```typescript
+import { NeopleDFClient, type ClientOptions } from 'neople-sdk-js';
+
+const clientOptions: ClientOptions = {
+  timeout: 30000,
+  retryAttempts: 3,
+  debug: true,
+  onError: (error) => {
+    console.error('API 오류:', error.message);
+  }
+};
+
+const client = new NeopleDFClient(
+  process.env.NEOPLE_DF_API_KEY!,
+  clientOptions
+);
+```
+
+### 타입 가드를 사용한 안전한 데이터 처리
+
+```typescript
+async function processApiResponse<T>(
+  apiCall: () => Promise<unknown>
+): Promise<T | null> {
+  try {
+    const response = await apiCall();
+    
+    if (isApiResponse<T>(response)) {
+      return response.data;
+    }
+    
+    console.error('Invalid API response format');
+    return null;
+  } catch (error) {
+    if (isApiError(error)) {
+      console.error(`API Error ${error.status}: ${error.message}`);
+    } else if (isNetworkError(error)) {
+      console.error(`Network Error: ${error.message}`);
+    } else if (isTimeoutError(error)) {
+      console.error(`Timeout Error: Request timed out after ${error.timeout}ms`);
+    } else {
+      console.error('Unknown error:', error);
+    }
+    
+    return null;
+  }
+}
+```
+
+### 커스텀 타입 확장 예제
+
+```typescript
+// 프로젝트별 설정
+interface ProjectConfig extends CustomClientOptions {
+  projectName: string;
+  environment: 'development' | 'staging' | 'production';
+  features: {
+    analytics: boolean;
+    caching: boolean;
+    debugging: boolean;
+  };
+}
+
+function createConfiguredClient(config: ProjectConfig) {
+  const baseOptions: ClientOptions = {
+    timeout: config.environment === 'production' ? 30000 : 10000,
+    debug: config.features.debugging && config.environment !== 'production',
+    retryAttempts: config.environment === 'production' ? 3 : 1
+  };
+  
+  return new NeopleDFClient(
+    process.env.NEOPLE_DF_API_KEY!,
+    { ...baseOptions, ...config }
+  );
+}
+```
+

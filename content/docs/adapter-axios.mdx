@@ -1,0 +1,455 @@
+---
+title: Axios 어댑터
+description: Axios HTTP 클라이언트 어댑터 설정 및 사용법
+---
+
+# Axios 어댑터
+
+Axios HTTP 클라이언트를 사용하는 어댑터입니다. 풍부한 기능과 유연한 설정 옵션을 제공합니다.
+
+## 설치
+
+먼저 axios를 설치해야 합니다:
+
+```bash
+npm install axios
+# 또는
+yarn add axios
+```
+
+## 기본 사용법
+
+```typescript
+import axios from 'axios';
+import { NeopleDFClient, NeopleCyphersClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios'
+});
+```
+
+## 사용자 지정 Axios 인스턴스
+
+```typescript
+import axios from 'axios';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const customAxios = axios.create({
+  timeout: 30000,
+  headers: {
+    'User-Agent': 'MyApp/1.0.0',
+    'Custom-Header': 'value'
+  }
+});
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance: customAxios
+});
+```
+
+## 고급 설정
+
+### 인터셉터 사용
+
+```typescript
+import axios from 'axios';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const axiosInstance = axios.create();
+
+// 요청 인터셉터
+axiosInstance.interceptors.request.use(
+  (config) => {
+    console.log('요청 전송:', config.url);
+    return config;
+  },
+  (error) => {
+    console.error('요청 오류:', error);
+    return Promise.reject(error);
+  }
+);
+
+// 응답 인터셉터
+axiosInstance.interceptors.response.use(
+  (response) => {
+    console.log('응답 받음:', response.status);
+    return response;
+  },
+  (error) => {
+    console.error('응답 오류:', error.response?.status);
+    return Promise.reject(error);
+  }
+);
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance
+});
+```
+
+### 요청 취소
+
+```typescript
+import axios from 'axios';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios'
+});
+
+const source = axios.CancelToken.source();
+
+// 요청 취소 가능
+const searchPromise = client.searchCharacter('테스트', {
+  cancelToken: source.token
+});
+
+// 5초 후 요청 취소
+setTimeout(() => {
+  source.cancel('사용자가 요청을 취소했습니다');
+}, 5000);
+
+try {
+  const result = await searchPromise;
+  console.log(result);
+} catch (error) {
+  if (axios.isCancel(error)) {
+    console.log('요청이 취소되었습니다:', error.message);
+  } else {
+    console.error('다른 오류:', error);
+  }
+}
+```
+
+## 프록시 설정
+
+### HTTP 프록시
+
+```typescript
+import axios from 'axios';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance: axios.create({
+    proxy: {
+      protocol: 'http',
+      host: 'proxy.example.com',
+      port: 8080,
+      auth: {
+        username: 'proxyuser',
+        password: 'proxypass'
+      }
+    }
+  })
+});
+```
+
+### SOCKS 프록시
+
+```bash
+npm install socks-proxy-agent
+```
+
+```typescript
+import axios from 'axios';
+import { SocksProxyAgent } from 'socks-proxy-agent';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const agent = new SocksProxyAgent('socks5://127.0.0.1:1080');
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance: axios.create({
+    httpsAgent: agent,
+    httpAgent: agent
+  })
+});
+```
+
+## SSL/TLS 설정
+
+### 인증서 검증 비활성화 (개발용)
+
+```typescript
+import axios from 'axios';
+import https from 'https';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance: axios.create({
+    httpsAgent: new https.Agent({
+      rejectUnauthorized: false // 개발 환경에서만 사용
+    })
+  })
+});
+```
+
+### 사용자 지정 CA 인증서
+
+```typescript
+import axios from 'axios';
+import https from 'https';
+import fs from 'fs';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const customCA = fs.readFileSync('path/to/ca-cert.pem');
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance: axios.create({
+    httpsAgent: new https.Agent({
+      ca: customCA
+    })
+  })
+});
+```
+
+## 응답 변환
+
+### 자동 JSON 파싱
+
+```typescript
+import axios from 'axios';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance: axios.create({
+    transformResponse: [
+      function (data) {
+        // 사용자 지정 응답 변환
+        try {
+          const parsed = JSON.parse(data);
+          return {
+            ...parsed,
+            timestamp: new Date().toISOString()
+          };
+        } catch (e) {
+          return data;
+        }
+      }
+    ]
+  })
+});
+```
+
+## 진행률 추적
+
+### 업로드 진행률
+
+```typescript
+import axios from 'axios';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance: axios.create({
+    onUploadProgress: (progressEvent) => {
+      const percentCompleted = Math.round(
+        (progressEvent.loaded * 100) / progressEvent.total
+      );
+      console.log(`업로드 진행률: ${percentCompleted}%`);
+    }
+  })
+});
+```
+
+### 다운로드 진행률
+
+```typescript
+import axios from 'axios';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance: axios.create({
+    onDownloadProgress: (progressEvent) => {
+      const percentCompleted = Math.round(
+        (progressEvent.loaded * 100) / progressEvent.total
+      );
+      console.log(`다운로드 진행률: ${percentCompleted}%`);
+    }
+  })
+});
+```
+
+## 에러 처리
+
+### 상태 코드별 처리
+
+```typescript
+import axios from 'axios';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance: axios.create({
+    validateStatus: (status) => {
+      // 2xx와 3xx는 성공으로 처리
+      return status >= 200 && status < 400;
+    }
+  }),
+  onError: (error) => {
+    if (axios.isAxiosError(error)) {
+      const status = error.response?.status;
+      switch (status) {
+        case 401:
+          console.error('인증 실패');
+          break;
+        case 429:
+          console.error('요청 한도 초과');
+          break;
+        case 500:
+          console.error('서버 오류');
+          break;
+        default:
+          console.error('알 수 없는 오류:', status);
+      }
+    }
+  }
+});
+```
+
+## 동시 요청 제한
+
+```typescript
+import axios from 'axios';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+// Axios 어댑터는 내장 동시 요청 제한 지원
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  maxConcurrent: 5, // 최대 5개 동시 요청
+  axiosInstance: axios.create({
+    timeout: 30000
+  })
+});
+
+// 또는 수동으로 제한
+const semaphore = {
+  count: 0,
+  maxCount: 5,
+  
+  async acquire() {
+    while (this.count >= this.maxCount) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    this.count++;
+  },
+  
+  release() {
+    this.count--;
+  }
+};
+
+async function limitedRequest(name: string) {
+  await semaphore.acquire();
+  try {
+    return await client.searchCharacter(name);
+  } finally {
+    semaphore.release();
+  }
+}
+```
+
+## TypeScript 타입 안전성
+
+### 제네릭 응답 타입
+
+```typescript
+import axios, { AxiosResponse } from 'axios';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+interface CustomResponse<T> {
+  data: T;
+  meta: {
+    timestamp: string;
+    version: string;
+  };
+}
+
+const axiosInstance = axios.create({
+  transformResponse: [
+    function (data): CustomResponse<any> {
+      const parsed = JSON.parse(data);
+      return {
+        data: parsed,
+        meta: {
+          timestamp: new Date().toISOString(),
+          version: '1.0.0'
+        }
+      };
+    }
+  ]
+});
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance
+});
+```
+
+## 성능 최적화
+
+### Connection Pooling
+
+```typescript
+import axios from 'axios';
+import https from 'https';
+import http from 'http';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance: axios.create({
+    httpAgent: new http.Agent({
+      keepAlive: true,
+      maxSockets: 10
+    }),
+    httpsAgent: new https.Agent({
+      keepAlive: true,
+      maxSockets: 10
+    })
+  })
+});
+```
+
+### 요청 압축
+
+```typescript
+import axios from 'axios';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance: axios.create({
+    headers: {
+      'Accept-Encoding': 'gzip, deflate, br'
+    },
+    decompress: true
+  })
+});
+```
+
+## 마이그레이션
+
+### Fetch에서 Axios로
+
+```typescript
+// Before (Fetch)
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'fetch',
+  timeout: 30000
+});
+
+// After (Axios)
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'axios',
+  axiosInstance: axios.create({
+    timeout: 30000
+  })
+});
+```

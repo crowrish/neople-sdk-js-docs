@@ -1,0 +1,226 @@
+---
+title: 환경 변수
+description: neople-sdk-js에서 사용하는 환경 변수 설정 및 관리 방법
+---
+
+# 환경 변수
+
+neople-sdk-js에서 사용하는 환경 변수 설정 및 관리 방법을 알아보세요.
+
+## 필수 API 키
+
+SDK를 사용하기 위해 반드시 설정해야 하는 API 키입니다.
+
+```dotenv
+# 던전앤파이터 API 키
+NEOPLE_DF_API_KEY=your_df_api_key_here
+
+# 사이퍼즈 API 키
+NEOPLE_CYPHERS_API_KEY=your_cyphers_api_key_here
+```
+
+### API 키 발급 방법
+
+1. [네오플 개발자 센터](https://developers.neople.co.kr/)에 방문
+2. 계정 로그인 또는 회원가입
+3. 애플리케이션 등록
+4. API 키 발급 받기
+
+
+## 플랫폼별 설정
+
+### Node.js
+
+#### .env 파일 사용
+
+```bash
+npm install dotenv
+```
+
+```typescript
+// 애플리케이션 시작 부분에 추가
+import 'dotenv/config';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
+```
+
+#### 직접 설정
+
+```typescript
+// 환경 변수 직접 설정
+process.env.NEOPLE_DF_API_KEY = 'your_api_key';
+process.env.NEOPLE_DEBUG = 'true';
+
+import { NeopleDFClient } from 'neople-sdk-js';
+const client = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
+```
+
+### Next.js
+
+#### 환경 변수 파일
+
+```dotenv
+# .env.local
+NEOPLE_DF_API_KEY=your_df_api_key_here
+NEOPLE_CYPHERS_API_KEY=your_cyphers_api_key_here
+
+# 클라이언트 사이드에서 접근 가능한 변수 (주의: 공개됨)
+NEXT_PUBLIC_NEOPLE_DEBUG=false
+```
+
+#### 서버 컴포넌트에서 사용
+
+```typescript
+// app/page.tsx
+import { NeopleDFClient } from 'neople-sdk-js';
+
+export default function HomePage() {
+  const client = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
+  
+  // 서버 사이드에서만 실행됨
+  return <div>...</div>;
+}
+```
+
+#### API 라우트에서 사용
+
+```typescript
+// app/api/character/route.ts
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
+
+export async function GET() {
+  try {
+    const data = await client.searchCharacter('test');
+    return Response.json(data);
+  } catch (error) {
+    return Response.json({ error: error.message }, { status: 500 });
+  }
+}
+```
+
+### React (CRA/Vite)
+
+#### Create React App
+
+```dotenv
+# .env
+REACT_APP_NEOPLE_DF_API_KEY=your_api_key_here
+REACT_APP_NEOPLE_DEBUG=false
+```
+
+```typescript
+// src/App.tsx
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(process.env.REACT_APP_NEOPLE_DF_API_KEY);
+```
+
+#### Vite
+
+```dotenv
+# .env
+VITE_NEOPLE_DF_API_KEY=your_api_key_here
+VITE_NEOPLE_DEBUG=false
+```
+
+```typescript
+// src/App.tsx
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const client = new NeopleDFClient(import.meta.env.VITE_NEOPLE_DF_API_KEY);
+```
+
+### Express.js
+
+```typescript
+// app.js
+import express from 'express';
+import { NeopleDFClient } from 'neople-sdk-js';
+
+const app = express();
+
+// 환경 변수 검증
+if (!process.env.NEOPLE_DF_API_KEY) {
+  throw new Error('NEOPLE_DF_API_KEY 환경 변수가 필요합니다');
+}
+
+const client = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
+
+app.get('/api/character/:name', async (req, res) => {
+  try {
+    const result = await client.searchCharacter(req.params.name);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+```
+
+
+## 보안 모범 사례
+
+### API 키 보호
+
+```typescript
+// ❌ 이렇게 하지 마세요 - 하드코딩
+const client = new NeopleDFClient('your-api-key-here');
+
+// ❌ 이렇게 하지 마세요 - 클라이언트 사이드에서 노출
+const client = new NeopleDFClient(process.env.REACT_APP_API_KEY);
+
+// ✅ 이렇게 하세요 - 서버 사이드에서만 사용
+const client = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
+```
+
+### .env 파일 관리
+
+```bash
+# .gitignore
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+```
+
+
+## 문제 해결
+
+### 일반적인 오류
+
+#### API 키가 없음
+
+```typescript
+// 오류: API key is required
+if (!process.env.NEOPLE_DF_API_KEY) {
+  console.error('NEOPLE_DF_API_KEY 환경 변수를 설정해주세요');
+  process.exit(1);
+}
+```
+
+#### 잘못된 API 키 형식
+
+```typescript
+// API 키 형식 검증
+function validateApiKey(apiKey: string): boolean {
+  return /^[a-zA-Z0-9]{32,}$/.test(apiKey);
+}
+
+const apiKey = process.env.NEOPLE_DF_API_KEY;
+if (!validateApiKey(apiKey)) {
+  throw new Error('잘못된 API 키 형식입니다');
+}
+```
+
+### 디버깅 팁
+
+```typescript
+// 환경 변수 디버깅
+console.log('Environment variables:');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('API Key length:', process.env.NEOPLE_DF_API_KEY?.length);
+console.log('Debug mode:', process.env.NEOPLE_DEBUG);
+```

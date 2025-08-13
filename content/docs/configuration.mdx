@@ -5,37 +5,11 @@ description: 다양한 환경과 사용 사례에 맞게 neople-sdk-js를 설정
 
 # 설정
 
-다양한 환경에 맞게 neople-sdk-js를 설정하고 동작을 사용자 지정하는 방법을 알아보세요.
-
-## 환경 변수
-
-### 필수 API 키
-
-```dotenv
-# 던전앤파이터 API 키
-NEOPLE_DF_API_KEY=your_df_api_key_here
-
-# 사이퍼즈 API 키
-NEOPLE_CYPHERS_API_KEY=your_cyphers_api_key_here
-```
-
-### 선택적 설정
-
-```dotenv
-# 사용자 지정 API 기본 URL (선택사항)
-NEOPLE_DF_BASE_URL=https://api.neople.co.kr
-NEOPLE_CYPHERS_BASE_URL=https://api.neople.co.kr
-
-# 요청 타임아웃 (밀리초) (선택사항)
-NEOPLE_REQUEST_TIMEOUT=30000
-
-# 디버그 로깅 활성화 (선택사항)
-NEOPLE_DEBUG=true
-```
+다양한 환경에 맞게 SDK를 설정하고 동작을 사용자 지정하는 방법을 알아보세요.
 
 ## 클라이언트 설정 옵션
 
-`NeopleDFClient`와 `NeopleCyphersClient` 모두 설정 옵션을 받습니다:
+`NeopleDFClient`와 `NeopleCyphersClient` 모두 다양한 설정 옵션을 지원합니다:
 
 ```typescript
 import { NeopleDFClient, NeopleCyphersClient } from 'neople-sdk-js';
@@ -46,7 +20,9 @@ const dfClient = new NeopleDFClient(apiKey, {
   httpAdapter: 'fetch', // 'fetch' | 'axios' | 'got' | 'node-fetch'
   retryAttempts: 3,
   retryDelay: 1000,
-  userAgent: 'MyApp/1.0.0'
+  userAgent: 'MyApp/1.0.0',
+  debug: false,
+  validateResponse: true
 });
 ```
 
@@ -60,50 +36,33 @@ const dfClient = new NeopleDFClient(apiKey, {
 | `retryAttempts` | number | 3 | 실패한 요청에 대한 재시도 횟수 |
 | `retryDelay` | number | 1000 | 재시도 간격 (밀리초) |
 | `userAgent` | string | SDK 기본값 | 사용자 지정 User-Agent 헤더 |
+| `debug` | boolean | false | 디버그 로깅 활성화 |
+| `validateResponse` | boolean | true | 응답 데이터 유효성 검증 |
 
-## HTTP 어댑터
+### HTTP 어댑터별 설정
 
-SDK는 여러 HTTP 클라이언트 어댑터를 지원합니다:
-
-### Fetch (기본값)
+각 어댑터별로 고유한 설정을 지정할 수 있습니다:
 
 ```typescript
-const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'fetch'
+// Fetch 어댑터 설정
+const fetchClient = new NeopleDFClient(apiKey, {
+  httpAdapter: 'fetch',
+  fetchOptions: {
+    keepalive: true,
+    mode: 'cors'
+  }
 });
-```
 
-Node.js 18+와 브라우저 환경 모두에서 작동합니다.
-
-### Axios
-
-```typescript
-import axios from 'axios';
-
-const client = new NeopleDFClient(apiKey, {
+// Axios 어댑터 설정  
+const axiosClient = new NeopleDFClient(apiKey, {
   httpAdapter: 'axios',
-  axiosInstance: axios.create({
-    // 사용자 지정 axios 설정
-    headers: {
-      'Custom-Header': 'value'
+  axiosConfig: {
+    maxRedirects: 5,
+    proxy: {
+      host: '127.0.0.1',
+      port: 8080
     }
-  })
-});
-```
-
-### Got (Node.js 전용)
-
-```typescript
-const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'got'
-});
-```
-
-### Node-fetch
-
-```typescript
-const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'node-fetch'
+  }
 });
 ```
 

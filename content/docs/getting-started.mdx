@@ -5,7 +5,15 @@ description: neople-sdk-js 설치 및 설정 방법 배우기
 
 # 시작하기
 
-neople-sdk-js는 던전앤파이터와 사이퍼즈 게임 API를 지원하는 네오플 오픈 API용 TypeScript SDK입니다.
+Neople SDK는 던전앤파이터와 사이퍼즈 게임 API를 지원하는 네오플 오픈 API용 TypeScript SDK입니다.
+
+**최신 버전: 0.2.2**
+
+주요 특징:
+- **다중 HTTP 어댑터 지원**: Fetch, Axios, Got, Node-fetch 어댑터 선택 가능
+- **포괄적 오류 처리**: 상세한 오류 정보와 재시도 메커니즘
+- **완전한 TypeScript 지원**: 모든 API에 대한 타입 안전성
+- **최적화된 성능**: Keep-alive 연결과 요청 병렬 처리
 
 ## 설치
 
@@ -84,10 +92,27 @@ console.log(players);
 
 ## 지원 환경
 
-- ✅ Node.js 백엔드 애플리케이션
-- ✅ Next.js API 라우트
-- ✅ 서버리스 함수
-- ❌ 브라우저 환경 (CORS 제한으로 인해 지원되지 않음)
+- Node.js 백엔드 애플리케이션
+- Next.js API 라우트  
+- 서버리스 함수 (Vercel, AWS Lambda 등)
+- Express.js 서버
+- 브라우저 환경 (CORS 제한으로 인해 지원되지 않음)
+
+## HTTP 어댑터 선택
+
+SDK는 여러 HTTP 클라이언트를 지원합니다:
+
+```typescript
+// 기본값: Fetch API (Node.js 18+ 권장)
+const client = new NeopleDFClient(apiKey);
+
+// 또는 명시적으로 어댑터 선택
+const client = new NeopleDFClient(apiKey, {
+  httpAdapter: 'fetch' // 'fetch' | 'axios' | 'got' | 'node-fetch'
+});
+```
+
+자세한 내용은 [HTTP 어댑터 가이드](/docs/adapter-fetch)를 참조하세요.
 
 ## 오류 처리
 
@@ -103,6 +128,9 @@ try {
 
 ## 다음 단계
 
-- [API 레퍼런스 - 던전앤파이터](/ko/docs/api-dungeon-fighter)
-- [API 레퍼런스 - 사이퍼즈](/ko/docs/api-cyphers)
-- [예제 및 사용 패턴](/ko/docs/examples)
+- [설정 및 고급 옵션](/docs/configuration)
+- [HTTP 어댑터 선택](/docs/adapter-fetch) 
+- [API 레퍼런스 - 던전앤파이터](/docs/api-dungeon-fighter)
+- [API 레퍼런스 - 사이퍼즈](/docs/api-cyphers)
+- [오류 처리 가이드](/docs/error-handling)
+- [예제 및 사용 패턴](/docs/examples)

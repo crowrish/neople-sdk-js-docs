@@ -1,0 +1,597 @@
+---
+title: 던전앤파이터 타입
+description: 던전앤파이터 API에서 사용하는 TypeScript 타입 정의 및 인터페이스
+---
+
+# 던전앤파이터 타입 정의
+
+던전앤파이터 API에서 사용하는 TypeScript 타입 정의와 인터페이스에 대한 상세한 설명입니다.
+
+## 캐릭터 타입
+
+### DFCharacterBasic
+
+캐릭터 검색 결과의 기본 정보 타입입니다.
+
+```typescript
+interface DFCharacterBasic {
+  serverId: string;
+  characterId: string;
+  characterName: string;
+  level: number;
+  jobId: string;
+  jobGrowId: string;
+  jobName: string;
+  jobGrowName: string;
+  fame?: number;
+}
+```
+
+
+
+- **serverId** (string): 서버 식별자
+- **characterId** (string): 캐릭터 고유 식별자
+- **characterName** (string): 캐릭터 이름
+- **level** (number): 캐릭터 레벨
+- **jobId** (string): 직업 식별자
+- **jobGrowId** (string): 전직 식별자
+- **jobName** (string): 직업 이름
+- **jobGrowName** (string): 전직 이름
+- **fame** (number, 선택사항): 명성 점수
+
+### DFCharacterDetail
+
+상세 캐릭터 정보 타입입니다.
+
+```typescript
+interface DFCharacterDetail {
+  characterId: string;
+  characterName: string;
+  level: number;
+  jobId: string;
+  jobGrowId: string;
+  jobName: string;
+  jobGrowName: string;
+  adventureName: string;
+  guildId?: string;
+  guildName?: string;
+  buff?: DFCharacterBuff;
+}
+```
+
+
+
+- **adventureName** (string): 모험가 이름
+- **guildId** (string, 선택사항): 길드 식별자
+- **guildName** (string, 선택사항): 길드 이름
+- **buff** (DFCharacterBuff, 선택사항): 캐릭터 버프 정보
+
+### DFCharacterBuff
+
+캐릭터 버프 정보 타입입니다.
+
+```typescript
+interface DFCharacterBuff {
+  reinforce?: DFReinforceStatus;
+  enchant?: DFEnchantStatus;
+  avatar?: DFAvatarStatus;
+  creature?: DFCreatureStatus;
+}
+
+interface DFReinforceStatus {
+  weapon?: number;
+  armor?: number;
+  accessory?: number;
+}
+
+interface DFEnchantStatus {
+  weapon?: DFEnchantInfo[];
+  armor?: DFEnchantInfo[];
+  accessory?: DFEnchantInfo[];
+}
+
+interface DFAvatarStatus {
+  clone?: boolean;
+  emblems?: DFEmblemInfo[];
+}
+
+interface DFCreatureStatus {
+  artifactLevel?: number;
+  artifactName?: string;
+}
+```
+
+## 장비 타입
+
+### DFCharacterEquipment
+
+캐릭터 장비 정보 타입입니다.
+
+```typescript
+interface DFCharacterEquipment {
+  characterId: string;
+  characterName: string;
+  level: number;
+  jobId: string;
+  jobGrowId: string;
+  equipment: DFEquipmentSlot[];
+}
+```
+
+### DFEquipmentSlot
+
+장비 슬롯 정보 타입입니다.
+
+```typescript
+interface DFEquipmentSlot {
+  slotId: string;
+  slotName: string;
+  itemId?: string;
+  itemName?: string;
+  itemType?: string;
+  itemTypeDetail?: string;
+  itemAvailableLevel?: number;
+  itemRarity?: string;
+  setItemId?: string;
+  setItemName?: string;
+  reinforce?: number;
+  itemGradeName?: string;
+  enchant?: DFEnchantInfo;
+  amplificationName?: string;
+  refine?: number;
+  bakalInfo?: DFBakalInfo;
+  machineRevolutionInfo?: DFMachineRevolutionInfo;
+}
+```
+
+
+
+- **slotId** (string): 장비 슬롯 식별자
+- **slotName** (string): 장비 슬롯 이름
+- **itemId** (string, 선택사항): 아이템 식별자
+- **itemName** (string, 선택사항): 아이템 이름
+- **itemType** (string, 선택사항): 아이템 타입
+- **itemTypeDetail** (string, 선택사항): 세부 아이템 타입
+- **itemAvailableLevel** (number, 선택사항): 아이템 착용 가능 레벨
+- **itemRarity** (string, 선택사항): 아이템 희귀도
+- **setItemId** (string, 선택사항): 세트 아이템 식별자
+- **setItemName** (string, 선택사항): 세트 아이템 이름
+- **reinforce** (number, 선택사항): 강화 수치
+- **itemGradeName** (string, 선택사항): 아이템 등급명
+- **enchant** (DFEnchantInfo, 선택사항): 인챈트 정보
+- **amplificationName** (string, 선택사항): 증폭 정보
+- **refine** (number, 선택사항): 제련 수치
+
+### DFEnchantInfo
+
+인챈트 정보 타입입니다.
+
+```typescript
+interface DFEnchantInfo {
+  status: DFEnchantStatus[];
+  explain: string;
+}
+
+interface DFEnchantStatus {
+  name: string;
+  value: number;
+}
+```
+
+### DFBakalInfo
+
+바칼 장비 정보 타입입니다.
+
+```typescript
+interface DFBakalInfo {
+  options: DFBakalOption[];
+  explain: string;
+}
+
+interface DFBakalOption {
+  option: string;
+  value: number;
+  explain: string;
+}
+```
+
+### DFMachineRevolutionInfo
+
+기계혁명 장비 정보 타입입니다.
+
+```typescript
+interface DFMachineRevolutionInfo {
+  code: string;
+  name: string;
+  explain: string;
+}
+```
+
+## 스킬 타입
+
+### DFCharacterSkill
+
+캐릭터 스킬 정보 타입입니다.
+
+```typescript
+interface DFCharacterSkill {
+  characterId: string;
+  characterName: string;
+  jobId: string;
+  jobGrowId: string;
+  jobName: string;
+  jobGrowName: string;
+  skill: DFSkillStyle;
+}
+```
+
+### DFSkillStyle
+
+스킬 스타일 정보 타입입니다.
+
+```typescript
+interface DFSkillStyle {
+  style: string;
+  active: DFSkill[];
+  passive: DFSkill[];
+}
+```
+
+
+
+- **style** (string): 스킬 스타일명
+- **active** (DFSkill[]): 액티브 스킬 목록
+- **passive** (DFSkill[]): 패시브 스킬 목록
+
+### DFSkill
+
+개별 스킬 정보 타입입니다.
+
+```typescript
+interface DFSkill {
+  skillId: string;
+  name: string;
+  option: DFSkillOption;
+  level: number;
+  requiredLevel: number;
+  costType: string;
+}
+```
+
+
+
+- **skillId** (string): 스킬 식별자
+- **name** (string): 스킬 이름
+- **option** (DFSkillOption): 스킬 옵션 정보
+- **level** (number): 스킬 레벨
+- **requiredLevel** (number): 필요 캐릭터 레벨
+- **costType** (string): 스킬 소모 타입
+
+### DFSkillOption
+
+스킬 옵션 정보 타입입니다.
+
+```typescript
+interface DFSkillOption {
+  level: number;
+  desc: string;
+  values: number[];
+}
+```
+
+
+
+- **level** (number): 옵션 레벨
+- **desc** (string): 스킬 설명
+- **values** (number[]): 스킬 수치 값들
+
+## 캐릭터 상태 타입
+
+### DFCharacterStatus
+
+캐릭터 상태 정보 타입입니다.
+
+```typescript
+interface DFCharacterStatus {
+  characterId: string;
+  characterName: string;
+  level: number;
+  jobId: string;
+  jobGrowId: string;
+  status: DFStatus[];
+}
+
+interface DFStatus {
+  name: string;
+  value: number;
+}
+```
+
+
+
+- **status** (DFStatus[]): 캐릭터 스탯 정보 배열
+
+## 아이템 타입
+
+### DFItem
+
+기본 아이템 정보 타입입니다.
+
+```typescript
+interface DFItem {
+  itemId: string;
+  itemName: string;
+  itemType: string;
+  itemTypeDetail: string;
+  itemAvailableLevel: number;
+  itemRarity: string;
+  itemExplain: string;
+  itemExplainDetail: string;
+  itemFlavorText?: string;
+  setItemId?: string;
+  setItemName?: string;
+}
+```
+
+
+
+- **itemId** (string): 아이템 식별자
+- **itemName** (string): 아이템 이름
+- **itemType** (string): 아이템 타입
+- **itemTypeDetail** (string): 세부 아이템 타입
+- **itemAvailableLevel** (number): 착용 가능 레벨
+- **itemRarity** (string): 아이템 희귀도
+- **itemExplain** (string): 아이템 설명
+- **itemExplainDetail** (string): 상세 아이템 설명
+- **itemFlavorText** (string, 선택사항): 아이템 플레이버 텍스트
+- **setItemId** (string, 선택사항): 세트 아이템 식별자
+- **setItemName** (string, 선택사항): 세트 아이템 이름
+
+### DFItemDetail
+
+상세 아이템 정보 타입입니다.
+
+```typescript
+interface DFItemDetail extends DFItem {
+  itemStatus: DFItemStatus[];
+  growInfo?: DFGrowInfo;
+}
+
+interface DFItemStatus {
+  name: string;
+  value: number;
+}
+
+interface DFGrowInfo {
+  level: number;
+  expRate: number;
+  options: DFGrowOption[];
+}
+
+interface DFGrowOption {
+  level: number;
+  expRate: number;
+  damage: number;
+  buff: number;
+}
+```
+
+
+
+- **itemStatus** (DFItemStatus[]): 아이템 스탯 정보
+- **growInfo** (DFGrowInfo, 선택사항): 성장형 아이템 정보
+
+## 경매장 타입
+
+### DFAuction
+
+경매장 아이템 정보 타입입니다.
+
+```typescript
+interface DFAuction {
+  auctionNo: number;
+  itemId: string;
+  itemName: string;
+  itemType: string;
+  itemTypeDetail: string;
+  itemAvailableLevel: number;
+  itemRarity: string;
+  count: number;
+  currentPrice: number;
+  unitPrice: number;
+  averagePrice: number;
+  regDate: string;
+  expireDate: string;
+  reinforce?: number;
+  amplificationName?: string;
+  refine?: number;
+}
+```
+
+
+
+- **auctionNo** (number): 경매 번호
+- **count** (number): 아이템 개수
+- **currentPrice** (number): 현재 가격
+- **unitPrice** (number): 개당 가격
+- **averagePrice** (number): 평균 가격
+- **regDate** (string): 등록일
+- **expireDate** (string): 만료일
+- **reinforce** (number, 선택사항): 강화 수치
+- **amplificationName** (string, 선택사항): 증폭 정보
+- **refine** (number, 선택사항): 제련 수치
+
+### DFAuctionSearchParams
+
+경매장 검색 매개변수 타입입니다.
+
+```typescript
+interface DFAuctionSearchParams {
+  itemName?: string;
+  itemId?: string;
+  itemType?: string;
+  itemTypeDetail?: string;
+  minLevel?: number;
+  maxLevel?: number;
+  rarity?: string;
+  minReinforce?: number;
+  maxReinforce?: number;
+  minRefine?: number;
+  maxRefine?: number;
+  sort?: 'unitPrice' | 'reinforce' | 'level';
+  limit?: number;
+  next?: string;
+}
+```
+
+## 서버 타입
+
+### DFServer
+
+서버 정보 타입입니다.
+
+```typescript
+interface DFServer {
+  serverId: string;
+  serverName: string;
+}
+```
+
+
+
+- **serverId** (string): 서버 식별자
+- **serverName** (string): 서버 이름
+
+## 아바타 타입
+
+### DFCharacterAvatar
+
+캐릭터 아바타 정보 타입입니다.
+
+```typescript
+interface DFCharacterAvatar {
+  characterId: string;
+  characterName: string;
+  level: number;
+  jobId: string;
+  jobGrowId: string;
+  avatar: DFAvatarSlot[];
+  clone?: DFCloneAvatar[];
+}
+
+interface DFAvatarSlot {
+  slotId: string;
+  slotName: string;
+  itemId?: string;
+  itemName?: string;
+  itemRarity?: string;
+  clone?: boolean;
+  itemExplain?: string;
+  optionAbility?: string;
+  rare?: boolean;
+  avatarSet?: DFAvatarSet[];
+}
+
+interface DFCloneAvatar {
+  itemId: string;
+  itemName: string;
+  itemRarity: string;
+}
+
+interface DFAvatarSet {
+  setId: string;
+  setName: string;
+  setEffects: DFSetEffect[];
+}
+
+interface DFSetEffect {
+  setItemId: string;
+  setItemName: string;
+  totalCount: number;
+  setCount: number;
+  setExplain: string;
+}
+```
+
+## 엠블렘 타입
+
+### DFEmblemInfo
+
+엠블렘 정보 타입입니다.
+
+```typescript
+interface DFEmblemInfo {
+  slotNo: number;
+  slotColor: string;
+  itemName: string;
+  itemRarity: string;
+  itemExplain: string;
+}
+```
+
+
+
+- **slotNo** (number): 엠블렘 슬롯 번호
+- **slotColor** (string): 슬롯 색상
+- **itemName** (string): 엠블렘 이름
+- **itemRarity** (string): 엠블렘 희귀도
+- **itemExplain** (string): 엠블렘 설명
+
+## 유니언 타입
+
+### DFItemRarity
+
+아이템 희귀도 유니언 타입입니다.
+
+```typescript
+type DFItemRarity = 
+  | 'common'
+  | 'uncommon' 
+  | 'rare'
+  | 'unique'
+  | 'epic'
+  | 'legendary'
+  | 'mythic';
+```
+
+### DFJobGrowType
+
+전직 타입 유니언입니다.
+
+```typescript
+type DFJobGrowType = 
+  | '귀검사(남)'
+  | '귀검사(여)'
+  | '격투가(남)'
+  | '격투가(여)'
+  | '거너(남)'
+  | '거너(여)'
+  | '마법사(남)'
+  | '마법사(여)'
+  | '프리스트(남)'
+  | '프리스트(여)'
+  | '도적'
+  | '나이트'
+  | '마창사'
+  | '아처'
+  | '마법검사'
+  | '크리에이터'
+  | '다크나이트'
+  | '총검사';
+```
+
+### DFServerType
+
+서버 타입 유니언입니다.
+
+```typescript
+type DFServerType = 
+  | 'cain'
+  | 'diregie' 
+  | 'siroco'
+  | 'prey'
+  | 'casillas'
+  | 'hilder'
+  | 'anton'
+  | 'bakal';
+```
