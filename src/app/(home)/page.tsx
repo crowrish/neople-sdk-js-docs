@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -164,8 +163,8 @@ const characters = await client.searchCharacter('홍길동');`}
             rel="noopener noreferrer"
             className="inline-block hover:opacity-80 transition-opacity"
           >
-            <Image 
-              src="/images/neople.png" 
+            <img 
+              src="/neople-sdk-js-docs/images/neople.png" 
               alt="Neople 오픈 API" 
               width={180}
               height={32}
