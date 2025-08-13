@@ -52,58 +52,6 @@ const client = new NeopleDFClient(apiKey, {
 });
 ```
 
-## 브라우저 환경
-
-### 기본 사용
-
-```typescript
-// 브라우저에서 직접 사용
-const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'fetch'
-});
-
-// CORS 설정
-const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'fetch',
-  fetchOptions: {
-    mode: 'cors',
-    credentials: 'include'
-  }
-});
-```
-
-### React 컴포넌트에서
-
-```typescript
-import React, { useEffect, useState } from 'react';
-import { NeopleDFClient } from 'neople-sdk-js';
-
-const CharacterSearch: React.FC = () => {
-  const [client] = useState(() => 
-    new NeopleDFClient(process.env.REACT_APP_API_KEY, {
-      httpAdapter: 'fetch'
-    })
-  );
-
-  const [character, setCharacter] = useState(null);
-
-  useEffect(() => {
-    const fetchCharacter = async () => {
-      try {
-        const result = await client.searchCharacter('테스트');
-        setCharacter(result);
-      } catch (error) {
-        console.error('캐릭터 검색 실패:', error);
-      }
-    };
-
-    fetchCharacter();
-  }, [client]);
-
-  return <div>{/* 컴포넌트 내용 */}</div>;
-};
-```
-
 ## Node.js 환경
 
 ### Express.js 서버

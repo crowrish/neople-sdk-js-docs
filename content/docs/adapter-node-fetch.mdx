@@ -99,67 +99,6 @@ const client = new NeopleDFClient(apiKey, {
 });
 ```
 
-## SSL/TLS 설정
-
-### 인증서 검증 비활성화 (개발용)
-
-```typescript
-import fetch from 'node-fetch';
-import https from 'https';
-import { NeopleDFClient } from 'neople-sdk-js';
-
-const agent = new https.Agent({
-  rejectUnauthorized: false // 개발 환경에서만 사용
-});
-
-const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'node-fetch',
-  fetchOptions: {
-    agent
-  }
-});
-```
-
-### 사용자 지정 CA 인증서
-
-```typescript
-import fetch from 'node-fetch';
-import https from 'https';
-import fs from 'fs';
-import { NeopleDFClient } from 'neople-sdk-js';
-
-const customCA = fs.readFileSync('path/to/ca-cert.pem');
-
-const agent = new https.Agent({
-  ca: customCA
-});
-
-const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'node-fetch',
-  fetchOptions: {
-    agent
-  }
-});
-```
-
-## 요청 압축
-
-### Gzip 압축
-
-```typescript
-import fetch from 'node-fetch';
-import { NeopleDFClient } from 'neople-sdk-js';
-
-const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'node-fetch',
-  fetchOptions: {
-    compress: true,
-    headers: {
-      'Accept-Encoding': 'gzip, deflate'
-    }
-  }
-});
-```
 
 ## 타임아웃 설정
 

@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function HomePage() {
   return (
-    <main className="flex flex-1 flex-col justify-center text-center px-4">
+    <main className="flex flex-1 flex-col justify-center text-center px-4 pt-16">
       <div className="max-w-4xl mx-auto">
         {/* Hero Section */}
         <div className="mb-16">
@@ -35,20 +35,12 @@ export default function HomePage() {
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-2xl mx-auto">
           <div className="text-center p-6 rounded-lg border border-fd-border">
             <div className="mb-4 text-2xl">🔧</div>
             <h3 className="mb-2 text-lg font-semibold">다중 HTTP 어댑터</h3>
             <p className="text-sm text-fd-muted-foreground">
               Fetch, Axios, Got, Node-fetch 어댑터 지원
-            </p>
-          </div>
-          
-          <div className="text-center p-6 rounded-lg border border-fd-border">
-            <div className="mb-4 text-2xl">🛡️</div>
-            <h3 className="mb-2 text-lg font-semibold">포괄적 오류 처리</h3>
-            <p className="text-sm text-fd-muted-foreground">
-              상세한 오류 정보와 자동 재시도 메커니즘
             </p>
           </div>
           
@@ -59,33 +51,27 @@ export default function HomePage() {
               모든 API에 대한 타입 안전성과 자동완성
             </p>
           </div>
-          
-          <div className="text-center p-6 rounded-lg border border-fd-border">
-            <div className="mb-4 text-2xl">⚡</div>
-            <h3 className="mb-2 text-lg font-semibold">최적화된 성능</h3>
-            <p className="text-sm text-fd-muted-foreground">
-              Keep-alive 연결과 요청 병렬 처리
-            </p>
-          </div>
         </div>
 
         {/* Quick Start Code */}
         <div className="mb-16">
           <h2 className="mb-6 text-2xl font-bold">빠른 시작</h2>
-          <div className="text-left bg-fd-muted rounded-lg p-6 max-w-2xl mx-auto">
-            <div className="mb-4">
+          <div className="text-left max-w-2xl mx-auto space-y-4">
+            <div>
               <p className="text-sm text-fd-muted-foreground mb-2">설치</p>
-              <code className="text-sm bg-fd-background px-2 py-1 rounded">
-                npm install neople-sdk-js
-              </code>
+              <pre className="bg-fd-background border border-fd-border rounded-lg p-4 overflow-x-auto">
+                <code className="text-sm text-fd-foreground">npm install neople-sdk-js</code>
+              </pre>
             </div>
             <div>
               <p className="text-sm text-fd-muted-foreground mb-2">사용법</p>
-              <pre className="text-sm overflow-x-auto">
+              <pre className="bg-fd-background border border-fd-border rounded-lg p-4 overflow-x-auto">
+                <code className="text-sm text-fd-foreground">
 {`import { NeopleDFClient } from 'neople-sdk-js';
 
 const client = new NeopleDFClient(apiKey);
 const characters = await client.searchCharacter('홍길동');`}
+                </code>
               </pre>
             </div>
           </div>
@@ -94,32 +80,32 @@ const characters = await client.searchCharacter('홍길동');`}
         {/* Supported Games */}
         <div className="mb-16">
           <h2 className="mb-6 text-2xl font-bold">지원 게임</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
-            <div className="text-center p-6 rounded-lg border border-fd-border">
-              <h3 className="mb-2 text-lg font-semibold">던전앤파이터</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            <Link
+              href="/docs/api-dungeon-fighter"
+              className="group p-6 rounded-lg border border-fd-border hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950 transition-all duration-200"
+            >
+              <h3 className="mb-2 text-lg font-semibold group-hover:text-blue-600">던전앤파이터</h3>
               <p className="text-sm text-fd-muted-foreground mb-4">
                 캐릭터, 장비, 경매장, 아바타 마켓 등 모든 API 지원
               </p>
-              <Link
-                href="/docs/api-dungeon-fighter"
-                className="text-blue-600 hover:text-blue-700 font-medium"
-              >
+              <span className="text-blue-600 group-hover:text-blue-700 font-medium">
                 API 문서 →
-              </Link>
-            </div>
+              </span>
+            </Link>
             
-            <div className="text-center p-6 rounded-lg border border-fd-border">
-              <h3 className="mb-2 text-lg font-semibold">사이퍼즈</h3>
+            <Link
+              href="/docs/api-cyphers"
+              className="group p-6 rounded-lg border border-fd-border hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950 transition-all duration-200"
+            >
+              <h3 className="mb-2 text-lg font-semibold group-hover:text-blue-600">사이퍼즈</h3>
               <p className="text-sm text-fd-muted-foreground mb-4">
                 플레이어, 경기 기록, 랭킹, 캐릭터 정보 등 완전 지원
               </p>
-              <Link
-                href="/docs/api-cyphers"
-                className="text-blue-600 hover:text-blue-700 font-medium"
-              >
+              <span className="text-blue-600 group-hover:text-blue-700 font-medium">
                 API 문서 →
-              </Link>
-            </div>
+              </span>
+            </Link>
           </div>
         </div>
 

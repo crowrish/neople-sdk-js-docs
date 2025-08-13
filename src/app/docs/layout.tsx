@@ -48,6 +48,13 @@ function createCustomPageTree() {
     findPage('api-cyphers'),
     {
       type: 'separator',
+      name: '타입 정의',
+    },
+    findPage('types'),
+    findPage('types-df'),
+    findPage('types-cyphers'),
+    {
+      type: 'separator',
       name: '고급 기능',
     },
     findPage('url-builders'),
@@ -60,13 +67,6 @@ function createCustomPageTree() {
     findPage('adapter-axios'),
     findPage('adapter-got'),
     findPage('adapter-node-fetch'),
-    {
-      type: 'separator',
-      name: '타입 정의',
-    },
-    findPage('types'),
-    findPage('types-df'),
-    findPage('types-cyphers'),
     {
       type: 'separator',
       name: '가이드',

@@ -168,44 +168,6 @@ const client = new NeopleDFClient(apiKey, {
 });
 ```
 
-## SSL/TLS 설정
-
-### 인증서 검증 비활성화 (개발용)
-
-```typescript
-import axios from 'axios';
-import https from 'https';
-import { NeopleDFClient } from 'neople-sdk-js';
-
-const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'axios',
-  axiosInstance: axios.create({
-    httpsAgent: new https.Agent({
-      rejectUnauthorized: false // 개발 환경에서만 사용
-    })
-  })
-});
-```
-
-### 사용자 지정 CA 인증서
-
-```typescript
-import axios from 'axios';
-import https from 'https';
-import fs from 'fs';
-import { NeopleDFClient } from 'neople-sdk-js';
-
-const customCA = fs.readFileSync('path/to/ca-cert.pem');
-
-const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'axios',
-  axiosInstance: axios.create({
-    httpsAgent: new https.Agent({
-      ca: customCA
-    })
-  })
-});
-```
 
 ## 응답 변환
 
@@ -236,45 +198,6 @@ const client = new NeopleDFClient(apiKey, {
 });
 ```
 
-## 진행률 추적
-
-### 업로드 진행률
-
-```typescript
-import axios from 'axios';
-import { NeopleDFClient } from 'neople-sdk-js';
-
-const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'axios',
-  axiosInstance: axios.create({
-    onUploadProgress: (progressEvent) => {
-      const percentCompleted = Math.round(
-        (progressEvent.loaded * 100) / progressEvent.total
-      );
-      console.log(`업로드 진행률: ${percentCompleted}%`);
-    }
-  })
-});
-```
-
-### 다운로드 진행률
-
-```typescript
-import axios from 'axios';
-import { NeopleDFClient } from 'neople-sdk-js';
-
-const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'axios',
-  axiosInstance: axios.create({
-    onDownloadProgress: (progressEvent) => {
-      const percentCompleted = Math.round(
-        (progressEvent.loaded * 100) / progressEvent.total
-      );
-      console.log(`다운로드 진행률: ${percentCompleted}%`);
-    }
-  })
-});
-```
 
 ## 에러 처리
 

@@ -46,17 +46,25 @@ const advancedSearch = await dfClient.searchCharacter('홍길동', {
 ```
 
 **매개변수:**
-- `characterName` (string): 검색할 캐릭터 이름
-- `options` (object, 선택사항): 검색 옵션
-  - `serverId` (string, 선택사항): 결과를 필터링할 서버 ID
-  - `limit` (number, 선택사항): 최대 결과 개수 (기본값: 10)
-  - `wordType` (string, 선택사항): 검색 방식
-    - `'match'`: 정확히 일치 (기본값)
-    - `'front'`: 앞 글자 일치
-    - `'full'`: 전체 검색
-  - `isAllJobGrow` (boolean, 선택사항): 모든 전직 포함 여부
-  - `jobId` (string, 선택사항): 직업 필터
-  - `jobGrowId` (string, 선택사항): 전직 필터
+
+| 매개변수 | 타입 | 필수 | 기본값 | 설명 |
+|---------|------|------|--------|------|
+| `characterName` | string | ✅ | - | 검색할 캐릭터 이름 (URL 인코딩 필요) |
+| `options.serverId` | string | - | 'all' | 서버 ID ('all'로 전체 서버 검색 가능) |
+| `options.jobId` | string | - | - | 직업 코드로 필터링 |
+| `options.jobGrowId` | string | - | - | 전직 코드로 필터링 |
+| `options.limit` | number | - | 10 | 반환할 결과 수 (최대 200) |
+
+**서버 ID 값:**
+- `'all'`: 전체 서버
+- `'cain'`: 카인
+- `'diregie'`: 디레지에
+- `'siroco'`: 시로코
+- `'prey'`: 프레이
+- `'casillas'`: 카시야스
+- `'hilder'`: 힐더
+- `'anton'`: 안톤
+- `'bakal'`: 바칼
 
 **반환값:** 페이지 정보가 포함된 캐릭터 검색 결과
 
@@ -93,8 +101,11 @@ const character = await dfClient.getCharacter('cain', 'characterId');
 ```
 
 **매개변수:**
-- `serverId` (string): 서버 식별자
-- `characterId` (string): 캐릭터 식별자
+
+| 매개변수 | 타입 | 필수 | 설명 |
+|---------|------|------|------|
+| `serverId` | string | ✅ | 서버 ID |
+| `characterId` | string | ✅ | 캐릭터 고유 코드 |
 
 **반환값:** 기본 스탯과 직업 정보를 포함한 상세 캐릭터 정보
 
@@ -212,12 +223,21 @@ const timeline = await dfClient.getCharacterTimeline('cain', 'characterId', null
 ```
 
 **매개변수:**
-- `serverId` (string): 서버 식별자
-- `characterId` (string): 캐릭터 식별자
-- `code` (string, 선택사항): 타임라인 코드 필터
-- `startDate` (string, 선택사항): 시작 날짜 (YYYY-MM-DD)
-- `endDate` (string, 선택사항): 종료 날짜 (YYYY-MM-DD)
-- `limit` (number, 선택사항): 최대 결과 개수
+
+| 매개변수 | 타입 | 필수 | 기본값 | 설명 |
+|---------|------|------|--------|------|
+| `serverId` | string | ✅ | - | 서버 ID |
+| `characterId` | string | ✅ | - | 캐릭터 고유 코드 |
+| `code` | string | - | 'all' | 타임라인 코드 필터 |
+| `startDate` | string | - | - | 시작 날짜 (YYYY-MM-DD 형식) |
+| `endDate` | string | - | - | 종료 날짜 (YYYY-MM-DD 형식) |
+| `limit` | number | - | 10 | 반환할 결과 수 (최대 100) |
+
+**code 값:**
+- `'all'`: 모든 타임라인 정보
+- `'level'`: 레벨업 기록
+- `'dungeon'`: 던전 입장 기록
+- `'quest'`: 퀘스트 완료 기록
 
 **반환값:** 캐릭터 활동 타임라인
 
@@ -296,10 +316,13 @@ const famousCharacters = await dfClient.getCharactersByFame('cain', 'jobId');
 ```
 
 **매개변수:**
-- `serverId` (string): 서버 식별자
-- `jobId` (string, 선택사항): 직업 필터
-- `jobGrowId` (string, 선택사항): 전직 필터
-- `limit` (number, 선택사항): 최대 결과 개수
+
+| 매개변수 | 타입 | 필수 | 기본값 | 설명 |
+|---------|------|------|--------|------|
+| `serverId` | string | ✅ | - | 서버 ID |
+| `jobId` | string | - | - | 직업 코드로 필터링 |
+| `jobGrowId` | string | - | - | 전직 코드로 필터링 |
+| `limit` | number | - | 100 | 반환할 결과 수 (최대 200) |
 
 **반환값:** 명성도 상위 캐릭터 목록
 
@@ -332,8 +355,11 @@ const items = await dfClient.searchItem('무기');
 ```
 
 **매개변수:**
-- `itemName` (string): 검색할 아이템 이름
-- `limit` (number, 선택사항): 최대 결과 개수
+
+| 매개변수 | 타입 | 필수 | 기본값 | 설명 |
+|---------|------|------|--------|------|
+| `itemName` | string | ✅ | - | 검색할 아이템 이름 |
+| `limit` | number | - | 10 | 반환할 결과 수 (최대 30) |
 
 **반환값:** 아이템 검색 결과
 
@@ -348,7 +374,10 @@ const item = await dfClient.getItem('itemId');
 ```
 
 **매개변수:**
-- `itemId` (string): 아이템 식별자
+
+| 매개변수 | 타입 | 필수 | 설명 |
+|---------|------|------|------|
+| `itemId` | string | ✅ | 아이템 고유 코드 |
 
 **반환값:** 스탯과 설명을 포함한 상세 아이템 정보
 
@@ -450,7 +479,10 @@ const skills = await dfClient.getSkillsByJob('jobId');
 ```
 
 **매개변수:**
-- `jobId` (string): 직업 식별자
+
+| 매개변수 | 타입 | 필수 | 설명 |
+|---------|------|------|------|
+| `jobId` | string | ✅ | 직업 고유 코드 |
 
 **반환값:** 해당 직업의 모든 스킬 정보
 
@@ -465,8 +497,11 @@ const skill = await dfClient.getSkillDetail('jobId', 'skillId');
 ```
 
 **매개변수:**
-- `jobId` (string): 직업 식별자
-- `skillId` (string): 스킬 식별자
+
+| 매개변수 | 타입 | 필수 | 설명 |
+|---------|------|------|------|
+| `jobId` | string | ✅ | 직업 고유 코드 |
+| `skillId` | string | ✅ | 스킬 고유 코드 |
 
 **반환값:** 스킬 상세 정보와 효과
 
@@ -613,23 +648,37 @@ const advancedAuction = await dfClient.searchAuction({
 ```
 
 **매개변수:**
-- `params` (object): 검색 매개변수
-  - `itemName` (string, 선택사항): 아이템 이름
-  - `wordType` (string, 선택사항): 검색 방식
-    - `'match'`: 정확히 일치 (기본값)
-    - `'front'`: 앞 글자 일치
-    - `'full'`: 전체 검색
-  - `minLevel` (number, 선택사항): 최소 아이템 레벨
-  - `maxLevel` (number, 선택사항): 최대 아이템 레벨
-  - `rarity` (string, 선택사항): 아이템 희귀도
-    - `'common'`: 일반
-    - `'uncommon'`: 고급
-    - `'rare'`: 희귀
-    - `'unique'`: 유니크
-    - `'epic'`: 에픽
-    - `'legendary'`: 레전더리
-  - `minReinforce` (number, 선택사항): 최소 강화 수치
-  - `maxReinforce` (number, 선택사항): 최대 강화 수치
+
+| 매개변수 | 타입 | 필수 | 기본값 | 설명 |
+|---------|------|------|--------|------|
+| `params.itemName` | string | - | - | 검색할 아이템 이름 |
+| `params.itemId` | string | - | - | 아이템 고유 코드 |
+| `params.itemIds` | string[] | - | - | 다중 아이템 고유 코드 (쉼표로 구분) |
+| `params.wordType` | 'match' \| 'front' \| 'full' | - | 'match' | 검색 방식 |
+| `params.minLevel` | number | - | - | 최소 아이템 레벨 |
+| `params.maxLevel` | number | - | - | 최대 아이템 레벨 |
+| `params.rarity` | string | - | - | 아이템 희귀도 |
+| `params.minReinforce` | number | - | 0 | 최소 강화 수치 (0-15) |
+| `params.maxReinforce` | number | - | 15 | 최대 강화 수치 (0-15) |
+| `params.minRefine` | number | - | 0 | 최소 제련 수치 (0-12) |
+| `params.maxRefine` | number | - | 12 | 최대 제련 수치 (0-12) |
+| `params.auctionType` | 'sell' \| 'buy' | - | 'sell' | 경매 타입 |
+| `params.sort` | string | - | 'unitPrice' | 정렬 방식 |
+| `params.limit` | number | - | 10 | 반환할 결과 수 (최대 400) |
+
+**rarity 값:**
+- `'common'`: 일반
+- `'uncommon'`: 고급  
+- `'rare'`: 희귀
+- `'unique'`: 유니크
+- `'epic'`: 에픽
+- `'legendary'`: 레전더리
+
+**sort 값:**
+- `'unitPrice'`: 개당 가격순
+- `'reinforce'`: 강화 수치순
+- `'level'`: 레벨순
+- `'deadline'`: 마감시간순
   - `sort` (string, 선택사항): 정렬 방식
     - `'price_asc'`: 가격 낮은 순
     - `'price_desc'`: 가격 높은 순

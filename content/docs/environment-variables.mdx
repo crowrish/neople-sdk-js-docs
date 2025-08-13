@@ -1,11 +1,11 @@
 ---
 title: 환경 변수
-description: neople-sdk-js에서 사용하는 환경 변수 설정 및 관리 방법
+description: Neople SDK JS에서 사용하는 환경 변수 설정 및 관리 방법
 ---
 
 # 환경 변수
 
-neople-sdk-js에서 사용하는 환경 변수 설정 및 관리 방법을 알아보세요.
+Neople SDK JS에서 사용하는 환경 변수 설정 및 관리 방법을 알아보세요.
 
 ## 필수 API 키
 
@@ -25,6 +25,76 @@ NEOPLE_CYPHERS_API_KEY=your_cyphers_api_key_here
 2. 계정 로그인 또는 회원가입
 3. 애플리케이션 등록
 4. API 키 발급 받기
+
+
+
+## API 키 보호
+
+**네오플 API는 크로스 도메인(CORS)을 지원하지 않습니다.**
+
+- **CORS 미지원**: 브라우저에서 직접 네오플 API를 호출할 수 없음
+- **API 키 보안**: 클라이언트 사이드에서 API 키가 노출되면 악용 가능
+- **서버 사이드 필수**: 반드시 백엔드 서버를 통해 API를 호출해야 함
+
+```typescript
+// ❌ 이렇게 하지 마세요 - 하드코딩
+const client = new NeopleDFClient('your-api-key-here');
+
+// ❌ 이렇게 하지 마세요 - 클라이언트 사이드에서 노출 (CORS 오류 + 보안 위험)
+const client = new NeopleDFClient(process.env.REACT_APP_API_KEY);
+
+// ❌ 브라우저에서 직접 호출 (CORS 오류 발생)
+fetch('https://api.neople.co.kr/df/characters?apikey=YOUR_KEY')
+  .then(response => response.json()) // CORS 오류로 실패
+  .catch(error => console.error('CORS 오류:', error));
+
+// ✅ 이렇게 하세요 - 서버 사이드에서만 사용
+const client = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
+
+// ✅ 프록시 서버를 통한 안전한 호출
+fetch('/api/characters/search?name=홍길동') // 자체 백엔드 API 호출
+  .then(response => response.json())
+  .then(data => console.log(data));
+```
+
+
+## 문제 해결
+
+### 일반적인 오류
+
+#### API 키가 없음
+
+```typescript
+// 오류: API key is required
+if (!process.env.NEOPLE_DF_API_KEY) {
+  console.error('NEOPLE_DF_API_KEY 환경 변수를 설정해주세요');
+  process.exit(1);
+}
+```
+
+#### 잘못된 API 키 형식
+
+```typescript
+// API 키 형식 검증
+function validateApiKey(apiKey: string): boolean {
+  return /^[a-zA-Z0-9]{32,}$/.test(apiKey);
+}
+
+const apiKey = process.env.NEOPLE_DF_API_KEY;
+if (!validateApiKey(apiKey)) {
+  throw new Error('잘못된 API 키 형식입니다');
+}
+```
+
+### 디버깅 팁
+
+```typescript
+// 환경 변수 디버깅
+console.log('Environment variables:');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('API Key length:', process.env.NEOPLE_DF_API_KEY?.length);
+console.log('Debug mode:', process.env.NEOPLE_DEBUG);
+```
 
 
 ## 플랫폼별 설정
@@ -157,70 +227,4 @@ app.get('/api/character/:name', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-```
-
-
-## 보안 모범 사례
-
-### API 키 보호
-
-```typescript
-// ❌ 이렇게 하지 마세요 - 하드코딩
-const client = new NeopleDFClient('your-api-key-here');
-
-// ❌ 이렇게 하지 마세요 - 클라이언트 사이드에서 노출
-const client = new NeopleDFClient(process.env.REACT_APP_API_KEY);
-
-// ✅ 이렇게 하세요 - 서버 사이드에서만 사용
-const client = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
-```
-
-### .env 파일 관리
-
-```bash
-# .gitignore
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-```
-
-
-## 문제 해결
-
-### 일반적인 오류
-
-#### API 키가 없음
-
-```typescript
-// 오류: API key is required
-if (!process.env.NEOPLE_DF_API_KEY) {
-  console.error('NEOPLE_DF_API_KEY 환경 변수를 설정해주세요');
-  process.exit(1);
-}
-```
-
-#### 잘못된 API 키 형식
-
-```typescript
-// API 키 형식 검증
-function validateApiKey(apiKey: string): boolean {
-  return /^[a-zA-Z0-9]{32,}$/.test(apiKey);
-}
-
-const apiKey = process.env.NEOPLE_DF_API_KEY;
-if (!validateApiKey(apiKey)) {
-  throw new Error('잘못된 API 키 형식입니다');
-}
-```
-
-### 디버깅 팁
-
-```typescript
-// 환경 변수 디버깅
-console.log('Environment variables:');
-console.log('NODE_ENV:', process.env.NODE_ENV);
-console.log('API Key length:', process.env.NEOPLE_DF_API_KEY?.length);
-console.log('Debug mode:', process.env.NEOPLE_DEBUG);
 ```

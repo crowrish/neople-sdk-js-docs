@@ -36,27 +36,34 @@ const searchUrl = builder.character.search('홍길동', {
   serverId: 'cain',
   limit: 20
 });
+// 생성 URL: https://api.neople.co.kr/df/characters?characterName=홍길동&serverId=cain&limit=20&apikey=...
 
 // 캐릭터 상세 정보 URL
 const characterUrl = builder.character.info('cain', 'characterId');
+// 생성 URL: https://api.neople.co.kr/df/servers/cain/characters/characterId?apikey=...
 
 // 캐릭터 장비 URL
 const equipmentUrl = builder.character.equipment('cain', 'characterId');
+// 생성 URL: https://api.neople.co.kr/df/servers/cain/characters/characterId/equip/equipment?apikey=...
 
 // 캐릭터 아바타 URL
 const avatarUrl = builder.character.avatar('cain', 'characterId');
+// 생성 URL: https://api.neople.co.kr/df/servers/cain/characters/characterId/equip/avatar?apikey=...
 
 // 캐릭터 스킬 URL
 const skillUrl = builder.character.skill('cain', 'characterId', {
   jobId: 'mage',
   jobGrowId: 'elementalist'
 });
+// 생성 URL: https://api.neople.co.kr/df/servers/cain/characters/characterId/skill/style?jobId=mage&jobGrowId=elementalist&apikey=...
 
 // 캐릭터 상태 URL
 const statusUrl = builder.character.status('cain', 'characterId');
+// 생성 URL: https://api.neople.co.kr/df/servers/cain/characters/characterId/status?apikey=...
 
 // 캐릭터 탈리스만 URL
 const talismanUrl = builder.character.talisman('cain', 'characterId');
+// 생성 URL: https://api.neople.co.kr/df/servers/cain/characters/characterId/equip/talisman?apikey=...
 
 // 캐릭터 타임라인 URL
 const timelineUrl = builder.character.timeline('cain', 'characterId', {
@@ -65,6 +72,7 @@ const timelineUrl = builder.character.timeline('cain', 'characterId', {
   endDate: '2024-01-31',
   limit: 50
 });
+// 생성 URL: https://api.neople.co.kr/df/servers/cain/characters/characterId/timeline?code=all&startDate=2024-01-01&endDate=2024-01-31&limit=50&apikey=...
 ```
 
 ### 캐릭터 버프 스킬 URL
@@ -72,12 +80,15 @@ const timelineUrl = builder.character.timeline('cain', 'characterId', {
 ```typescript
 // 장비 버프 스킬 URL
 const equipBuffUrl = builder.character.buffSkill.equipment('cain', 'characterId');
+// 생성 URL: https://api.neople.co.kr/df/servers/cain/characters/characterId/skill/buff/equip/equipment?apikey=...
 
 // 아바타 버프 스킬 URL
 const avatarBuffUrl = builder.character.buffSkill.avatar('cain', 'characterId');
+// 생성 URL: https://api.neople.co.kr/df/servers/cain/characters/characterId/skill/buff/equip/avatar?apikey=...
 
 // 크리처 버프 스킬 URL
 const creatureBuffUrl = builder.character.buffSkill.creature('cain', 'characterId');
+// 생성 URL: https://api.neople.co.kr/df/servers/cain/characters/characterId/skill/buff/equip/creature?apikey=...
 ```
 
 ### 아이템 URL 생성
@@ -88,26 +99,33 @@ const itemSearchUrl = builder.item.search('무기', {
   limit: 50,
   wordType: 'match'
 });
+// 생성 URL: https://api.neople.co.kr/df/items?itemName=무기&limit=50&wordType=match&apikey=...
 
 // 아이템 상세 URL
 const itemDetailUrl = builder.item.detail('itemId');
+// 생성 URL: https://api.neople.co.kr/df/items/itemId?apikey=...
 
 // 세트 아이템 검색 URL
 const setSearchUrl = builder.setItem.search('세트이름', {
   limit: 30
 });
+// 생성 URL: https://api.neople.co.kr/df/setitems?setItemName=세트이름&limit=30&apikey=...
 
 // 세트 아이템 상세 URL
 const setDetailUrl = builder.setItem.detail('setItemId');
+// 생성 URL: https://api.neople.co.kr/df/setitems/setItemId?apikey=...
 
 // 여러 아이템 URL
 const multiItemUrl = builder.item.multi(['itemId1', 'itemId2', 'itemId3']);
+// 생성 URL: https://api.neople.co.kr/df/multi/items?itemIds=itemId1,itemId2,itemId3&apikey=...
 
 // 여러 세트 아이템 URL
 const multiSetUrl = builder.setItem.multi(['setId1', 'setId2']);
+// 생성 URL: https://api.neople.co.kr/df/multi/setitems?setItemIds=setId1,setId2&apikey=...
 
 // 아이템 해시태그 URL
 const itemHashtagsUrl = builder.item.hashtags();
+// 생성 URL: https://api.neople.co.kr/df/items/hashtags?apikey=...
 ```
 
 ### 경매장 URL 생성
@@ -124,15 +142,18 @@ const auctionSearchUrl = builder.auction.search({
   sort: 'price_asc',
   limit: 100
 });
+// 생성 URL: https://api.neople.co.kr/df/auction?itemName=무기&minLevel=85&maxLevel=90&rarity=unique&minReinforce=10&maxReinforce=15&sort=price_asc&limit=100&apikey=...
 
 // 경매 아이템 상세 URL
 const auctionItemUrl = builder.auction.item('auctionNo');
+// 생성 URL: https://api.neople.co.kr/df/auction/auctionNo?apikey=...
 
 // 경매장 판매 기록 URL
 const auctionSoldUrl = builder.auction.sold({
   itemName: '무기',
   limit: 50
 });
+// 생성 URL: https://api.neople.co.kr/df/auction-sold?itemName=무기&limit=50&apikey=...
 ```
 
 ### 아바타 마켓 URL 생성
@@ -144,6 +165,7 @@ const avatarSaleUrl = builder.avatarMarket.sale({
   hashtags: ['cool', 'rare'],
   limit: 20
 });
+// 생성 URL: https://api.neople.co.kr/df/avatar-market/sale?jobId=mage&hashtags=cool,rare&limit=20&apikey=...
 
 // 아바타 마켓 판매 완료 목록 URL
 const avatarSoldUrl = builder.avatarMarket.sold({
@@ -166,6 +188,7 @@ const avatarHashtagsUrl = builder.avatarMarket.hashtags();
 ```typescript
 // 직업 목록 URL
 const jobsUrl = builder.job.list();
+// 생성 URL: https://api.neople.co.kr/df/jobs?apikey=...
 
 // 직업별 스킬 목록 URL
 const jobSkillsUrl = builder.skill.byJob('jobId');
@@ -182,6 +205,7 @@ const multiSkillUrl = builder.skill.multi('jobId', ['skillId1', 'skillId2']);
 ```typescript
 // 서버 목록 URL
 const serversUrl = builder.server.list();
+// 생성 URL: https://api.neople.co.kr/df/servers?apikey=...
 
 // 명성도 상위 캐릭터 URL
 const famousCharactersUrl = builder.character.famous('cain', {
@@ -214,12 +238,15 @@ const playerSearchUrl = builder.player.search('플레이어명', {
   limit: 20,
   wordType: 'match'
 });
+// 생성 URL: https://api.neople.co.kr/cy/players?nickname=플레이어명&limit=20&wordType=match&apikey=...
 
 // 플레이어 상세 정보 URL
 const playerDetailUrl = builder.player.detail('playerId');
+// 생성 URL: https://api.neople.co.kr/cy/players/playerId?apikey=...
 
 // 플레이어 랭킹 URL
 const playerRankingUrl = builder.player.ranking('playerId');
+// 생성 URL: https://api.neople.co.kr/cy/players/playerId/ranking?apikey=...
 
 // 플레이어 경기 기록 URL
 const playerMatchesUrl = builder.player.matches('playerId', {
@@ -228,6 +255,7 @@ const playerMatchesUrl = builder.player.matches('playerId', {
   endDate: '2024-01-31',
   limit: 50
 });
+// 생성 URL: https://api.neople.co.kr/cy/players/playerId/matches?gameTypeId=rating&startDate=2024-01-01&endDate=2024-01-31&limit=50&apikey=...
 ```
 
 ### 경기 URL 생성
@@ -235,6 +263,7 @@ const playerMatchesUrl = builder.player.matches('playerId', {
 ```typescript
 // 경기 상세 URL
 const matchDetailUrl = builder.match.detail('matchId');
+// 생성 URL: https://api.neople.co.kr/cy/matches/matchId?apikey=...
 ```
 
 ### 랭킹 URL 생성
@@ -245,18 +274,21 @@ const rankingUrl = builder.ranking.overall('mmr', {
   offset: 0,
   limit: 100
 });
+// 생성 URL: https://api.neople.co.kr/cy/ranking/mmr?offset=0&limit=100&apikey=...
 
 // TSJ 랭킹 URL
 const tsjRankingUrl = builder.ranking.tsj('melee', {
   offset: 0,
   limit: 50
 });
+// 생성 URL: https://api.neople.co.kr/cy/ranking-tsj/melee?offset=0&limit=50&apikey=...
 
 // 캐릭터별 랭킹 URL
 const characterRankingUrl = builder.ranking.character('characterId', 'mmr', {
   offset: 0,
   limit: 100
 });
+// 생성 URL: https://api.neople.co.kr/cy/ranking/characterId/mmr?offset=0&limit=100&apikey=...
 ```
 
 ### 캐릭터 URL 생성
@@ -264,9 +296,11 @@ const characterRankingUrl = builder.ranking.character('characterId', 'mmr', {
 ```typescript
 // 캐릭터 목록 URL
 const charactersUrl = builder.character.list();
+// 생성 URL: https://api.neople.co.kr/cy/battleitems/characters?apikey=...
 
 // 캐릭터 상세 URL
 const characterDetailUrl = builder.character.detail('characterId');
+// 생성 URL: https://api.neople.co.kr/cy/battleitems/characters/characterId?apikey=...
 
 // 캐릭터 추천 아이템 URL
 const recommendedItemsUrl = builder.character.recommendedItems('characterId');
@@ -277,18 +311,22 @@ const recommendedItemsUrl = builder.character.recommendedItems('characterId');
 ```typescript
 // 아이템 목록 URL
 const itemsUrl = builder.item.list();
+// 생성 URL: https://api.neople.co.kr/cy/battleitems?apikey=...
 
 // 아이템 상세 URL
 const itemDetailUrl = builder.item.detail('itemId');
+// 생성 URL: https://api.neople.co.kr/cy/battleitems/itemId?apikey=...
 
 // 아이템 검색 URL
 const itemSearchUrl = builder.item.search('아이템명', {
   limit: 50,
   wordType: 'front'
 });
+// 생성 URL: https://api.neople.co.kr/cy/battleitems?itemName=아이템명&limit=50&wordType=front&apikey=...
 
 // 여러 아이템 URL
 const multiItemUrl = builder.item.multi(['itemId1', 'itemId2', 'itemId3']);
+// 생성 URL: https://api.neople.co.kr/cy/battleitems/multi?itemIds=itemId1,itemId2,itemId3&apikey=...
 ```
 
 ### 사이퍼 URL 생성
@@ -296,9 +334,11 @@ const multiItemUrl = builder.item.multi(['itemId1', 'itemId2', 'itemId3']);
 ```typescript
 // 사이퍼 목록 URL
 const cyphersUrl = builder.cypher.list();
+// 생성 URL: https://api.neople.co.kr/cy/characters?apikey=...
 
 // 사이퍼 상세 URL
 const cypherDetailUrl = builder.cypher.detail('cypherId');
+// 생성 URL: https://api.neople.co.kr/cy/characters/cypherId?apikey=...
 ```
 
 ### 기타 URL 생성
@@ -306,9 +346,11 @@ const cypherDetailUrl = builder.cypher.detail('cypherId');
 ```typescript
 // 포지션 목록 URL
 const positionsUrl = builder.position.list();
+// 생성 URL: https://api.neople.co.kr/cy/battleitems/positions?apikey=...
 
 // 속성 목록 URL
 const attributesUrl = builder.attribute.list();
+// 생성 URL: https://api.neople.co.kr/cy/battleitems/attributes?apikey=...
 ```
 
 ## 배치 URL 생성
@@ -384,18 +426,18 @@ const queryString = builder.buildQueryString({
   limit: 20,
   server: 'cain'
 });
-// 결과: "name=홍길동&limit=20&server=cain&apikey=..."
+// 결과: "name=홍길동&limit=20&server=cain&apikey=YOUR_API_KEY"
 
 // URL과 쿼리 매개변수 결합
 const fullUrl = builder.buildUrl('/df/characters', {
   characterName: '홍길동',
   limit: 20
 });
-// 결과: "https://api.neople.co.kr/df/characters?characterName=홍길동&limit=20&apikey=..."
+// 결과: "https://api.neople.co.kr/df/characters?characterName=홍길동&limit=20&apikey=YOUR_API_KEY"
 
 // API 키 자동 추가
 const urlWithApiKey = builder.appendApiKey('https://api.neople.co.kr/df/servers');
-// 결과: "https://api.neople.co.kr/df/servers?apikey=..."
+// 결과: "https://api.neople.co.kr/df/servers?apikey=YOUR_API_KEY"
 ```
 
 ## 고급 사용법
@@ -453,6 +495,7 @@ const url = createFlexibleAuctionUrl({
   rarity: 'unique'
   // maxLevel과 sort는 undefined이므로 제외됨
 });
+// 생성 URL: https://api.neople.co.kr/df/auction?itemName=무기&minLevel=85&rarity=unique&apikey=YOUR_API_KEY
 ```
 
 ### URL 검증 및 디버깅
