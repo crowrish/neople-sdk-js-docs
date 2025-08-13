@@ -92,7 +92,7 @@ const client = new NeopleDFClient(apiKey, {
   timeout: 10000, // 10초 타임아웃
   onTimeout: () => {
     console.log('요청이 시간 초과되었습니다.');
-  }
+  },
 });
 
 try {
@@ -125,29 +125,31 @@ async function handleApiCall<T>(
           console.error('인증 실패: API 키를 확인해주세요');
           // 인증 관련 처리 (예: 로그인 페이지로 리다이렉트)
           break;
-        
+
         case 403:
           console.error('접근 권한이 없습니다');
           break;
-        
+
         case 404:
           console.error('요청한 리소스를 찾을 수 없습니다');
           break;
-        
+
         case 429:
           console.error('요청 한도 초과: 잠시 후 다시 시도해주세요');
           // 재시도 로직 구현
           break;
-        
+
         case 500:
         case 502:
         case 503:
         case 504:
           console.error('서버 오류: 잠시 후 다시 시도해주세요');
           break;
-        
+
         default:
-          console.error(`예상치 못한 HTTP 오류: ${error.status} ${error.statusText}`);
+          console.error(
+            `예상치 못한 HTTP 오류: ${error.status} ${error.statusText}`
+          );
       }
     }
     // 네트워크 오류 처리
@@ -158,11 +160,11 @@ async function handleApiCall<T>(
         case 'ECONNRESET':
           console.error('네트워크 연결 오류: 인터넷 연결을 확인해주세요');
           break;
-        
+
         case 'ETIMEDOUT':
           console.error('요청 시간 초과: 네트워크가 느릴 수 있습니다');
           break;
-        
+
         default:
           console.error(`네트워크 오류: ${error.code}`);
       }
@@ -171,7 +173,7 @@ async function handleApiCall<T>(
     else {
       console.error('예상치 못한 오류:', error.message);
     }
-    
+
     return fallbackValue || null;
   }
 }
@@ -192,30 +194,34 @@ async function withRetry<T>(
   baseDelay: number = 1000
 ): Promise<T> {
   let lastError: Error;
-  
+
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       return await apiCall();
     } catch (error) {
       lastError = error;
-      
+
       // 재시도하지 않을 오류들
-      if (error.status === 401 || error.status === 403 || error.status === 404) {
+      if (
+        error.status === 401 ||
+        error.status === 403 ||
+        error.status === 404
+      ) {
         throw error;
       }
-      
+
       // 마지막 시도였다면 오류 발생
       if (attempt === maxRetries) {
         break;
       }
-      
+
       // 지수 백오프로 대기
       const delay = baseDelay * Math.pow(2, attempt - 1);
       console.log(`재시도 ${attempt}/${maxRetries} - ${delay}ms 후 재시도`);
       await new Promise(resolve => setTimeout(resolve, delay));
     }
   }
-  
+
   throw lastError;
 }
 
@@ -245,12 +251,12 @@ function createGlobalErrorHandler() {
       message: error.message,
       status: error.status,
       timestamp: new Date().toISOString(),
-      userAgent: navigator.userAgent
+      userAgent: navigator.userAgent,
     });
-    
+
     // 오류 추적 서비스에 전송 (예: Sentry)
     // Sentry.captureException(error);
-    
+
     // 사용자에게 친화적인 오류 메시지 표시
     showUserFriendlyError(error);
   };
@@ -258,7 +264,7 @@ function createGlobalErrorHandler() {
 
 function showUserFriendlyError(error: Error) {
   let message = '알 수 없는 오류가 발생했습니다.';
-  
+
   if (error.status === 401) {
     message = 'API 키가 유효하지 않습니다.';
   } else if (error.status === 404) {
@@ -270,7 +276,7 @@ function showUserFriendlyError(error: Error) {
   } else if (error.code && error.code.startsWith('E')) {
     message = '네트워크 연결을 확인해주세요.';
   }
-  
+
   // UI에 오류 메시지 표시 (예: 토스트, 모달 등)
   // toast.error(message);
   console.error(message);
@@ -278,11 +284,11 @@ function showUserFriendlyError(error: Error) {
 
 // 클라이언트 설정 시 전역 오류 핸들러 적용
 const dfClient = new NeopleDFClient(apiKey, {
-  onError: createGlobalErrorHandler()
+  onError: createGlobalErrorHandler(),
 });
 
 const cyphersClient = new NeopleCyphersClient(apiKey, {
-  onError: createGlobalErrorHandler()
+  onError: createGlobalErrorHandler(),
 });
 ```
 
@@ -306,17 +312,17 @@ function useApi<T>() {
     loading: false,
     error: null
   });
-  
+
   const execute = useCallback(async (apiCall: () => Promise<T>) => {
     setState({ data: null, loading: true, error: null });
-    
+
     try {
       const data = await apiCall();
       setState({ data, loading: false, error: null });
       return data;
     } catch (error) {
       let errorMessage = '오류가 발생했습니다.';
-      
+
       if (error.status === 401) {
         errorMessage = 'API 키가 유효하지 않습니다.';
       } else if (error.status === 404) {
@@ -326,12 +332,12 @@ function useApi<T>() {
       } else if (error.status >= 500) {
         errorMessage = '서버 오류가 발생했습니다.';
       }
-      
+
       setState({ data: null, loading: false, error: errorMessage });
       throw error;
     }
   }, []);
-  
+
   return { ...state, execute };
 }
 
@@ -339,17 +345,17 @@ function useApi<T>() {
 function CharacterSearch() {
   const { data, loading, error, execute } = useApi();
   const [characterName, setCharacterName] = useState('');
-  
+
   const handleSearch = async () => {
     if (!characterName.trim()) return;
-    
+
     try {
       await execute(() => dfClient.searchCharacter(characterName));
     } catch (error) {
       // 오류는 이미 state에 저장됨
     }
   };
-  
+
   return (
     <div>
       <input
@@ -360,7 +366,7 @@ function CharacterSearch() {
       <button onClick={handleSearch} disabled={loading}>
         {loading ? '검색 중...' : '검색'}
       </button>
-      
+
       {error && <div className="error">{error}</div>}
       {data && <div>검색 결과: {data.rows.length}개</div>}
     </div>
@@ -388,18 +394,18 @@ class ApiErrorBoundary extends Component<Props, State> {
     super(props);
     this.state = { hasError: false };
   }
-  
+
   static getDerivedStateFromError(error: Error): State {
     return { hasError: true, error };
   }
-  
+
   componentDidCatch(error: Error, errorInfo: any) {
     console.error('API Error Boundary caught an error:', error, errorInfo);
-    
+
     // 오류 추적 서비스에 전송
     // Sentry.captureException(error, { extra: errorInfo });
   }
-  
+
   render() {
     if (this.state.hasError) {
       return this.props.fallback || (
@@ -412,7 +418,7 @@ class ApiErrorBoundary extends Component<Props, State> {
         </div>
       );
     }
-    
+
     return this.props.children;
   }
 }
@@ -440,34 +446,34 @@ const client = new NeopleDFClient(apiKey, {
         url,
         method: options.method || 'GET',
         headers: options.headers,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     }
   },
-  onResponse: (response) => {
+  onResponse: response => {
     if (process.env.NODE_ENV === 'development') {
       console.log('✅ API Response:', {
         status: response.status,
         statusText: response.statusText,
         headers: response.headers,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     }
   },
-  onError: (error) => {
+  onError: error => {
     if (process.env.NODE_ENV === 'development') {
       console.error('❌ API Error:', {
         message: error.message,
         status: error.status,
         response: error.response,
         stack: error.stack,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } else {
       // 프로덕션에서는 간단한 로깅
       console.error('API Error:', error.message);
     }
-  }
+  },
 });
 ```
 
@@ -488,10 +494,10 @@ if (process.env.NODE_ENV === 'test') {
       if (name === 'test-network') {
         throw { code: 'ECONNREFUSED', message: 'Connection refused' };
       }
-      
+
       // 정상 응답
       return { rows: [{ characterName: name }] };
-    }
+    },
   };
 }
 ```
@@ -514,36 +520,39 @@ interface ErrorMetrics {
 class ErrorTracker {
   private metrics: ErrorMetrics = {
     errorCount: 0,
-    errorsByType: {}
+    errorsByType: {},
   };
-  
+
   trackError(error: Error) {
     this.metrics.errorCount++;
-    
-    const errorType = error.status ? `HTTP_${error.status}` : error.code || 'UNKNOWN';
-    this.metrics.errorsByType[errorType] = (this.metrics.errorsByType[errorType] || 0) + 1;
-    
+
+    const errorType = error.status
+      ? `HTTP_${error.status}`
+      : error.code || 'UNKNOWN';
+    this.metrics.errorsByType[errorType] =
+      (this.metrics.errorsByType[errorType] || 0) + 1;
+
     this.metrics.lastError = {
       message: error.message,
       timestamp: new Date(),
-      status: error.status
+      status: error.status,
     };
-    
+
     // 임계값 초과 시 알림
     if (this.metrics.errorCount > 10) {
       this.sendAlert();
     }
   }
-  
+
   private sendAlert() {
     console.warn('오류 발생 횟수가 임계값을 초과했습니다:', this.metrics);
     // 실제 알림 서비스 연동 (예: Slack, 이메일 등)
   }
-  
+
   getMetrics(): ErrorMetrics {
     return { ...this.metrics };
   }
-  
+
   reset() {
     this.metrics = { errorCount: 0, errorsByType: {} };
   }
@@ -553,9 +562,9 @@ const errorTracker = new ErrorTracker();
 
 // 클라이언트에 적용
 const client = new NeopleDFClient(apiKey, {
-  onError: (error) => {
+  onError: error => {
     errorTracker.trackError(error);
-  }
+  },
 });
 ```
 
@@ -571,9 +580,9 @@ function getErrorMessage(error: Error): string {
     404: '요청한 정보를 찾을 수 없습니다.',
     429: '요청이 너무 많습니다. 잠시 후 다시 시도해주세요.',
     500: '서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.',
-    503: '서비스가 일시적으로 사용할 수 없습니다.'
+    503: '서비스가 일시적으로 사용할 수 없습니다.',
   };
-  
+
   return messages[error.status] || '예상치 못한 오류가 발생했습니다.';
 }
 ```
@@ -593,11 +602,13 @@ async function getCharacterWithFallback(serverId: string, characterId: string) {
         return searchResult.rows.find(char => char.characterId === characterId);
       } catch (fallbackError) {
         // 3차 시도: 캐시된 데이터 또는 기본값
-        return getCachedCharacterData(characterId) || {
-          characterId,
-          characterName: '알 수 없음',
-          level: 0
-        };
+        return (
+          getCachedCharacterData(characterId) || {
+            characterId,
+            characterName: '알 수 없음',
+            level: 0,
+          }
+        );
       }
     }
     throw error;
@@ -625,7 +636,10 @@ function errorReducer(state: AppState, action: any) {
     case 'SET_AUTH_ERROR':
       return { ...state, errors: { ...state.errors, auth: true } };
     case 'CLEAR_ERRORS':
-      return { ...state, errors: { network: false, auth: false, server: false } };
+      return {
+        ...state,
+        errors: { network: false, auth: false, server: false },
+      };
     case 'INCREMENT_RETRY':
       return { ...state, retryCount: state.retryCount + 1 };
     default:

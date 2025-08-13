@@ -1,0 +1,43 @@
+# Dependencies
+node_modules
+
+# Production builds
+.next/
+out/
+dist/
+
+# Generated files
+.source/
+.contentlayer/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+*.log
+logs
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# MDX generated content
+*.source.json
+
+# Config files that don't need linting
+next.config.mjs
+postcss.config.mjs
+tailwind.config.js
+tailwind.config.ts
+
+# Package managers
+yarn.lock
+package-lock.json

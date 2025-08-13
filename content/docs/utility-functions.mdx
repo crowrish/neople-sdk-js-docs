@@ -14,12 +14,12 @@ SDK는 API 요청 URL 구성과 쿼리 매개변수 처리를 위한 다양한 �
 import * as utils from 'neople-sdk-js/utils';
 
 // 개별 함수 가져오기
-import { 
-  buildQueryString, 
-  appendQueryParams, 
+import {
+  buildQueryString,
+  appendQueryParams,
   parseQueryParams,
   validateApiKey,
-  normalizeUrl
+  normalizeUrl,
 } from 'neople-sdk-js/utils';
 ```
 
@@ -30,10 +30,11 @@ import {
 객체를 URL 쿼리 문자열로 변환합니다.
 
 ```typescript
-function buildQueryString(params: Record<string, any>): string
+function buildQueryString(params: Record<string, any>): string;
 ```
 
 **매개변수:**
+
 - `params` (Record&lt;string, any&gt;): 쿼리 매개변수 객체
 
 **반환값:** URL 인코딩된 쿼리 문자열
@@ -47,7 +48,7 @@ import { buildQueryString } from 'neople-sdk-js/utils';
 const queryString = buildQueryString({
   characterName: '홍길동',
   serverId: 'cain',
-  limit: 20
+  limit: 20,
 });
 console.log(queryString);
 // 출력: "characterName=%ED%99%8D%EA%B8%B8%EB%8F%99&serverId=cain&limit=20"
@@ -55,7 +56,7 @@ console.log(queryString);
 // 특수 문자 처리
 const specialChars = buildQueryString({
   itemName: '강화의 숨결 +10',
-  category: 'weapon & armor'
+  category: 'weapon & armor',
 });
 console.log(specialChars);
 // 출력: "itemName=%EA%B0%95%ED%99%94%EC%9D%98%20%EC%88%A8%EA%B2%B0%20%2B10&category=weapon%20%26%20armor"
@@ -65,7 +66,7 @@ const withEmpty = buildQueryString({
   name: '홍길동',
   server: null,
   limit: undefined,
-  active: true
+  active: true,
 });
 console.log(withEmpty);
 // 출력: "name=%ED%99%8D%EA%B8%B8%EB%8F%99&active=true" (null/undefined 값은 제외됨)
@@ -73,7 +74,7 @@ console.log(withEmpty);
 // 배열 값 처리
 const withArray = buildQueryString({
   itemIds: ['item1', 'item2', 'item3'],
-  tags: ['rare', 'equipment']
+  tags: ['rare', 'equipment'],
 });
 console.log(withArray);
 // 출력: "itemIds=item1&itemIds=item2&itemIds=item3&tags=rare&tags=equipment"
@@ -88,6 +89,7 @@ function appendQueryParams(baseUrl: string, params: Record&lt;string, any&gt;): 
 ```
 
 **매개변수:**
+
 - `baseUrl` (string): 기본 URL
 - `params` (Record&lt;string, any&gt;): 추가할 쿼리 매개변수
 
@@ -101,23 +103,26 @@ import { appendQueryParams } from 'neople-sdk-js/utils';
 // 기본 URL에 매개변수 추가
 const url1 = appendQueryParams('https://api.neople.co.kr/df/characters', {
   characterName: '홍길동',
-  limit: 10
+  limit: 10,
 });
 console.log(url1);
 // 출력: "https://api.neople.co.kr/df/characters?characterName=%ED%99%8D%EA%B8%B8%EB%8F%99&limit=10"
 
 // 이미 쿼리 매개변수가 있는 URL에 추가
-const url2 = appendQueryParams('https://api.neople.co.kr/df/characters?apikey=test', {
-  characterName: '김철수',
-  serverId: 'cain'
-});
+const url2 = appendQueryParams(
+  'https://api.neople.co.kr/df/characters?apikey=test',
+  {
+    characterName: '김철수',
+    serverId: 'cain',
+  }
+);
 console.log(url2);
 // 출력: "https://api.neople.co.kr/df/characters?apikey=test&characterName=%EA%B9%80%EC%B2%A0%EC%88%98&serverId=cain"
 
 // 해시 fragment가 있는 URL 처리
 const url3 = appendQueryParams('https://example.com/page#section', {
   tab: 'profile',
-  view: 'detailed'
+  view: 'detailed',
 });
 console.log(url3);
 // 출력: "https://example.com/page?tab=profile&view=detailed#section"
@@ -132,6 +137,7 @@ function parseQueryParams(url: string): Record&lt;string, string | string[]&gt;
 ```
 
 **매개변수:**
+
 - `url` (string): 파싱할 URL
 
 **반환값:** 쿼리 매개변수 객체
@@ -142,22 +148,30 @@ function parseQueryParams(url: string): Record&lt;string, string | string[]&gt;
 import { parseQueryParams } from 'neople-sdk-js/utils';
 
 // 기본 쿼리 매개변수 파싱
-const params1 = parseQueryParams('https://api.neople.co.kr/df/characters?characterName=홍길동&limit=20');
+const params1 = parseQueryParams(
+  'https://api.neople.co.kr/df/characters?characterName=홍길동&limit=20'
+);
 console.log(params1);
 // 출력: { characterName: "홍길동", limit: "20" }
 
 // 중복 매개변수 처리 (배열로 반환)
-const params2 = parseQueryParams('https://api.neople.co.kr/df/items?tag=rare&tag=equipment&tag=weapon');
+const params2 = parseQueryParams(
+  'https://api.neople.co.kr/df/items?tag=rare&tag=equipment&tag=weapon'
+);
 console.log(params2);
 // 출력: { tag: ["rare", "equipment", "weapon"] }
 
 // URL 디코딩 처리
-const params3 = parseQueryParams('https://api.neople.co.kr/df/items?itemName=%EA%B0%95%ED%99%94%EC%9D%98%20%EC%88%A8%EA%B2%B0');
+const params3 = parseQueryParams(
+  'https://api.neople.co.kr/df/items?itemName=%EA%B0%95%ED%99%94%EC%9D%98%20%EC%88%A8%EA%B2%B0'
+);
 console.log(params3);
 // 출력: { itemName: "강화의 숨결" }
 
 // 빈 값과 특수 경우 처리
-const params4 = parseQueryParams('https://example.com?name=&value=0&flag&key=value');
+const params4 = parseQueryParams(
+  'https://example.com?name=&value=0&flag&key=value'
+);
 console.log(params4);
 // 출력: { name: "", value: "0", flag: "", key: "value" }
 ```
@@ -169,10 +183,11 @@ console.log(params4);
 URL을 정규화하여 일관된 형태로 만듭니다.
 
 ```typescript
-function normalizeUrl(url: string): string
+function normalizeUrl(url: string): string;
 ```
 
 **매개변수:**
+
 - `url` (string): 정규화할 URL
 
 **반환값:** 정규화된 URL
@@ -203,10 +218,11 @@ console.log(url3);
 URL 경로 부분들을 안전하게 결합합니다.
 
 ```typescript
-function joinUrlParts(...parts: string[]): string
+function joinUrlParts(...parts: string[]): string;
 ```
 
 **매개변수:**
+
 - `parts` (...string[]): 결합할 URL 부분들
 
 **반환값:** 결합된 URL 경로
@@ -233,7 +249,8 @@ console.log(path3);
 
 // 전체 URL 구성
 const baseUrl = 'https://api.neople.co.kr';
-const fullUrl = baseUrl + '/' + joinUrlParts('df', 'servers', 'cain', 'characters');
+const fullUrl =
+  baseUrl + '/' + joinUrlParts('df', 'servers', 'cain', 'characters');
 console.log(fullUrl);
 // 출력: "https://api.neople.co.kr/df/servers/cain/characters"
 ```
@@ -245,10 +262,11 @@ console.log(fullUrl);
 API 키의 유효성을 검사합니다.
 
 ```typescript
-function validateApiKey(apiKey: string): boolean
+function validateApiKey(apiKey: string): boolean;
 ```
 
 **매개변수:**
+
 - `apiKey` (string): 검증할 API 키
 
 **반환값:** API 키가 유효하면 true, 그렇지 않으면 false
@@ -275,7 +293,7 @@ function createClient(apiKey: string) {
   if (!validateApiKey(apiKey)) {
     throw new Error('잘못된 API 키 형식입니다.');
   }
-  
+
   return new NeopleDFClient(apiKey);
 }
 ```
@@ -285,10 +303,11 @@ function createClient(apiKey: string) {
 URL의 유효성을 검사합니다.
 
 ```typescript
-function validateUrl(url: string): boolean
+function validateUrl(url: string): boolean;
 ```
 
 **매개변수:**
+
 - `url` (string): 검증할 URL
 
 **반환값:** URL이 유효하면 true, 그렇지 않으면 false
@@ -318,10 +337,14 @@ console.log(isValid3); // 출력: false
 날짜를 API에서 요구하는 형식으로 변환합니다.
 
 ```typescript
-function formatDate(date: Date | string, format?: 'YYYY-MM-DD' | 'YYYY-MM-DD HH:mm:ss'): string
+function formatDate(
+  date: Date | string,
+  format?: 'YYYY-MM-DD' | 'YYYY-MM-DD HH:mm:ss'
+): string;
 ```
 
 **매개변수:**
+
 - `date` (Date | string): 변환할 날짜
 - `format` (string, 선택사항): 날짜 형식 (기본값: 'YYYY-MM-DD')
 
@@ -338,7 +361,10 @@ console.log(date1);
 // 출력: "2024-01-15"
 
 // 시간 포함 형식
-const date2 = formatDate(new Date('2024-01-15 14:30:00'), 'YYYY-MM-DD HH:mm:ss');
+const date2 = formatDate(
+  new Date('2024-01-15 14:30:00'),
+  'YYYY-MM-DD HH:mm:ss'
+);
 console.log(date2);
 // 출력: "2024-01-15 14:30:00"
 
@@ -350,7 +376,7 @@ console.log(date3);
 // 타임라인 API에서 사용
 const timelineUrl = dfBuilder.character.timeline('cain', 'characterId', {
   startDate: formatDate(new Date('2024-01-01')),
-  endDate: formatDate(new Date('2024-01-31'))
+  endDate: formatDate(new Date('2024-01-31')),
 });
 ```
 
@@ -359,10 +385,11 @@ const timelineUrl = dfBuilder.character.timeline('cain', 'characterId', {
 문자열에서 API 요청에 안전하지 않은 문자를 제거합니다.
 
 ```typescript
-function sanitizeString(str: string): string
+function sanitizeString(str: string): string;
 ```
 
 **매개변수:**
+
 - `str` (string): 정리할 문자열
 
 **반환값:** 정리된 문자열
@@ -394,11 +421,11 @@ function searchCharacter(name: string) {
 ### 동적 URL 생성기
 
 ```typescript
-import { 
-  buildQueryString, 
-  appendQueryParams, 
+import {
+  buildQueryString,
+  appendQueryParams,
   joinUrlParts,
-  validateUrl 
+  validateUrl
 } from 'neople-sdk-js/utils';
 
 class DynamicUrlBuilder {
@@ -413,21 +440,21 @@ class DynamicUrlBuilder {
   buildApiUrl(endpoint: string[], params: Record&lt;string, any&gt; = {}) {
     // 엔드포인트 경로 결합
     const path = joinUrlParts(...endpoint);
-    
+
     // 기본 URL과 경로 결합
     const baseUrl = `${this.baseUrl}/${path}`;
-    
+
     // API 키 추가
     const paramsWithKey = { ...params, apikey: this.apiKey };
-    
+
     // 쿼리 매개변수 추가
     const finalUrl = appendQueryParams(baseUrl, paramsWithKey);
-    
+
     // URL 유효성 검사
     if (!validateUrl(finalUrl)) {
       throw new Error('생성된 URL이 유효하지 않습니다.');
     }
-    
+
     return finalUrl;
   }
 }
@@ -461,17 +488,17 @@ class BatchUrlProcessor {
 
     // 모든 URL에서 쿼리 매개변수 추출
     const allParams = urls.map(url => parseQueryParams(url));
-    
+
     // 공통 매개변수 찾기
     const firstParams = allParams[0];
     const commonParams: Record&lt;string, any&gt; = {};
-    
+
     for (const [key, value] of Object.entries(firstParams)) {
       if (allParams.every(params => params[key] === value)) {
         commonParams[key] = value;
       }
     }
-    
+
     // 고유 매개변수 추출
     const uniqueParams = allParams.map(params => {
       const unique: Record&lt;string, any&gt; = {};
@@ -482,7 +509,7 @@ class BatchUrlProcessor {
       }
       return unique;
     });
-    
+
     return { commonParams, uniqueParams };
   }
 
@@ -492,17 +519,17 @@ class BatchUrlProcessor {
     variations: string[];
   } {
     const { commonParams, uniqueParams } = this.extractCommonParams(urls);
-    
+
     // 기본 URL 추출 (첫 번째 URL의 origin + pathname)
     const firstUrl = new URL(urls[0]);
     const baseUrl = firstUrl.origin + firstUrl.pathname;
-    
+
     // 공통 쿼리 문자열 생성
     const commonQuery = buildQueryString(commonParams);
-    
+
     // 변형 쿼리들 생성
     const variations = uniqueParams.map(params => buildQueryString(params));
-    
+
     return { baseUrl, commonQuery, variations };
   }
 }

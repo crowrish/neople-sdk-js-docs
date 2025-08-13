@@ -1,0 +1,40 @@
+# Dependencies
+node_modules
+
+# Production builds
+.next/
+out/
+dist/
+
+# Generated files
+.source/
+.contentlayer/
+
+# Package managers
+yarn.lock
+package-lock.json
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs
+
+# MDX generated content
+*.source.json
+
+# Other
+public/

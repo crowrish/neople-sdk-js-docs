@@ -24,7 +24,7 @@ import axios from 'axios';
 import { NeopleDFClient, NeopleCyphersClient } from 'neople-sdk-js';
 
 const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'axios'
+  httpAdapter: 'axios',
 });
 ```
 
@@ -38,13 +38,13 @@ const customAxios = axios.create({
   timeout: 30000,
   headers: {
     'User-Agent': 'MyApp/1.0.0',
-    'Custom-Header': 'value'
-  }
+    'Custom-Header': 'value',
+  },
 });
 
 const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'axios',
-  axiosInstance: customAxios
+  axiosInstance: customAxios,
 });
 ```
 
@@ -60,11 +60,11 @@ const axiosInstance = axios.create();
 
 // 요청 인터셉터
 axiosInstance.interceptors.request.use(
-  (config) => {
+  config => {
     console.log('요청 전송:', config.url);
     return config;
   },
-  (error) => {
+  error => {
     console.error('요청 오류:', error);
     return Promise.reject(error);
   }
@@ -72,11 +72,11 @@ axiosInstance.interceptors.request.use(
 
 // 응답 인터셉터
 axiosInstance.interceptors.response.use(
-  (response) => {
+  response => {
     console.log('응답 받음:', response.status);
     return response;
   },
-  (error) => {
+  error => {
     console.error('응답 오류:', error.response?.status);
     return Promise.reject(error);
   }
@@ -84,7 +84,7 @@ axiosInstance.interceptors.response.use(
 
 const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'axios',
-  axiosInstance
+  axiosInstance,
 });
 ```
 
@@ -95,14 +95,14 @@ import axios from 'axios';
 import { NeopleDFClient } from 'neople-sdk-js';
 
 const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'axios'
+  httpAdapter: 'axios',
 });
 
 const source = axios.CancelToken.source();
 
 // 요청 취소 가능
 const searchPromise = client.searchCharacter('테스트', {
-  cancelToken: source.token
+  cancelToken: source.token,
 });
 
 // 5초 후 요청 취소
@@ -139,10 +139,10 @@ const client = new NeopleDFClient(apiKey, {
       port: 8080,
       auth: {
         username: 'proxyuser',
-        password: 'proxypass'
-      }
-    }
-  })
+        password: 'proxypass',
+      },
+    },
+  }),
 });
 ```
 
@@ -163,11 +163,10 @@ const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'axios',
   axiosInstance: axios.create({
     httpsAgent: agent,
-    httpAgent: agent
-  })
+    httpAgent: agent,
+  }),
 });
 ```
-
 
 ## 응답 변환
 
@@ -187,17 +186,16 @@ const client = new NeopleDFClient(apiKey, {
           const parsed = JSON.parse(data);
           return {
             ...parsed,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
           };
         } catch (e) {
           return data;
         }
-      }
-    ]
-  })
+      },
+    ],
+  }),
 });
 ```
-
 
 ## 에러 처리
 
@@ -210,12 +208,12 @@ import { NeopleDFClient } from 'neople-sdk-js';
 const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'axios',
   axiosInstance: axios.create({
-    validateStatus: (status) => {
+    validateStatus: status => {
       // 2xx와 3xx는 성공으로 처리
       return status >= 200 && status < 400;
-    }
+    },
   }),
-  onError: (error) => {
+  onError: error => {
     if (axios.isAxiosError(error)) {
       const status = error.response?.status;
       switch (status) {
@@ -232,7 +230,7 @@ const client = new NeopleDFClient(apiKey, {
           console.error('알 수 없는 오류:', status);
       }
     }
-  }
+  },
 });
 ```
 
@@ -247,25 +245,25 @@ const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'axios',
   maxConcurrent: 5, // 최대 5개 동시 요청
   axiosInstance: axios.create({
-    timeout: 30000
-  })
+    timeout: 30000,
+  }),
 });
 
 // 또는 수동으로 제한
 const semaphore = {
   count: 0,
   maxCount: 5,
-  
+
   async acquire() {
     while (this.count >= this.maxCount) {
       await new Promise(resolve => setTimeout(resolve, 100));
     }
     this.count++;
   },
-  
+
   release() {
     this.count--;
-  }
+  },
 };
 
 async function limitedRequest(name: string) {
@@ -302,16 +300,16 @@ const axiosInstance = axios.create({
         data: parsed,
         meta: {
           timestamp: new Date().toISOString(),
-          version: '1.0.0'
-        }
+          version: '1.0.0',
+        },
       };
-    }
-  ]
+    },
+  ],
 });
 
 const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'axios',
-  axiosInstance
+  axiosInstance,
 });
 ```
 
@@ -330,13 +328,13 @@ const client = new NeopleDFClient(apiKey, {
   axiosInstance: axios.create({
     httpAgent: new http.Agent({
       keepAlive: true,
-      maxSockets: 10
+      maxSockets: 10,
     }),
     httpsAgent: new https.Agent({
       keepAlive: true,
-      maxSockets: 10
-    })
-  })
+      maxSockets: 10,
+    }),
+  }),
 });
 ```
 
@@ -350,10 +348,10 @@ const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'axios',
   axiosInstance: axios.create({
     headers: {
-      'Accept-Encoding': 'gzip, deflate, br'
+      'Accept-Encoding': 'gzip, deflate, br',
     },
-    decompress: true
-  })
+    decompress: true,
+  }),
 });
 ```
 
@@ -365,14 +363,14 @@ const client = new NeopleDFClient(apiKey, {
 // Before (Fetch)
 const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'fetch',
-  timeout: 30000
+  timeout: 30000,
 });
 
 // After (Axios)
 const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'axios',
   axiosInstance: axios.create({
-    timeout: 30000
-  })
+    timeout: 30000,
+  }),
 });
 ```

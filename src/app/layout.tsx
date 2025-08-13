@@ -21,14 +21,18 @@ const pretendard = localFont({
 export const metadata: Metadata = {
   title: {
     default: 'Neople SDK JS Docs',
-    template: '%s - Neople SDK JS Docs'
+    template: '%s - Neople SDK JS Docs',
   },
   description: '네오플 오픈 API를 위한 TypeScript/JavaScript SDK',
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="ko" className={`${inter.variable} ${pretendard.variable}`} suppressHydrationWarning>
+    <html
+      lang="ko"
+      className={`${inter.variable} ${pretendard.variable}`}
+      suppressHydrationWarning
+    >
       <body className="flex flex-col min-h-screen">
         <RootProvider
           search={{

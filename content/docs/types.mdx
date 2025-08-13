@@ -11,7 +11,6 @@ SDK에서 사용하는 TypeScript 타입 정의와 인터페이스에 대한 상
 
 SDK는 [`neople-openapi-types`](https://www.npmjs.com/package/neople-openapi-types) 패키지의 타입 정의를 활용합니다.
 
-
 ## 클라이언트 설정 타입
 
 ### ClientOptions
@@ -32,9 +31,9 @@ interface ClientOptions {
   onResponse?: (response: any) => void;
   rateLimit?: RateLimitOptions;
   axiosInstance?: any; // Axios 어댑터 사용 시
-  gotInstance?: any;   // Got 어댑터 사용 시
+  gotInstance?: any; // Got 어댑터 사용 시
   fetchInstance?: any; // Fetch 어댑터 사용 시
-  fetchOptions?: any;  // Fetch 옵션
+  fetchOptions?: any; // Fetch 옵션
 }
 ```
 
@@ -124,7 +123,7 @@ class ApiError extends Error {
   statusText: string;
   response?: any;
   request?: any;
-  
+
   constructor(
     message: string,
     status: number,
@@ -149,7 +148,7 @@ class ApiError extends Error {
 class NetworkError extends Error {
   code: string;
   errno?: number;
-  
+
   constructor(message: string, code: string, errno?: number);
 }
 ```
@@ -161,7 +160,7 @@ class NetworkError extends Error {
 ```typescript
 class TimeoutError extends Error {
   timeout: number;
-  
+
   constructor(message: string, timeout: number);
 }
 ```
@@ -176,7 +175,10 @@ class TimeoutError extends Error {
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 // 사용 예시
-type PartialClientOptions = Optional<ClientOptions, 'timeout' | 'retryAttempts'>;
+type PartialClientOptions = Optional<
+  ClientOptions,
+  'timeout' | 'retryAttempts'
+>;
 ```
 
 ### RequiredFields&lt;T, K&gt;
@@ -209,33 +211,34 @@ interface SearchParams {
 ```typescript
 // API 응답 타입 가드
 function isApiResponse<T>(obj: any): obj is ApiResponse<T> {
-  return obj && 
+  return (
+    obj &&
     typeof obj.status === 'number' &&
     typeof obj.statusText === 'string' &&
-    obj.data !== undefined;
+    obj.data !== undefined
+  );
 }
 
 // 페이지 응답 타입 가드
 function isPagedResponse<T>(obj: any): obj is PagedResponse<T> {
-  return obj && 
-    Array.isArray(obj.rows);
+  return obj && Array.isArray(obj.rows);
 }
 
 // 오류 타입 가드
 function isApiError(obj: any): obj is ApiError {
-  return obj instanceof Error &&
+  return (
+    obj instanceof Error &&
     typeof obj.status === 'number' &&
-    typeof obj.statusText === 'string';
+    typeof obj.statusText === 'string'
+  );
 }
 
 function isNetworkError(obj: any): obj is NetworkError {
-  return obj instanceof Error &&
-    typeof obj.code === 'string';
+  return obj instanceof Error && typeof obj.code === 'string';
 }
 
 function isTimeoutError(obj: any): obj is TimeoutError {
-  return obj instanceof Error &&
-    typeof obj.timeout === 'number';
+  return obj instanceof Error && typeof obj.timeout === 'number';
 }
 ```
 
@@ -265,7 +268,7 @@ interface CustomApiResponse<T> extends ApiResponse<T> {
 class CustomApiError extends ApiError {
   errorCode: string;
   errorDetails?: Record<string, any>;
-  
+
   constructor(
     message: string,
     status: number,
@@ -280,7 +283,6 @@ class CustomApiError extends ApiError {
 }
 ```
 
-
 ## 사용 예제
 
 ### 타입 안전한 클라이언트 설정
@@ -292,9 +294,9 @@ const clientOptions: ClientOptions = {
   timeout: 30000,
   retryAttempts: 3,
   debug: true,
-  onError: (error) => {
+  onError: error => {
     console.error('API 오류:', error.message);
-  }
+  },
 };
 
 const client = new NeopleDFClient(
@@ -311,11 +313,11 @@ async function processApiResponse<T>(
 ): Promise<T | null> {
   try {
     const response = await apiCall();
-    
+
     if (isApiResponse<T>(response)) {
       return response.data;
     }
-    
+
     console.error('Invalid API response format');
     return null;
   } catch (error) {
@@ -324,11 +326,13 @@ async function processApiResponse<T>(
     } else if (isNetworkError(error)) {
       console.error(`Network Error: ${error.message}`);
     } else if (isTimeoutError(error)) {
-      console.error(`Timeout Error: Request timed out after ${error.timeout}ms`);
+      console.error(
+        `Timeout Error: Request timed out after ${error.timeout}ms`
+      );
     } else {
       console.error('Unknown error:', error);
     }
-    
+
     return null;
   }
 }
@@ -352,13 +356,12 @@ function createConfiguredClient(config: ProjectConfig) {
   const baseOptions: ClientOptions = {
     timeout: config.environment === 'production' ? 30000 : 10000,
     debug: config.features.debugging && config.environment !== 'production',
-    retryAttempts: config.environment === 'production' ? 3 : 1
+    retryAttempts: config.environment === 'production' ? 3 : 1,
   };
-  
-  return new NeopleDFClient(
-    process.env.NEOPLE_DF_API_KEY!,
-    { ...baseOptions, ...config }
-  );
+
+  return new NeopleDFClient(process.env.NEOPLE_DF_API_KEY!, {
+    ...baseOptions,
+    ...config,
+  });
 }
 ```
-

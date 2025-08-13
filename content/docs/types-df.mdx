@@ -27,8 +27,6 @@ interface DFCharacterBasic {
 }
 ```
 
-
-
 - **serverId** (string): 서버 식별자
 - **characterId** (string): 캐릭터 고유 식별자
 - **characterName** (string): 캐릭터 이름
@@ -58,8 +56,6 @@ interface DFCharacterDetail {
   buff?: DFCharacterBuff;
 }
 ```
-
-
 
 - **adventureName** (string): 모험가 이름
 - **guildId** (string, 선택사항): 길드 식별자
@@ -143,8 +139,6 @@ interface DFEquipmentSlot {
   machineRevolutionInfo?: DFMachineRevolutionInfo;
 }
 ```
-
-
 
 - **slotId** (string): 장비 슬롯 식별자
 - **slotName** (string): 장비 슬롯 이름
@@ -237,8 +231,6 @@ interface DFSkillStyle {
 }
 ```
 
-
-
 - **style** (string): 스킬 스타일명
 - **active** (DFSkill[]): 액티브 스킬 목록
 - **passive** (DFSkill[]): 패시브 스킬 목록
@@ -258,8 +250,6 @@ interface DFSkill {
 }
 ```
 
-
-
 - **skillId** (string): 스킬 식별자
 - **name** (string): 스킬 이름
 - **option** (DFSkillOption): 스킬 옵션 정보
@@ -278,8 +268,6 @@ interface DFSkillOption {
   values: number[];
 }
 ```
-
-
 
 - **level** (number): 옵션 레벨
 - **desc** (string): 스킬 설명
@@ -307,8 +295,6 @@ interface DFStatus {
 }
 ```
 
-
-
 - **status** (DFStatus[]): 캐릭터 스탯 정보 배열
 
 ## 아이템 타입
@@ -332,8 +318,6 @@ interface DFItem {
   setItemName?: string;
 }
 ```
-
-
 
 - **itemId** (string): 아이템 식별자
 - **itemName** (string): 아이템 이름
@@ -376,8 +360,6 @@ interface DFGrowOption {
 }
 ```
 
-
-
 - **itemStatus** (DFItemStatus[]): 아이템 스탯 정보
 - **growInfo** (DFGrowInfo, 선택사항): 성장형 아이템 정보
 
@@ -407,8 +389,6 @@ interface DFAuction {
   refine?: number;
 }
 ```
-
-
 
 - **auctionNo** (number): 경매 번호
 - **count** (number): 아이템 개수
@@ -456,8 +436,6 @@ interface DFServer {
   serverName: string;
 }
 ```
-
-
 
 - **serverId** (string): 서버 식별자
 - **serverName** (string): 서버 이름
@@ -529,8 +507,6 @@ interface DFEmblemInfo {
 }
 ```
 
-
-
 - **slotNo** (number): 엠블렘 슬롯 번호
 - **slotColor** (string): 슬롯 색상
 - **itemName** (string): 엠블렘 이름
@@ -544,9 +520,9 @@ interface DFEmblemInfo {
 아이템 희귀도 유니언 타입입니다.
 
 ```typescript
-type DFItemRarity = 
+type DFItemRarity =
   | 'common'
-  | 'uncommon' 
+  | 'uncommon'
   | 'rare'
   | 'unique'
   | 'epic'
@@ -559,7 +535,7 @@ type DFItemRarity =
 전직 타입 유니언입니다.
 
 ```typescript
-type DFJobGrowType = 
+type DFJobGrowType =
   | '귀검사(남)'
   | '귀검사(여)'
   | '격투가(남)'
@@ -585,9 +561,9 @@ type DFJobGrowType =
 서버 타입 유니언입니다.
 
 ```typescript
-type DFServerType = 
+type DFServerType =
   | 'cain'
-  | 'diregie' 
+  | 'diregie'
   | 'siroco'
   | 'prey'
   | 'casillas'

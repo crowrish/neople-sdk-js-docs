@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import {
+  oneLight,
+  oneDark,
+} from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export default function HomePage() {
   return (
@@ -15,10 +18,10 @@ export default function HomePage() {
             네오플 오픈 API를 위한 TypeScript/JavaScript SDK
           </p>
           <p className="mb-12 text-lg text-fd-muted-foreground max-w-3xl mx-auto">
-            네오플 오픈 API에 쉽고 안전하게 접근하세요. 
-            완전한 타입 안전성과 다양한 HTTP 어댑터를 지원합니다.
+            네오플 오픈 API에 쉽고 안전하게 접근하세요. 완전한 타입 안전성과
+            다양한 HTTP 어댑터를 지원합니다.
           </p>
-          
+
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
@@ -69,7 +72,7 @@ export default function HomePage() {
                     'pre[class*="language-"]': {
                       ...oneLight['pre[class*="language-"]'],
                       background: 'transparent',
-                    }
+                    },
                   }}
                   customStyle={{
                     margin: 0,
@@ -88,7 +91,7 @@ export default function HomePage() {
                     'pre[class*="language-"]': {
                       ...oneDark['pre[class*="language-"]'],
                       background: 'transparent',
-                    }
+                    },
                   }}
                   customStyle={{
                     margin: 0,
@@ -112,7 +115,7 @@ export default function HomePage() {
                     'pre[class*="language-"]': {
                       ...oneLight['pre[class*="language-"]'],
                       background: 'transparent',
-                    }
+                    },
                   }}
                   customStyle={{
                     margin: 0,
@@ -122,7 +125,7 @@ export default function HomePage() {
                   }}
                   className="dark:hidden"
                 >
-{`import { NeopleDFClient } from 'neople-sdk-js';
+                  {`import { NeopleDFClient } from 'neople-sdk-js';
 
 const client = new NeopleDFClient(apiKey);
 const characters = await client.searchCharacter('홍길동');`}
@@ -134,7 +137,7 @@ const characters = await client.searchCharacter('홍길동');`}
                     'pre[class*="language-"]': {
                       ...oneDark['pre[class*="language-"]'],
                       background: 'transparent',
-                    }
+                    },
                   }}
                   customStyle={{
                     margin: 0,
@@ -144,28 +147,27 @@ const characters = await client.searchCharacter('홍길동');`}
                   }}
                   className="hidden dark:block"
                 >
-{`import { NeopleDFClient } from 'neople-sdk-js';
+                  {`import { NeopleDFClient } from 'neople-sdk-js';
 
 const client = new NeopleDFClient(apiKey);
 const characters = await client.searchCharacter('홍길동');`}
                 </SyntaxHighlighter>
               </div>
             </div>
-            
           </div>
         </div>
 
         {/* Neople Attribution */}
         <div className="text-center py-6 border-t border-fd-border mt-8">
-          <a 
-            href="https://developers.neople.co.kr" 
-            target="_blank" 
+          <a
+            href="https://developers.neople.co.kr"
+            target="_blank"
             rel="noopener noreferrer"
             className="inline-block hover:opacity-80 transition-opacity"
           >
-            <img 
-              src="/neople-sdk-js-docs/images/neople.png" 
-              alt="Neople 오픈 API" 
+            <img
+              src="/neople-sdk-js-docs/images/neople.png"
+              alt="Neople 오픈 API"
               width={180}
               height={32}
               className="h-8 mx-auto"

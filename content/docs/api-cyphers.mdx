@@ -37,11 +37,12 @@ const players = await cyphersClient.searchPlayer('플레이어명');
 // 고급 검색 옵션
 const advancedSearch = await cyphersClient.searchPlayer('플레이어명', {
   limit: 20,
-  wordType: 'front'
+  wordType: 'front',
 });
 ```
 
 **매개변수:**
+
 - `playerName` (string): 검색할 플레이어 이름
 - `options` (SearchPlayerOptions, 선택사항): 검색 옵션
   - `limit` (number, 선택사항): 최대 결과 개수 (기본값: 10)
@@ -53,6 +54,7 @@ const advancedSearch = await cyphersClient.searchPlayer('플레이어명', {
 **반환값:** PlayerSearchResult - 기본 정보가 포함된 플레이어 검색 결과
 
 **응답 구조:**
+
 ```json
 {
   "rows": [
@@ -84,6 +86,7 @@ const player = await cyphersClient.getPlayer('playerId');
 ```
 
 **매개변수:**
+
 - `playerId` (string): 플레이어 식별자
 
 **반환값:** PlayerDetail - 스탯과 랭킹이 포함된 상세 플레이어 정보
@@ -99,6 +102,7 @@ const ranking = await cyphersClient.getPlayerRanking('playerId');
 ```
 
 **매개변수:**
+
 - `playerId` (string): 플레이어 식별자
 
 **반환값:** PlayerRanking - 다양한 게임 모드의 플레이어 랭킹
@@ -121,11 +125,12 @@ const filteredMatches = await cyphersClient.getMatches('playerId', {
   startDate: '2024-01-01',
   endDate: '2024-01-31',
   limit: 50,
-  next: 'nextPageToken'
+  next: 'nextPageToken',
 });
 ```
 
 **매개변수:**
+
 - `playerId` (string): 플레이어 식별자
 - `options` (GetMatchesOptions, 선택사항): 조회 옵션
   - `gameTypeId` (string, 선택사항): 게임 타입 필터
@@ -141,6 +146,7 @@ const filteredMatches = await cyphersClient.getMatches('playerId', {
 **반환값:** MatchesResult - 상세 정보가 포함된 경기 목록
 
 **응답 구조:**
+
 ```json
 {
   "rows": [
@@ -192,6 +198,7 @@ const match = await cyphersClient.getMatch('matchId');
 ```
 
 **매개변수:**
+
 - `matchId` (string): 경기 식별자
 
 **반환값:** MatchDetail - 모든 플레이어와 결과를 포함한 상세 경기 정보
@@ -221,6 +228,7 @@ const character = await cyphersClient.getCharacter('characterId');
 ```
 
 **매개변수:**
+
 - `characterId` (string): 캐릭터 식별자
 
 **반환값:** CharacterDetail - 능력과 스탯을 포함한 상세 캐릭터 정보
@@ -250,6 +258,7 @@ const item = await cyphersClient.getItem('itemId');
 ```
 
 **매개변수:**
+
 - `itemId` (string): 아이템 식별자
 
 **반환값:** ItemDetail - 스탯과 효과를 포함한 상세 아이템 정보
@@ -293,6 +302,7 @@ const ranking = await cyphersClient.getRanking('mmr', 0, 100);
 ```
 
 **매개변수:**
+
 - `rankingType` (string): 랭킹 타입 ('mmr', 'bp' 등)
 - `offset` (number, 선택사항): 페이지네이션을 위한 결과 오프셋
 - `limit` (number, 선택사항): 최대 결과 개수
@@ -310,6 +320,7 @@ const tsjRanking = await cyphersClient.getTsjRanking('melee', 0, 50);
 ```
 
 **매개변수:**
+
 - `rankingType` (string): TSJ 랭킹 타입 ('melee', 'ranged')
 - `offset` (number, 선택사항): 페이지네이션을 위한 결과 오프셋
 - `limit` (number, 선택사항): 최대 결과 개수
@@ -329,6 +340,7 @@ const itemDetail = await cyphersClient.getItemDetail('itemId');
 ```
 
 **매개변수:**
+
 - `itemId` (string): 아이템 식별자
 
 **반환값:** ItemDetail - 상세 아이템 정보 및 스탯
@@ -340,10 +352,15 @@ const itemDetail = await cyphersClient.getItemDetail('itemId');
 **엔드포인트:** `GET /cy/multi/items`
 
 ```typescript
-const items = await cyphersClient.getMultiItems(['itemId1', 'itemId2', 'itemId3']);
+const items = await cyphersClient.getMultiItems([
+  'itemId1',
+  'itemId2',
+  'itemId3',
+]);
 ```
 
 **매개변수:**
+
 - `itemIds` (string[]): 아이템 식별자 배열
 
 **반환값:** ItemDetail[] - 여러 아이템의 상세 정보
@@ -361,6 +378,7 @@ const recommendedItems = await cyphersClient.getRecommendedItems('characterId');
 ```
 
 **매개변수:**
+
 - `characterId` (string): 캐릭터 식별자
 
 **반환값:** RecommendedItem[] - 캐릭터별 추천 아이템 목록
@@ -390,6 +408,7 @@ const cypher = await cyphersClient.getCypher('cypherId');
 ```
 
 **매개변수:**
+
 - `cypherId` (string): 사이퍼 식별자
 
 **반환값:** CypherDetail - 사이퍼 상세 정보
@@ -418,52 +437,60 @@ try {
 import { NeopleCyphersClient } from 'neople-sdk-js';
 
 async function getPlayerStats(playerName: string) {
-  const cyphersClient = new NeopleCyphersClient(process.env.NEOPLE_CYPHERS_API_KEY);
-  
+  const cyphersClient = new NeopleCyphersClient(
+    process.env.NEOPLE_CYPHERS_API_KEY
+  );
+
   try {
     // 플레이어 검색
     const searchResults = await cyphersClient.searchPlayer(playerName);
-    
+
     if (searchResults.rows.length === 0) {
       console.log('플레이어를 찾을 수 없습니다');
       return;
     }
-    
+
     const playerId = searchResults.rows[0].playerId;
-    
+
     // 플레이어 세부 정보와 최근 경기 조회
     const [player, ranking, matches] = await Promise.all([
       cyphersClient.getPlayer(playerId),
       cyphersClient.getPlayerRanking(playerId),
-      cyphersClient.getMatches(playerId, 'rating', undefined, undefined, 10)
+      cyphersClient.getMatches(playerId, 'rating', undefined, undefined, 10),
     ]);
-    
+
     console.log('플레이어:', player);
     console.log('랭킹:', ranking);
     console.log('최근 경기:', matches);
-    
   } catch (error) {
     console.error('오류:', error.message);
   }
 }
 
 async function analyzeMatch(matchId: string) {
-  const cyphersClient = new NeopleCyphersClient(process.env.NEOPLE_CYPHERS_API_KEY);
-  
+  const cyphersClient = new NeopleCyphersClient(
+    process.env.NEOPLE_CYPHERS_API_KEY
+  );
+
   try {
     const match = await cyphersClient.getMatch(matchId);
-    
+
     console.log('경기 시간:', match.playTime);
-    console.log('승자:', match.teams.find(team => team.result === 'win'));
-    
+    console.log(
+      '승자:',
+      match.teams.find(team => team.result === 'win')
+    );
+
     // 각 플레이어의 캐릭터 정보 조회
     const characterPromises = match.players.map(player =>
       cyphersClient.getCharacter(player.characterId)
     );
-    
+
     const characters = await Promise.all(characterPromises);
-    console.log('사용된 캐릭터:', characters.map(char => char.characterName));
-    
+    console.log(
+      '사용된 캐릭터:',
+      characters.map(char => char.characterName)
+    );
   } catch (error) {
     console.error('오류:', error.message);
   }
@@ -473,6 +500,7 @@ async function analyzeMatch(matchId: string) {
 ## 게임 타입
 
 일반적인 게임 타입 식별자:
+
 - `normal`: 일반 경기
 - `rating`: 랭킹 경기
 - `tutorial`: 튜토리얼 경기
@@ -481,6 +509,7 @@ async function analyzeMatch(matchId: string) {
 ## 경기 결과 구조
 
 경기 결과에 포함되는 정보:
+
 - 플레이어 정보 및 통계
 - 캐릭터 선택 및 빌드
 - 팀 구성

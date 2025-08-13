@@ -25,7 +25,7 @@ class CharacterLookup {
     try {
       // 캐릭터 검색
       const searchResults = await this.dfClient.searchCharacter(name);
-      
+
       if (searchResults.rows.length === 0) {
         return { error: '캐릭터를 찾을 수 없습니다' };
       }
@@ -42,14 +42,20 @@ class CharacterLookup {
       // 상세 정보 조회
       const [details, equipment, skills] = await Promise.all([
         this.dfClient.getCharacter(character.serverId, character.characterId),
-        this.dfClient.getCharacterEquipment(character.serverId, character.characterId),
-        this.dfClient.getCharacterSkill(character.serverId, character.characterId)
+        this.dfClient.getCharacterEquipment(
+          character.serverId,
+          character.characterId
+        ),
+        this.dfClient.getCharacterSkill(
+          character.serverId,
+          character.characterId
+        ),
       ]);
 
       return {
         character: details,
         equipment: equipment,
-        skills: skills
+        skills: skills,
       };
     } catch (error) {
       return { error: error.message };
@@ -77,29 +83,38 @@ class EquipmentAnalyzer {
 
   async analyzeEquipment(serverId: string, characterId: string) {
     try {
-      const equipment = await this.dfClient.getCharacterEquipment(serverId, characterId);
-      
+      const equipment = await this.dfClient.getCharacterEquipment(
+        serverId,
+        characterId
+      );
+
       const analysis = {
         totalItems: equipment.equipment.length,
         rarityDistribution: {},
         upgradeLevel: {
           average: 0,
           highest: 0,
-          lowest: 100
+          lowest: 100,
         },
-        setItems: new Map()
+        setItems: new Map(),
       };
 
       equipment.equipment.forEach(item => {
         // 희귀도 분포
         const rarity = item.itemRarity;
-        analysis.rarityDistribution[rarity] = 
+        analysis.rarityDistribution[rarity] =
           (analysis.rarityDistribution[rarity] || 0) + 1;
 
         // 강화 수치
         const upgrade = item.upgradeInfo?.upgrade || 0;
-        analysis.upgradeLevel.highest = Math.max(analysis.upgradeLevel.highest, upgrade);
-        analysis.upgradeLevel.lowest = Math.min(analysis.upgradeLevel.lowest, upgrade);
+        analysis.upgradeLevel.highest = Math.max(
+          analysis.upgradeLevel.highest,
+          upgrade
+        );
+        analysis.upgradeLevel.lowest = Math.min(
+          analysis.upgradeLevel.lowest,
+          upgrade
+        );
 
         // 세트 아이템
         if (item.setItemInfo) {
@@ -111,7 +126,8 @@ class EquipmentAnalyzer {
 
       // 평균 강화 수치 계산
       const totalUpgrade = equipment.equipment.reduce(
-        (sum, item) => sum + (item.upgradeInfo?.upgrade || 0), 0
+        (sum, item) => sum + (item.upgradeInfo?.upgrade || 0),
+        0
       );
       analysis.upgradeLevel.average = totalUpgrade / equipment.equipment.length;
 
@@ -149,7 +165,7 @@ class AuctionMonitor {
       try {
         const auctions = await this.dfClient.searchAuction({
           itemName,
-          limit: 50
+          limit: 50,
         });
 
         if (auctions.rows.length > 0) {
@@ -160,9 +176,9 @@ class AuctionMonitor {
             lowestPrice: Math.min(...prices),
             highestPrice: Math.max(...prices),
             averagePrice: prices.reduce((a, b) => a + b, 0) / prices.length,
-            recentListings: auctions.rows.slice(0, 10)
+            recentListings: auctions.rows.slice(0, 10),
           };
-          
+
           results.push(analysis);
         }
       } catch (error) {
@@ -218,7 +234,13 @@ class PlayerStats {
       const [player, ranking, recentMatches] = await Promise.all([
         this.cyphersClient.getPlayer(playerId),
         this.cyphersClient.getPlayerRanking(playerId),
-        this.cyphersClient.getMatches(playerId, 'rating', undefined, undefined, 20)
+        this.cyphersClient.getMatches(
+          playerId,
+          'rating',
+          undefined,
+          undefined,
+          20
+        ),
       ]);
 
       // 최근 성과 분석
@@ -231,8 +253,8 @@ class PlayerStats {
         recentPerformance: {
           totalGames: recentMatches.rows.length,
           winRate,
-          favoriteCharacters
-        }
+          favoriteCharacters,
+        },
       };
     } catch (error) {
       throw new Error(`플레이어 프로필 조회 실패: ${error.message}`);
@@ -241,9 +263,9 @@ class PlayerStats {
 
   private calculateWinRate(matches: any[]): number {
     if (matches.length === 0) return 0;
-    
+
     const wins = matches.filter(match => {
-      const playerTeam = match.teams.find(team => 
+      const playerTeam = match.teams.find(team =>
         team.players.some(p => p.playerId === match.playerId)
       );
       return playerTeam?.result === 'win';
@@ -252,11 +274,15 @@ class PlayerStats {
     return (wins / matches.length) * 100;
   }
 
-  private getFavoriteCharacters(matches: any[]): Array<{character: string, usage: number}> {
+  private getFavoriteCharacters(
+    matches: any[]
+  ): Array<{ character: string; usage: number }> {
     const characterUsage = {};
-    
+
     matches.forEach(match => {
-      const character = match.players.find(p => p.playerId === match.playerId)?.characterName;
+      const character = match.players.find(
+        p => p.playerId === match.playerId
+      )?.characterName;
       if (character) {
         characterUsage[character] = (characterUsage[character] || 0) + 1;
       }
@@ -285,17 +311,17 @@ class MatchAnalyzer {
   async analyzeMatch(matchId: string) {
     try {
       const match = await this.cyphersClient.getMatch(matchId);
-      
+
       const analysis = {
         basicInfo: {
           matchId: match.matchId,
           gameType: match.gameTypeId,
           playTime: match.playTime,
-          map: match.mapId
+          map: match.mapId,
         },
         teams: await this.analyzeTeams(match.teams),
         mvp: this.findMVP(match.players),
-        characterDistribution: this.getCharacterDistribution(match.players)
+        characterDistribution: this.getCharacterDistribution(match.players),
       };
 
       return analysis;
@@ -309,9 +335,18 @@ class MatchAnalyzer {
 
     for (const team of teams) {
       const players = team.players;
-      const totalKills = players.reduce((sum, p) => sum + (p.killCount || 0), 0);
-      const totalDeaths = players.reduce((sum, p) => sum + (p.deathCount || 0), 0);
-      const totalAssists = players.reduce((sum, p) => sum + (p.assistCount || 0), 0);
+      const totalKills = players.reduce(
+        (sum, p) => sum + (p.killCount || 0),
+        0
+      );
+      const totalDeaths = players.reduce(
+        (sum, p) => sum + (p.deathCount || 0),
+        0
+      );
+      const totalAssists = players.reduce(
+        (sum, p) => sum + (p.assistCount || 0),
+        0
+      );
 
       teamAnalysis.push({
         teamId: team.teamId,
@@ -321,8 +356,11 @@ class MatchAnalyzer {
           kills: totalKills,
           deaths: totalDeaths,
           assists: totalAssists,
-          ratio: totalDeaths > 0 ? (totalKills + totalAssists) / totalDeaths : totalKills + totalAssists
-        }
+          ratio:
+            totalDeaths > 0
+              ? (totalKills + totalAssists) / totalDeaths
+              : totalKills + totalAssists,
+        },
       });
     }
 
@@ -331,9 +369,15 @@ class MatchAnalyzer {
 
   private findMVP(players: any[]) {
     return players.reduce((mvp, player) => {
-      const score = (player.killCount || 0) * 2 + (player.assistCount || 0) - (player.deathCount || 0);
-      const mvpScore = (mvp.killCount || 0) * 2 + (mvp.assistCount || 0) - (mvp.deathCount || 0);
-      
+      const score =
+        (player.killCount || 0) * 2 +
+        (player.assistCount || 0) -
+        (player.deathCount || 0);
+      const mvpScore =
+        (mvp.killCount || 0) * 2 +
+        (mvp.assistCount || 0) -
+        (mvp.deathCount || 0);
+
       return score > mvpScore ? player : mvp;
     });
   }
@@ -368,14 +412,18 @@ class RankingTracker {
 
   async getTopPlayers(rankingType = 'mmr', limit = 100) {
     try {
-      const ranking = await this.cyphersClient.getRanking(rankingType, 0, limit);
-      
+      const ranking = await this.cyphersClient.getRanking(
+        rankingType,
+        0,
+        limit
+      );
+
       return ranking.rows.map((player, index) => ({
         rank: index + 1,
         playerName: player.nickname,
         playerId: player.playerId,
         rating: player.grade,
-        isTracked: this.trackedPlayers.has(player.playerId)
+        isTracked: this.trackedPlayers.has(player.playerId),
       }));
     } catch (error) {
       throw new Error(`상위 플레이어 조회 실패: ${error.message}`);
@@ -386,9 +434,9 @@ class RankingTracker {
     try {
       const player = await this.cyphersClient.getPlayer(playerId);
       const matches = await this.cyphersClient.getMatches(
-        playerId, 
-        'rating', 
-        this.getDateString(days), 
+        playerId,
+        'rating',
+        this.getDateString(days),
         this.getDateString(0),
         100
       );
@@ -398,7 +446,7 @@ class RankingTracker {
         totalMatches: matches.rows.length,
         winRate: this.calculateWinRate(matches.rows),
         ratingChange: this.calculateRatingChange(matches.rows),
-        streaks: this.calculateStreaks(matches.rows)
+        streaks: this.calculateStreaks(matches.rows),
       };
 
       return progress;
@@ -434,7 +482,7 @@ class RankingTracker {
 
     matches.reverse().forEach(match => {
       const isWin = match.result === 'win';
-      
+
       if (currentType === isWin) {
         currentStreak++;
       } else {

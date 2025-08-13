@@ -14,10 +14,9 @@ nav: 개요
 
 Fetch, Axios, Got, Node-fetch 중 선택하여 사용할 수 있습니다.
 
-**TypeScript 지원**  
+**TypeScript 지원**
 
 모든 API에 대한 타입 안전성과 자동완성을 제공합니다.
-
 
 ## 빠른 시작
 
@@ -36,8 +35,10 @@ import { NeopleDFClient, NeopleCyphersClient } from 'neople-sdk-js';
 const dfClient = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
 const characters = await dfClient.searchCharacter('캐릭터명');
 
-// 사이퍼즈 클라이언트  
-const cyphersClient = new NeopleCyphersClient(process.env.NEOPLE_CYPHERS_API_KEY);
+// 사이퍼즈 클라이언트
+const cyphersClient = new NeopleCyphersClient(
+  process.env.NEOPLE_CYPHERS_API_KEY
+);
 const players = await cyphersClient.searchPlayer('플레이어명');
 ```
 

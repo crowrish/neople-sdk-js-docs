@@ -41,20 +41,20 @@ const advancedSearch = await dfClient.searchCharacter('홍길동', {
   wordType: 'match',
   isAllJobGrow: true,
   jobId: 'mage',
-  jobGrowId: 'elementalist'
+  jobGrowId: 'elementalist',
 });
 ```
 
 **매개변수:**
 
-| 매개변수 | 타입 | 필수 | 기본값 | 설명 |
-|---------|------|------|--------|------|
-| `characterName` | string | ✅ | - | 검색할 캐릭터 이름 (URL 인코딩 필요) |
-| `options` | SearchCharacterOptions | - | - | 검색 옵션 |
-| `options.serverId` | string | - | 'all' | 서버 ID ('all'로 전체 서버 검색 가능) |
-| `options.jobId` | string | - | - | 직업 코드로 필터링 |
-| `options.jobGrowId` | string | - | - | 전직 코드로 필터링 |
-| `options.limit` | number | - | 10 | 반환할 결과 수 (최대 200) |
+| 매개변수            | 타입                   | 필수 | 기본값 | 설명                                  |
+| ------------------- | ---------------------- | ---- | ------ | ------------------------------------- |
+| `characterName`     | string                 | ✅   | -      | 검색할 캐릭터 이름 (URL 인코딩 필요)  |
+| `options`           | SearchCharacterOptions | -    | -      | 검색 옵션                             |
+| `options.serverId`  | string                 | -    | 'all'  | 서버 ID ('all'로 전체 서버 검색 가능) |
+| `options.jobId`     | string                 | -    | -      | 직업 코드로 필터링                    |
+| `options.jobGrowId` | string                 | -    | -      | 전직 코드로 필터링                    |
+| `options.limit`     | number                 | -    | 10     | 반환할 결과 수 (최대 200)             |
 
 **서버 ID 값:**
 서버 타입은 [던전앤파이터 타입 → DFServerType](/docs/types-df#dfservertype)을 참조하세요.
@@ -62,6 +62,7 @@ const advancedSearch = await dfClient.searchCharacter('홍길동', {
 **반환값:** CharacterSearchResult - 페이지 정보가 포함된 캐릭터 검색 결과
 
 **응답 구조:**
+
 ```json
 {
   "rows": [
@@ -95,14 +96,15 @@ const character = await dfClient.getCharacter('cain', 'characterId');
 
 **매개변수:**
 
-| 매개변수 | 타입 | 필수 | 설명 |
-|---------|------|------|------|
-| `serverId` | string | ✅ | 서버 ID |
-| `characterId` | string | ✅ | 캐릭터 고유 코드 |
+| 매개변수      | 타입   | 필수 | 설명             |
+| ------------- | ------ | ---- | ---------------- |
+| `serverId`    | string | ✅   | 서버 ID          |
+| `characterId` | string | ✅   | 캐릭터 고유 코드 |
 
 **반환값:** CharacterDetail - 기본 스탯과 직업 정보를 포함한 상세 캐릭터 정보
 
 **응답 구조:**
+
 ```json
 {
   "characterId": "1234567890abcdef",
@@ -150,6 +152,7 @@ const equipment = await dfClient.getCharacterEquipment('cain', 'characterId');
 ```
 
 **매개변수:**
+
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
@@ -166,6 +169,7 @@ const avatar = await dfClient.getCharacterAvatar('cain', 'characterId');
 ```
 
 **매개변수:**
+
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
@@ -182,6 +186,7 @@ const skills = await dfClient.getCharacterSkill('cain', 'characterId');
 ```
 
 **매개변수:**
+
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 - `jobId` (string, 선택사항): 직업 식별자
@@ -200,6 +205,7 @@ const talisman = await dfClient.getCharacterTalisman('cain', 'characterId');
 ```
 
 **매개변수:**
+
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
@@ -212,21 +218,28 @@ const talisman = await dfClient.getCharacterTalisman('cain', 'characterId');
 **엔드포인트:** `GET /df/servers/{serverId}/characters/{characterId}/timeline`
 
 ```typescript
-const timeline = await dfClient.getCharacterTimeline('cain', 'characterId', null, '2024-01-01', '2024-01-31');
+const timeline = await dfClient.getCharacterTimeline(
+  'cain',
+  'characterId',
+  null,
+  '2024-01-01',
+  '2024-01-31'
+);
 ```
 
 **매개변수:**
 
-| 매개변수 | 타입 | 필수 | 기본값 | 설명 |
-|---------|------|------|--------|------|
-| `serverId` | string | ✅ | - | 서버 ID |
-| `characterId` | string | ✅ | - | 캐릭터 고유 코드 |
-| `code` | string | - | 'all' | 타임라인 코드 필터 |
-| `startDate` | string | - | - | 시작 날짜 (YYYY-MM-DD 형식) |
-| `endDate` | string | - | - | 종료 날짜 (YYYY-MM-DD 형식) |
-| `limit` | number | - | 10 | 반환할 결과 수 (최대 100) |
+| 매개변수      | 타입   | 필수 | 기본값 | 설명                        |
+| ------------- | ------ | ---- | ------ | --------------------------- |
+| `serverId`    | string | ✅   | -      | 서버 ID                     |
+| `characterId` | string | ✅   | -      | 캐릭터 고유 코드            |
+| `code`        | string | -    | 'all'  | 타임라인 코드 필터          |
+| `startDate`   | string | -    | -      | 시작 날짜 (YYYY-MM-DD 형식) |
+| `endDate`     | string | -    | -      | 종료 날짜 (YYYY-MM-DD 형식) |
+| `limit`       | number | -    | 10     | 반환할 결과 수 (최대 100)   |
 
 **code 값:**
+
 - `'all'`: 모든 타임라인 정보
 - `'level'`: 레벨업 기록
 - `'dungeon'`: 던전 입장 기록
@@ -245,6 +258,7 @@ const skillStyle = await dfClient.getCharacterSkillStyle('cain', 'characterId');
 ```
 
 **매개변수:**
+
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
@@ -257,10 +271,14 @@ const skillStyle = await dfClient.getCharacterSkillStyle('cain', 'characterId');
 **엔드포인트:** `GET /df/servers/{serverId}/characters/{characterId}/skill/buff/equip/equipment`
 
 ```typescript
-const buffSkills = await dfClient.getCharacterBuffSkillEquipment('cain', 'characterId');
+const buffSkills = await dfClient.getCharacterBuffSkillEquipment(
+  'cain',
+  'characterId'
+);
 ```
 
 **매개변수:**
+
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
@@ -273,10 +291,14 @@ const buffSkills = await dfClient.getCharacterBuffSkillEquipment('cain', 'charac
 **엔드포인트:** `GET /df/servers/{serverId}/characters/{characterId}/skill/buff/equip/avatar`
 
 ```typescript
-const avatarBuffSkills = await dfClient.getCharacterBuffSkillAvatar('cain', 'characterId');
+const avatarBuffSkills = await dfClient.getCharacterBuffSkillAvatar(
+  'cain',
+  'characterId'
+);
 ```
 
 **매개변수:**
+
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
@@ -289,10 +311,14 @@ const avatarBuffSkills = await dfClient.getCharacterBuffSkillAvatar('cain', 'cha
 **엔드포인트:** `GET /df/servers/{serverId}/characters/{characterId}/skill/buff/equip/creature`
 
 ```typescript
-const creatureBuffSkills = await dfClient.getCharacterBuffSkillCreature('cain', 'characterId');
+const creatureBuffSkills = await dfClient.getCharacterBuffSkillCreature(
+  'cain',
+  'characterId'
+);
 ```
 
 **매개변수:**
+
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
@@ -310,12 +336,12 @@ const famousCharacters = await dfClient.getCharactersByFame('cain', 'jobId');
 
 **매개변수:**
 
-| 매개변수 | 타입 | 필수 | 기본값 | 설명 |
-|---------|------|------|--------|------|
-| `serverId` | string | ✅ | - | 서버 ID |
-| `jobId` | string | - | - | 직업 코드로 필터링 |
-| `jobGrowId` | string | - | - | 전직 코드로 필터링 |
-| `limit` | number | - | 100 | 반환할 결과 수 (최대 200) |
+| 매개변수    | 타입   | 필수 | 기본값 | 설명                      |
+| ----------- | ------ | ---- | ------ | ------------------------- |
+| `serverId`  | string | ✅   | -      | 서버 ID                   |
+| `jobId`     | string | -    | -      | 직업 코드로 필터링        |
+| `jobGrowId` | string | -    | -      | 전직 코드로 필터링        |
+| `limit`     | number | -    | 100    | 반환할 결과 수 (최대 200) |
 
 **반환값:** Character[] - 명성도 상위 캐릭터 목록
 
@@ -330,6 +356,7 @@ const status = await dfClient.getCharacterStatus('cain', 'characterId');
 ```
 
 **매개변수:**
+
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
 
@@ -349,10 +376,10 @@ const items = await dfClient.searchItem('무기');
 
 **매개변수:**
 
-| 매개변수 | 타입 | 필수 | 기본값 | 설명 |
-|---------|------|------|--------|------|
-| `itemName` | string | ✅ | - | 검색할 아이템 이름 |
-| `limit` | number | - | 10 | 반환할 결과 수 (최대 30) |
+| 매개변수   | 타입   | 필수 | 기본값 | 설명                     |
+| ---------- | ------ | ---- | ------ | ------------------------ |
+| `itemName` | string | ✅   | -      | 검색할 아이템 이름       |
+| `limit`    | number | -    | 10     | 반환할 결과 수 (최대 30) |
 
 **반환값:** ItemSearchResult - 아이템 검색 결과
 
@@ -368,9 +395,9 @@ const item = await dfClient.getItem('itemId');
 
 **매개변수:**
 
-| 매개변수 | 타입 | 필수 | 설명 |
-|---------|------|------|------|
-| `itemId` | string | ✅ | 아이템 고유 코드 |
+| 매개변수 | 타입   | 필수 | 설명             |
+| -------- | ------ | ---- | ---------------- |
+| `itemId` | string | ✅   | 아이템 고유 코드 |
 
 **반환값:** ItemDetail - 스탯과 설명을 포함한 상세 아이템 정보
 
@@ -385,6 +412,7 @@ const setItem = await dfClient.getSetItem('setItemId');
 ```
 
 **매개변수:**
+
 - `setItemId` (string): 세트 아이템 식별자
 
 **반환값:** SetItemDetail - 세트 효과와 구성 아이템 정보
@@ -400,6 +428,7 @@ const setItems = await dfClient.searchSetItems('세트이름');
 ```
 
 **매개변수:**
+
 - `setItemName` (string): 검색할 세트 아이템 이름
 - `limit` (number, 선택사항): 최대 결과 개수
 
@@ -416,6 +445,7 @@ const items = await dfClient.getMultiItems(['itemId1', 'itemId2', 'itemId3']);
 ```
 
 **매개변수:**
+
 - `itemIds` (string[]): 아이템 식별자 배열
 
 **반환값:** ItemDetail[] - 여러 아이템의 상세 정보
@@ -431,6 +461,7 @@ const setItems = await dfClient.getMultiSetItems(['setId1', 'setId2']);
 ```
 
 **매개변수:**
+
 - `setItemIds` (string[]): 세트 아이템 식별자 배열
 
 **반환값:** SetItemDetail[] - 여러 세트 아이템의 상세 정보
@@ -473,9 +504,9 @@ const skills = await dfClient.getSkillsByJob('jobId');
 
 **매개변수:**
 
-| 매개변수 | 타입 | 필수 | 설명 |
-|---------|------|------|------|
-| `jobId` | string | ✅ | 직업 고유 코드 |
+| 매개변수 | 타입   | 필수 | 설명           |
+| -------- | ------ | ---- | -------------- |
+| `jobId`  | string | ✅   | 직업 고유 코드 |
 
 **반환값:** Skill[] - 해당 직업의 모든 스킬 정보
 
@@ -491,10 +522,10 @@ const skill = await dfClient.getSkillDetail('jobId', 'skillId');
 
 **매개변수:**
 
-| 매개변수 | 타입 | 필수 | 설명 |
-|---------|------|------|------|
-| `jobId` | string | ✅ | 직업 고유 코드 |
-| `skillId` | string | ✅ | 스킬 고유 코드 |
+| 매개변수  | 타입   | 필수 | 설명           |
+| --------- | ------ | ---- | -------------- |
+| `jobId`   | string | ✅   | 직업 고유 코드 |
+| `skillId` | string | ✅   | 스킬 고유 코드 |
 
 **반환값:** SkillDetail - 스킬 상세 정보와 효과
 
@@ -509,6 +540,7 @@ const skills = await dfClient.getMultiSkills('jobId', ['skillId1', 'skillId2']);
 ```
 
 **매개변수:**
+
 - `jobId` (string): 직업 식별자
 - `skillIds` (string[]): 스킬 식별자 배열
 
@@ -525,11 +557,12 @@ const skills = await dfClient.getMultiSkills('jobId', ['skillId1', 'skillId2']);
 ```typescript
 const sales = await dfClient.getAvatarMarketSale({
   jobId: 'jobId',
-  limit: 20
+  limit: 20,
 });
 ```
 
 **매개변수:**
+
 - `params` (object): 검색 매개변수
   - `jobId` (string, 선택사항): 직업 필터
   - `limit` (number, 선택사항): 최대 결과 개수
@@ -545,11 +578,12 @@ const sales = await dfClient.getAvatarMarketSale({
 
 ```typescript
 const sold = await dfClient.getAvatarMarketSold({
-  jobId: 'jobId'
+  jobId: 'jobId',
 });
 ```
 
 **매개변수:**
+
 - `params` (object): 검색 매개변수
 
 **반환값:** AvatarMarketSold[] - 아바타 마켓 판매 완료 목록
@@ -565,6 +599,7 @@ const item = await dfClient.getAvatarMarketItem('itemId');
 ```
 
 **매개변수:**
+
 - `itemId` (string): 아바타 아이템 식별자
 
 **반환값:** AvatarItem - 아바타 아이템 상세 정보
@@ -580,6 +615,7 @@ const soldItem = await dfClient.getAvatarMarketSoldItem('itemId');
 ```
 
 **매개변수:**
+
 - `itemId` (string): 아바타 아이템 식별자
 
 **반환값:** AvatarItem - 판매 완료된 아바타 아이템 정보
@@ -623,7 +659,7 @@ const shop = await dfClient.getItemShop();
 const auctions = await dfClient.searchAuction({
   itemName: '무기',
   minLevel: 85,
-  maxLevel: 90
+  maxLevel: 90,
 });
 
 // 고급 검색 옵션
@@ -636,38 +672,40 @@ const advancedAuction = await dfClient.searchAuction({
   minReinforce: 10,
   maxReinforce: 15,
   sort: 'price_asc',
-  limit: 100
+  limit: 100,
 });
 ```
 
 **매개변수:**
 
-| 매개변수 | 타입 | 필수 | 기본값 | 설명 |
-|---------|------|------|--------|------|
-| `params.itemName` | string | - | - | 검색할 아이템 이름 |
-| `params.itemId` | string | - | - | 아이템 고유 코드 |
-| `params.itemIds` | string[] | - | - | 다중 아이템 고유 코드 (쉼표로 구분) |
-| `params.wordType` | 'match' \| 'front' \| 'full' | - | 'match' | 검색 방식 |
-| `params.minLevel` | number | - | - | 최소 아이템 레벨 |
-| `params.maxLevel` | number | - | - | 최대 아이템 레벨 |
-| `params.rarity` | string | - | - | 아이템 희귀도 |
-| `params.minReinforce` | number | - | 0 | 최소 강화 수치 (0-15) |
-| `params.maxReinforce` | number | - | 15 | 최대 강화 수치 (0-15) |
-| `params.minRefine` | number | - | 0 | 최소 제련 수치 (0-12) |
-| `params.maxRefine` | number | - | 12 | 최대 제련 수치 (0-12) |
-| `params.auctionType` | 'sell' \| 'buy' | - | 'sell' | 경매 타입 |
-| `params.sort` | string | - | 'unitPrice' | 정렬 방식 |
-| `params.limit` | number | - | 10 | 반환할 결과 수 (최대 400) |
+| 매개변수              | 타입                         | 필수 | 기본값      | 설명                                |
+| --------------------- | ---------------------------- | ---- | ----------- | ----------------------------------- |
+| `params.itemName`     | string                       | -    | -           | 검색할 아이템 이름                  |
+| `params.itemId`       | string                       | -    | -           | 아이템 고유 코드                    |
+| `params.itemIds`      | string[]                     | -    | -           | 다중 아이템 고유 코드 (쉼표로 구분) |
+| `params.wordType`     | 'match' \| 'front' \| 'full' | -    | 'match'     | 검색 방식                           |
+| `params.minLevel`     | number                       | -    | -           | 최소 아이템 레벨                    |
+| `params.maxLevel`     | number                       | -    | -           | 최대 아이템 레벨                    |
+| `params.rarity`       | string                       | -    | -           | 아이템 희귀도                       |
+| `params.minReinforce` | number                       | -    | 0           | 최소 강화 수치 (0-15)               |
+| `params.maxReinforce` | number                       | -    | 15          | 최대 강화 수치 (0-15)               |
+| `params.minRefine`    | number                       | -    | 0           | 최소 제련 수치 (0-12)               |
+| `params.maxRefine`    | number                       | -    | 12          | 최대 제련 수치 (0-12)               |
+| `params.auctionType`  | 'sell' \| 'buy'              | -    | 'sell'      | 경매 타입                           |
+| `params.sort`         | string                       | -    | 'unitPrice' | 정렬 방식                           |
+| `params.limit`        | number                       | -    | 10          | 반환할 결과 수 (최대 400)           |
 
 **rarity 값:**
+
 - `'common'`: 일반
-- `'uncommon'`: 고급  
+- `'uncommon'`: 고급
 - `'rare'`: 희귀
 - `'unique'`: 유니크
 - `'epic'`: 에픽
 - `'legendary'`: 레전더리
 
 **sort 값:**
+
 - `'unitPrice'`: 개당 가격순
 - `'reinforce'`: 강화 수치순
 - `'level'`: 레벨순
@@ -694,6 +732,7 @@ const auctionItem = await dfClient.getAuctionItem('auctionNo');
 ```
 
 **매개변수:**
+
 - `auctionNo` (string): 경매 번호
 
 **반환값:** AuctionItem - 경매 아이템 상세 정보
@@ -737,29 +776,28 @@ import { NeopleDFClient } from 'neople-sdk-js';
 
 async function getCharacterInfo(characterName: string) {
   const dfClient = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
-  
+
   try {
     // 캐릭터 검색
     const searchResults = await dfClient.searchCharacter(characterName);
-    
+
     if (searchResults.rows.length === 0) {
       console.log('캐릭터를 찾을 수 없습니다');
       return;
     }
-    
+
     const { serverId, characterId } = searchResults.rows[0];
-    
+
     // 캐릭터 세부 정보 조회
     const [character, equipment, skills] = await Promise.all([
       dfClient.getCharacter(serverId, characterId),
       dfClient.getCharacterEquipment(serverId, characterId),
-      dfClient.getCharacterSkill(serverId, characterId)
+      dfClient.getCharacterSkill(serverId, characterId),
     ]);
-    
+
     console.log('캐릭터:', character);
     console.log('장비:', equipment);
     console.log('스킬:', skills);
-    
   } catch (error) {
     console.error('오류:', error.message);
   }

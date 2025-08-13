@@ -22,22 +22,22 @@ const dfClient = new NeopleDFClient(apiKey, {
   retryDelay: 1000,
   userAgent: 'MyApp/1.0.0',
   debug: false,
-  validateResponse: true
+  validateResponse: true,
 });
 ```
 
 ### 사용 가능한 옵션
 
-| 옵션 | 타입 | 기본값 | 설명 |
-|------|------|--------|------|
-| `baseURL` | string | API 기본값 | API 요청을 위한 사용자 지정 기본 URL |
-| `timeout` | number | 30000 | 요청 타임아웃 (밀리초) |
-| `httpAdapter` | string | 'fetch' | 사용할 HTTP 클라이언트 어댑터 |
-| `retryAttempts` | number | 3 | 실패한 요청에 대한 재시도 횟수 |
-| `retryDelay` | number | 1000 | 재시도 간격 (밀리초) |
-| `userAgent` | string | SDK 기본값 | 사용자 지정 User-Agent 헤더 |
-| `debug` | boolean | false | 디버그 로깅 활성화 |
-| `validateResponse` | boolean | true | 응답 데이터 유효성 검증 |
+| 옵션               | 타입    | 기본값     | 설명                                 |
+| ------------------ | ------- | ---------- | ------------------------------------ |
+| `baseURL`          | string  | API 기본값 | API 요청을 위한 사용자 지정 기본 URL |
+| `timeout`          | number  | 30000      | 요청 타임아웃 (밀리초)               |
+| `httpAdapter`      | string  | 'fetch'    | 사용할 HTTP 클라이언트 어댑터        |
+| `retryAttempts`    | number  | 3          | 실패한 요청에 대한 재시도 횟수       |
+| `retryDelay`       | number  | 1000       | 재시도 간격 (밀리초)                 |
+| `userAgent`        | string  | SDK 기본값 | 사용자 지정 User-Agent 헤더          |
+| `debug`            | boolean | false      | 디버그 로깅 활성화                   |
+| `validateResponse` | boolean | true       | 응답 데이터 유효성 검증              |
 
 ### HTTP 어댑터별 설정
 
@@ -49,20 +49,20 @@ const fetchClient = new NeopleDFClient(apiKey, {
   httpAdapter: 'fetch',
   fetchOptions: {
     keepalive: true,
-    mode: 'cors'
-  }
+    mode: 'cors',
+  },
 });
 
-// Axios 어댑터 설정  
+// Axios 어댑터 설정
 const axiosClient = new NeopleDFClient(apiKey, {
   httpAdapter: 'axios',
   axiosConfig: {
     maxRedirects: 5,
     proxy: {
       host: '127.0.0.1',
-      port: 8080
-    }
-  }
+      port: 8080,
+    },
+  },
 });
 ```
 
@@ -108,10 +108,7 @@ export async function GET(
     const characters = await dfClient.searchCharacter(params.name);
     return NextResponse.json(characters);
   } catch (error) {
-    return NextResponse.json(
-      { error: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 ```
@@ -127,12 +124,9 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 
 const dfClient = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
 
-export default async function handler(
-  req: VercelRequest,
-  res: VercelResponse
-) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { name } = req.query;
-  
+
   try {
     const characters = await dfClient.searchCharacter(name as string);
     res.json(characters);
@@ -158,23 +152,23 @@ export const handler = async (
     if (!name) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: '이름 매개변수가 필요합니다' })
+        body: JSON.stringify({ error: '이름 매개변수가 필요합니다' }),
       };
     }
-    
+
     const characters = await dfClient.searchCharacter(name);
-    
+
     return {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(characters)
+      body: JSON.stringify(characters),
     };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message })
+      body: JSON.stringify({ error: error.message }),
     };
   }
 };
@@ -188,13 +182,13 @@ export const handler = async (
 import { NeopleDFClient } from 'neople-sdk-js';
 
 const client = new NeopleDFClient(apiKey, {
-  onError: (error) => {
+  onError: error => {
     // 모니터링 서비스에 오류 로깅
     console.error('API 오류:', error);
-    
+
     // 오류 추적 서비스로 전송 가능
     // errorTracker.captureException(error);
-  }
+  },
 });
 ```
 
@@ -204,15 +198,17 @@ const client = new NeopleDFClient(apiKey, {
 const client = new NeopleDFClient(apiKey, {
   retryAttempts: 5,
   retryDelay: 2000,
-  shouldRetry: (error) => {
+  shouldRetry: error => {
     // 사용자 지정 재시도 로직
-    if (error.status === 429) { // 속도 제한
+    if (error.status === 429) {
+      // 속도 제한
       return true;
     }
-    if (error.status >= 500) { // 서버 오류
+    if (error.status >= 500) {
+      // 서버 오류
       return true;
     }
     return false;
-  }
+  },
 });
 ```

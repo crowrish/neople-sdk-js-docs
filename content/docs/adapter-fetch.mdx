@@ -18,7 +18,7 @@ const cyphersClient = new NeopleCyphersClient(apiKey);
 
 // 명시적 설정
 const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'fetch'
+  httpAdapter: 'fetch',
 });
 ```
 
@@ -31,7 +31,7 @@ const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'fetch',
   timeout: 30000,
   retryAttempts: 3,
-  retryDelay: 1000
+  retryDelay: 1000,
 });
 ```
 
@@ -46,9 +46,9 @@ const client = new NeopleDFClient(apiKey, {
     mode: 'cors',
     credentials: 'omit',
     headers: {
-      'Custom-Header': 'value'
-    }
-  }
+      'Custom-Header': 'value',
+    },
+  },
 });
 ```
 
@@ -62,7 +62,7 @@ import { NeopleDFClient } from 'neople-sdk-js';
 
 const app = express();
 const client = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY, {
-  httpAdapter: 'fetch'
+  httpAdapter: 'fetch',
 });
 
 app.get('/api/character/:name', async (req, res) => {
@@ -83,12 +83,12 @@ import { NeopleDFClient } from 'neople-sdk-js';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
 const client = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY, {
-  httpAdapter: 'fetch'
+  httpAdapter: 'fetch',
 });
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { name } = req.query;
-  
+
   try {
     const characters = await client.searchCharacter(name as string);
     res.json(characters);
@@ -105,11 +105,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 ```typescript
 const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'fetch',
-  onError: (error) => {
+  onError: error => {
     if (error.name === 'TypeError' && error.message.includes('fetch')) {
       console.error('네트워크 연결 오류:', error);
     }
-  }
+  },
 });
 ```
 
@@ -121,7 +121,7 @@ const client = new NeopleDFClient(apiKey, {
   timeout: 10000, // 10초
   onTimeout: () => {
     console.log('요청 타임아웃');
-  }
+  },
 });
 ```
 
@@ -133,8 +133,8 @@ const client = new NeopleDFClient(apiKey, {
 const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'fetch',
   fetchOptions: {
-    keepalive: true
-  }
+    keepalive: true,
+  },
 });
 ```
 
@@ -143,12 +143,10 @@ const client = new NeopleDFClient(apiKey, {
 ```typescript
 async function fetchMultipleCharacters(names: string[]) {
   const client = new NeopleDFClient(apiKey, {
-    httpAdapter: 'fetch'
+    httpAdapter: 'fetch',
   });
 
-  const promises = names.map(name => 
-    client.searchCharacter(name)
-  );
+  const promises = names.map(name => client.searchCharacter(name));
 
   try {
     const results = await Promise.all(promises);
@@ -171,8 +169,8 @@ const client = new NeopleDFClient(apiKey, {
   onRequest: (url, options) => {
     console.log('요청:', url, options);
   },
-  onResponse: (response) => {
+  onResponse: response => {
     console.log('응답:', response.status, response.headers);
-  }
+  },
 });
 ```

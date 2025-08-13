@@ -6,12 +6,16 @@ import { source } from '@/lib/source';
 // Custom page tree with separators
 function createCustomPageTree() {
   const originalTree = source.pageTree;
-  
+
   // Find pages from the original tree
   const findPage = (slug: string) => {
     const findInChildren = (children: unknown[]): unknown => {
       for (const child of children) {
-        const node = child as { type: string; url?: string; children?: unknown[] };
+        const node = child as {
+          type: string;
+          url?: string;
+          children?: unknown[];
+        };
         if (node.type === 'page' && node.url === `/docs/${slug}`) {
           return child;
         }
@@ -22,10 +26,10 @@ function createCustomPageTree() {
       }
       return null;
     };
-    
+
     return findInChildren(originalTree.children || []);
   };
-  
+
   // Create custom tree with separators
   const customChildren = [
     {
@@ -41,7 +45,7 @@ function createCustomPageTree() {
     findPage('configuration'),
     findPage('environment-variables'),
     {
-      type: 'separator', 
+      type: 'separator',
       name: 'API 레퍼런스',
     },
     findPage('api-dungeon-fighter'),
@@ -74,7 +78,7 @@ function createCustomPageTree() {
     findPage('error-handling'),
     findPage('examples'),
   ].filter(Boolean);
-  
+
   return {
     ...originalTree,
     children: customChildren,
@@ -83,7 +87,7 @@ function createCustomPageTree() {
 
 export default function Layout({ children }: { children: ReactNode }) {
   const customTree = createCustomPageTree();
-  
+
   return (
     <DocsLayout tree={customTree as never} {...baseOptions}>
       {children}

@@ -26,8 +26,6 @@ NEOPLE_CYPHERS_API_KEY=your_cyphers_api_key_here
 3. 애플리케이션 등록
 4. API 키 발급 받기
 
-
-
 ## API 키 보호
 
 **네오플 API는 크로스 도메인(CORS)을 지원하지 않습니다.**
@@ -56,7 +54,6 @@ fetch('/api/characters/search?name=홍길동') // 자체 백엔드 API 호출
   .then(response => response.json())
   .then(data => console.log(data));
 ```
-
 
 ## 문제 해결
 
@@ -95,7 +92,6 @@ console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('API Key length:', process.env.NEOPLE_DF_API_KEY?.length);
 console.log('Debug mode:', process.env.NEOPLE_DEBUG);
 ```
-
 
 ## 플랫폼별 설정
 
@@ -147,7 +143,7 @@ import { NeopleDFClient } from 'neople-sdk-js';
 
 export default function HomePage() {
   const client = new NeopleDFClient(process.env.NEOPLE_DF_API_KEY);
-  
+
   // 서버 사이드에서만 실행됨
   return <div>...</div>;
 }

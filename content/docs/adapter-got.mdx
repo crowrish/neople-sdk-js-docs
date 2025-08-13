@@ -1,5 +1,5 @@
 ---
-title: Got 어댑터  
+title: Got 어댑터
 description: Got HTTP 클라이언트 어댑터 설정 및 사용법 (Node.js 전용)
 ---
 
@@ -23,7 +23,7 @@ yarn add got
 import { NeopleDFClient, NeopleCyphersClient } from 'neople-sdk-js';
 
 const client = new NeopleDFClient(apiKey, {
-  httpAdapter: 'got'
+  httpAdapter: 'got',
 });
 ```
 
@@ -35,20 +35,20 @@ import { NeopleDFClient } from 'neople-sdk-js';
 
 const customGot = got.extend({
   timeout: {
-    request: 30000
+    request: 30000,
   },
   headers: {
-    'User-Agent': 'MyApp/1.0.0'
+    'User-Agent': 'MyApp/1.0.0',
   },
   retry: {
     limit: 3,
-    methods: ['GET', 'POST']
-  }
+    methods: ['GET', 'POST'],
+  },
 });
 
 const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'got',
-  gotInstance: customGot
+  gotInstance: customGot,
 });
 ```
 
@@ -75,14 +75,14 @@ const client = new NeopleDFClient(apiKey, {
         'EPIPE',
         'ENOTFOUND',
         'ENETUNREACH',
-        'EAI_AGAIN'
+        'EAI_AGAIN',
       ],
       calculateDelay: ({ attemptCount }) => {
         // 지수 백오프 구현
         return Math.min(1000 * Math.pow(2, attemptCount - 1), 30000);
-      }
-    }
-  })
+      },
+    },
+  }),
 });
 ```
 
@@ -97,28 +97,27 @@ const client = new NeopleDFClient(apiKey, {
   gotInstance: got.extend({
     hooks: {
       beforeRequest: [
-        (options) => {
+        options => {
           console.log('요청 전송:', options.url?.toString());
           console.log('헤더:', options.headers);
-        }
+        },
       ],
       afterResponse: [
-        (response) => {
+        response => {
           console.log('응답 받음:', response.statusCode);
           return response;
-        }
+        },
       ],
       beforeError: [
-        (error) => {
+        error => {
           console.error('오류 발생:', error.message);
           return error;
-        }
-      ]
-    }
-  })
+        },
+      ],
+    },
+  }),
 });
 ```
-
 
 ## 캐싱
 
@@ -138,12 +137,11 @@ const client = new NeopleDFClient(apiKey, {
       shared: false,
       cacheHeuristic: 0.1,
       immutableMinTimeToLive: 24 * 3600 * 1000, // 24시간
-      ignoreCargoCult: false
-    }
-  })
+      ignoreCargoCult: false,
+    },
+  }),
 });
 ```
-
 
 ## 프록시 설정
 
@@ -158,9 +156,9 @@ const client = new NeopleDFClient(apiKey, {
   gotInstance: got.extend({
     agent: {
       http: new HttpsProxyAgent('http://proxy.example.com:8080'),
-      https: new HttpsProxyAgent('https://proxy.example.com:8080')
-    }
-  })
+      https: new HttpsProxyAgent('https://proxy.example.com:8080'),
+    },
+  }),
 });
 ```
 
@@ -182,12 +180,11 @@ const client = new NeopleDFClient(apiKey, {
   gotInstance: got.extend({
     agent: {
       http: socksAgent,
-      https: socksAgent
-    }
-  })
+      https: socksAgent,
+    },
+  }),
 });
 ```
-
 
 ## 타임아웃 설정
 
@@ -201,15 +198,15 @@ const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'got',
   gotInstance: got.extend({
     timeout: {
-      lookup: 100,        // DNS 조회
-      connect: 50,        // 소켓 연결
-      secureConnect: 50,  // TLS 핸드셰이크
-      socket: 1000,       // 소켓 비활성
-      send: 10000,        // 요청 전송
-      response: 1000,     // 첫 번째 응답 바이트
-      request: 30000      // 전체 요청
-    }
-  })
+      lookup: 100, // DNS 조회
+      connect: 50, // 소켓 연결
+      secureConnect: 50, // TLS 핸드셰이크
+      socket: 1000, // 소켓 비활성
+      send: 10000, // 요청 전송
+      response: 1000, // 첫 번째 응답 바이트
+      request: 30000, // 전체 요청
+    },
+  }),
 });
 ```
 
@@ -223,8 +220,8 @@ const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'got',
   gotInstance: got.extend({
     http2: true,
-    allowH2: true
-  })
+    allowH2: true,
+  }),
 });
 ```
 
@@ -238,20 +235,20 @@ import { NeopleDFClient } from 'neople-sdk-js';
 
 const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'got',
-  onError: (error) => {
+  onError: error => {
     if (error instanceof got.HTTPError) {
       console.error('HTTP 에러:', {
         statusCode: error.response.statusCode,
         statusMessage: error.response.statusMessage,
         headers: error.response.headers,
-        body: error.response.body
+        body: error.response.body,
       });
     } else if (error instanceof got.RequestError) {
       console.error('요청 에러:', error.message);
     } else if (error instanceof got.TimeoutError) {
       console.error('타임아웃 에러:', error.message);
     }
-  }
+  },
 });
 ```
 
@@ -273,16 +270,16 @@ const client = new NeopleDFClient(apiKey, {
         keepAlive: true,
         keepAliveMsecs: 1000,
         maxSockets: 10,
-        maxFreeSockets: 10
+        maxFreeSockets: 10,
       }),
       https: new https.Agent({
         keepAlive: true,
         keepAliveMsecs: 1000,
         maxSockets: 10,
-        maxFreeSockets: 10
-      })
-    }
-  })
+        maxFreeSockets: 10,
+      }),
+    },
+  }),
 });
 ```
 
@@ -299,26 +296,26 @@ const client = new NeopleDFClient(apiKey, {
   gotInstance: got.extend({
     hooks: {
       beforeRequest: [
-        (options) => {
+        options => {
           console.log('🚀 요청 시작:', {
             method: options.method,
             url: options.url?.toString(),
-            headers: options.headers
+            headers: options.headers,
           });
-        }
+        },
       ],
       afterResponse: [
-        (response) => {
+        response => {
           console.log('✅응답 완료:', {
             statusCode: response.statusCode,
             headers: response.headers,
-            timing: response.timings
+            timing: response.timings,
           });
           return response;
-        }
-      ]
-    }
-  })
+        },
+      ],
+    },
+  }),
 });
 ```
 
@@ -334,9 +331,9 @@ const client = new NeopleDFClient(apiKey, {
     timeout: 30000,
     proxy: {
       host: 'proxy.example.com',
-      port: 8080
-    }
-  })
+      port: 8080,
+    },
+  }),
 });
 
 // After (Got)
@@ -344,11 +341,11 @@ const client = new NeopleDFClient(apiKey, {
   httpAdapter: 'got',
   gotInstance: got.extend({
     timeout: {
-      request: 30000
+      request: 30000,
     },
     agent: {
-      https: new HttpsProxyAgent('http://proxy.example.com:8080')
-    }
-  })
+      https: new HttpsProxyAgent('http://proxy.example.com:8080'),
+    },
+  }),
 });
 ```
