@@ -1,7 +1,7 @@
-import { DocsLayout } from 'fumadocs-ui/layouts/docs';
-import type { ReactNode } from 'react';
 import { baseOptions } from '@/app/layout.config';
 import { source } from '@/lib/source';
+import { DocsLayout } from 'fumadocs-ui/layouts/docs';
+import type { ReactNode } from 'react';
 
 // Custom page tree with separators
 function createCustomPageTree() {
@@ -77,6 +77,34 @@ function createCustomPageTree() {
     },
     findPage('error-handling'),
     findPage('examples'),
+    {
+      type: 'separator',
+      name: '외부 링크',
+    },
+    {
+      type: 'page',
+      name: 'Neople SDK JS - GitHub',
+      url: 'https://github.com/crowrish/neople-sdk-js',
+      external: true,
+    },
+    {
+      type: 'page',
+      name: 'Neople SDK JS - NPM',
+      url: 'https://www.npmjs.com/package/neople-sdk-js',
+      external: true,
+    },
+    {
+      type: 'page',
+      name: 'noeple-openapi-types - GitHub',
+      url: 'https://github.com/crowrish/neople-openapi-types',
+      external: true,
+    },
+    {
+      type: 'page',
+      name: 'Neople Developers',
+      url: 'https://developers.neople.co.kr/',
+      external: true,
+    },
   ].filter(Boolean);
 
   return {

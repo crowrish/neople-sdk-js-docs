@@ -106,7 +106,7 @@ export default function HomePage() {
               </div>
             </div>
             <div>
-              <p className="text-sm text-fd-muted-foreground mb-2">사용법</p>
+              <p className="text-sm text-fd-muted-foreground mb-2">사용법 - 던전앤파이터</p>
               <div className="rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-900">
                 <SyntaxHighlighter
                   language="typescript"
@@ -154,6 +154,55 @@ const characters = await client.searchCharacter('홍길동');`}
                 </SyntaxHighlighter>
               </div>
             </div>
+            <div>
+              <p className="text-sm text-fd-muted-foreground mb-2">사용법 - 사이퍼즈</p>
+              <div className="rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-900">
+                <SyntaxHighlighter
+                  language="typescript"
+                  style={{
+                    ...oneLight,
+                    'pre[class*="language-"]': {
+                      ...oneLight['pre[class*="language-"]'],
+                      background: 'transparent',
+                    },
+                  }}
+                  customStyle={{
+                    margin: 0,
+                    padding: '1rem',
+                    fontSize: '0.875rem',
+                    background: 'transparent',
+                  }}
+                  className="dark:hidden"
+                >
+                  {`import { NeopleCyphersClient } from 'neople-sdk-js';
+
+const client = new NeopleCyphersClient(apiKey);
+const players = await client.searchPlayer('홍길동');`}
+                </SyntaxHighlighter>
+                <SyntaxHighlighter
+                  language="typescript"
+                  style={{
+                    ...oneDark,
+                    'pre[class*="language-"]': {
+                      ...oneDark['pre[class*="language-"]'],
+                      background: 'transparent',
+                    },
+                  }}
+                  customStyle={{
+                    margin: 0,
+                    padding: '1rem',
+                    fontSize: '0.875rem',
+                    background: 'transparent',
+                  }}
+                  className="hidden dark:block"
+                >
+                  {`import { NeopleCyphersClient } from 'neople-sdk-js';
+
+const client = new NeopleCyphersClient(apiKey);
+const players = await client.searchPlayer('홍길동');`}
+                </SyntaxHighlighter>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -166,7 +215,7 @@ const characters = await client.searchCharacter('홍길동');`}
             className="inline-block hover:opacity-80 transition-opacity"
           >
             <img
-              src="/neople-sdk-js-docs/images/neople.png"
+              src={process.env.NODE_ENV === 'production' ? '/neople-sdk-js-docs/images/neople.png' : '/images/neople.png'}
               alt="Neople 오픈 API"
               width={180}
               height={32}

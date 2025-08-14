@@ -7,8 +7,10 @@ const config = {
   reactStrictMode: true,
   output: 'export',
   trailingSlash: true,
-  basePath: '/neople-sdk-js-docs',
-  assetPrefix: '/neople-sdk-js-docs',
+  ...(process.env.NODE_ENV === 'production' && {
+    basePath: '/neople-sdk-js-docs',
+    assetPrefix: '/neople-sdk-js-docs',
+  }),
   images: {
     unoptimized: true,
   },
