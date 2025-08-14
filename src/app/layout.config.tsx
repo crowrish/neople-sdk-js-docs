@@ -12,7 +12,7 @@ export const baseOptions: BaseLayoutProps = {
     title: (
       <>
         <img
-          src="/icon_mini.png"
+          src="/neople-sdk-js-docs/icon_mini.png"
           alt="Neople Logo"
           width={24}
           height={24}
