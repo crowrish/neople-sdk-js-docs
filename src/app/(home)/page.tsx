@@ -17,10 +17,34 @@ export default function HomePage() {
           <p className="mb-8 text-xl sm:text-2xl text-fd-muted-foreground max-w-2xl mx-auto">
             네오플 오픈 API를 위한 TypeScript/JavaScript SDK
           </p>
-          <p className="mb-12 text-lg text-fd-muted-foreground max-w-3xl mx-auto">
+          <p className="mb-6 text-lg text-fd-muted-foreground max-w-3xl mx-auto">
             네오플 오픈 API에 쉽고 안전하게 접근하세요. 타입 안전성과 다양한
             HTTP 어댑터를 지원합니다.
           </p>
+
+          {/* NPM & GitHub Badges */}
+          <div className="flex justify-center flex-wrap gap-2 mb-12">
+            <a
+              href="https://github.com/crowrish/neople-sdk-js"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="https://img.shields.io/badge/GitHub-neople--sdk--js-blue?style=flat-square&logo=github"
+                alt="GitHub"
+              />
+            </a>
+            <a
+              href="https://www.npmjs.com/package/neople-sdk-js"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="https://img.shields.io/npm/v/neople-sdk-js.svg?style=flat-square"
+                alt="npm version"
+              />
+            </a>
+          </div>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
