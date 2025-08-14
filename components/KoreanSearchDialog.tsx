@@ -34,9 +34,11 @@ export function KoreanSearchDialog({
   // 결과 클릭 핸들러
   const handleResultClick = useCallback(
     (result: SearchResult) => {
+      const basePath =
+        process.env.NODE_ENV === 'production' ? '/neople-sdk-js-docs' : '';
       const targetUrl = result.anchorId
-        ? `${result.url}#${result.anchorId}`
-        : result.url;
+        ? `${basePath}${result.url}#${result.anchorId}`
+        : `${basePath}${result.url}`;
 
       window.location.href = targetUrl;
       onOpenChange(false);

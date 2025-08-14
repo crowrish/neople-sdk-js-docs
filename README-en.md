@@ -78,6 +78,7 @@ yarn start
 ```
 
 **Or build all at once:**
+
 ```bash
 # Build search index + Next.js build in one command
 yarn build:full
@@ -86,6 +87,7 @@ yarn build:full
 ### Korean Search Features
 
 This documentation site uses a **custom Korean search engine**:
+
 - ✅ **Chosung Search**: `ㄷㅈ` → `던전앤파이터` (Dungeon & Fighter)
 - ✅ **Partial Search**: `던전` → `던전앤파이터 API`
 - ✅ **Function Search**: `getCharacter` → Function descriptions
