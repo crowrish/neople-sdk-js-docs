@@ -61,7 +61,7 @@ export async function generateMetadata(props: {
     },
     openGraph: {
       type: 'article',
-      title,
+      title: `${title} - Neople SDK JS Docs`,
       description,
       url,
       siteName: 'Neople SDK JS Docs',
@@ -77,7 +77,7 @@ export async function generateMetadata(props: {
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: `${title} - Neople SDK JS Docs`,
       description,
       images: ['/og-image.png'],
     },
