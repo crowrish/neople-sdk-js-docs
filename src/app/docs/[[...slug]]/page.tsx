@@ -1,13 +1,14 @@
 import { source } from '@/lib/source';
+import { getMDXComponents } from '@/mdx-components';
+import { createRelativeLink } from 'fumadocs-ui/mdx';
 import {
-  DocsPage,
   DocsBody,
   DocsDescription,
+  DocsPage,
   DocsTitle,
 } from 'fumadocs-ui/page';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { createRelativeLink } from 'fumadocs-ui/mdx';
-import { getMDXComponents } from '@/mdx-components';
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
@@ -40,13 +41,52 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(props: {
   params: Promise<{ slug?: string[] }>;
-}) {
+}): Promise<Metadata> {
   const params = await props.params;
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
+  const title = page.data.title;
+  const description =
+    page.data.description ||
+    '네오플 오픈 API를 위한 TypeScript/JavaScript SDK 문서';
+  const slug = params.slug ? params.slug.join('/') : '';
+  const url = `/docs/${slug}`;
+
   return {
-    title: page.data.title,
-    description: page.data.description,
+    title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      type: 'article',
+      title,
+      description,
+      url,
+      siteName: 'Neople SDK JS Docs',
+      locale: 'ko_KR',
+      images: [
+        {
+          url:
+            process.env.NODE_ENV === 'production'
+              ? '/neople-sdk-js-docs/images/neople.png'
+              : '/images/neople.png',
+          width: 180,
+          height: 32,
+          alt: 'Neople SDK JS',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
+      images: [
+        process.env.NODE_ENV === 'production'
+          ? '/neople-sdk-js-docs/images/neople.png'
+          : '/images/neople.png',
+      ],
+    },
   };
 }

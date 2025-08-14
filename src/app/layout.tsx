@@ -24,6 +24,71 @@ export const metadata: Metadata = {
     template: '%s - Neople SDK JS Docs',
   },
   description: '네오플 오픈 API를 위한 TypeScript/JavaScript SDK',
+  keywords: [
+    'Neople',
+    'SDK',
+    'TypeScript',
+    'JavaScript',
+    '네오플',
+    '던전앤파이터',
+    '사이퍼즈',
+    'API',
+  ],
+  authors: [{ name: 'crowrish' }],
+  creator: 'crowrish',
+  publisher: 'Neople SDK JS Docs',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL(
+    process.env.NODE_ENV === 'production'
+      ? 'https://crowrish.github.io/neople-sdk-js-docs'
+      : 'http://localhost:3000'
+  ),
+  openGraph: {
+    type: 'website',
+    locale: 'ko_KR',
+    title: 'Neople SDK JS Docs',
+    description: '네오플 오픈 API를 위한 TypeScript/JavaScript SDK',
+    siteName: 'Neople SDK JS Docs',
+    images: [
+      {
+        url:
+          process.env.NODE_ENV === 'production'
+            ? '/neople-sdk-js-docs/images/neople.png'
+            : '/images/neople.png',
+        width: 180,
+        height: 32,
+        alt: 'Neople SDK JS',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Neople SDK JS Docs',
+    description: '네오플 오픈 API를 위한 TypeScript/JavaScript SDK',
+    images: [
+      process.env.NODE_ENV === 'production'
+        ? '/neople-sdk-js-docs/images/neople.png'
+        : '/images/neople.png',
+    ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+  },
 };
 
 export default function Layout({ children }: { children: ReactNode }) {

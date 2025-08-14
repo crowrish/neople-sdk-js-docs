@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import {
-  oneLight,
   oneDark,
+  oneLight,
 } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export default function HomePage() {
@@ -18,8 +18,8 @@ export default function HomePage() {
             네오플 오픈 API를 위한 TypeScript/JavaScript SDK
           </p>
           <p className="mb-12 text-lg text-fd-muted-foreground max-w-3xl mx-auto">
-            네오플 오픈 API에 쉽고 안전하게 접근하세요. 완전한 타입 안전성과
-            다양한 HTTP 어댑터를 지원합니다.
+            네오플 오픈 API에 쉽고 안전하게 접근하세요. 타입 안전성과 다양한
+            HTTP 어댑터를 지원합니다.
           </p>
 
           {/* CTA Buttons */}
@@ -43,7 +43,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-2xl mx-auto">
           <div className="text-center p-6 rounded-lg border border-fd-border">
             <div className="mb-4 text-2xl">📝</div>
-            <h3 className="mb-2 text-lg font-semibold">완전한 TypeScript</h3>
+            <h3 className="mb-2 text-lg font-semibold">TypeScript 지원</h3>
             <p className="text-sm text-fd-muted-foreground">
               모든 API에 대한 타입 안전성과 자동완성
             </p>
@@ -106,7 +106,9 @@ export default function HomePage() {
               </div>
             </div>
             <div>
-              <p className="text-sm text-fd-muted-foreground mb-2">사용법 - 던전앤파이터</p>
+              <p className="text-sm text-fd-muted-foreground mb-2">
+                사용법 - 던전앤파이터
+              </p>
               <div className="rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-900">
                 <SyntaxHighlighter
                   language="typescript"
@@ -155,7 +157,9 @@ const characters = await client.searchCharacter('홍길동');`}
               </div>
             </div>
             <div>
-              <p className="text-sm text-fd-muted-foreground mb-2">사용법 - 사이퍼즈</p>
+              <p className="text-sm text-fd-muted-foreground mb-2">
+                사용법 - 사이퍼즈
+              </p>
               <div className="rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-900">
                 <SyntaxHighlighter
                   language="typescript"
@@ -215,7 +219,11 @@ const players = await client.searchPlayer('홍길동');`}
             className="inline-block hover:opacity-80 transition-opacity"
           >
             <img
-              src={process.env.NODE_ENV === 'production' ? '/neople-sdk-js-docs/images/neople.png' : '/images/neople.png'}
+              src={
+                process.env.NODE_ENV === 'production'
+                  ? '/neople-sdk-js-docs/images/neople.png'
+                  : '/images/neople.png'
+              }
               alt="Neople 오픈 API"
               width={180}
               height={32}
