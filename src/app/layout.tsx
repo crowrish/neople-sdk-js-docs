@@ -55,10 +55,7 @@ export const metadata: Metadata = {
     siteName: 'Neople SDK JS Docs',
     images: [
       {
-        url:
-          process.env.NODE_ENV === 'production'
-            ? '/neople-sdk-js-docs/og-image.png'
-            : '/og-image.png',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Neople OpenAPI SDK for JavaScript/TypeScript',
@@ -69,11 +66,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Neople SDK JS Docs',
     description: '네오플 오픈 API를 위한 TypeScript/JavaScript SDK',
-    images: [
-      process.env.NODE_ENV === 'production'
-        ? '/neople-sdk-js-docs/og-image.png'
-        : '/og-image.png',
-    ],
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,

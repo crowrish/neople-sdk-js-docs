@@ -68,10 +68,7 @@ export async function generateMetadata(props: {
       locale: 'ko_KR',
       images: [
         {
-          url:
-            process.env.NODE_ENV === 'production'
-              ? '/neople-sdk-js-docs/og-image.png'
-              : '/og-image.png',
+          url: '/og-image.png',
           width: 1200,
           height: 630,
           alt: 'Neople OpenAPI SDK for JavaScript/TypeScript',
@@ -82,11 +79,7 @@ export async function generateMetadata(props: {
       card: 'summary_large_image',
       title,
       description,
-      images: [
-        process.env.NODE_ENV === 'production'
-          ? '/neople-sdk-js-docs/og-image.png'
-          : '/og-image.png',
-      ],
+      images: ['/og-image.png'],
     },
   };
 }
