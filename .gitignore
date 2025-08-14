@@ -26,3 +26,25 @@ yarn-error.log*
 .env*.local
 .vercel
 next-env.d.ts
+
+# development files
+CLAUDE.md
+.claude/
+.cursor/
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+
+# temporary files
+*.tmp
+*.temp
+.temp/
+temp/
+
+# log files
+logs/
+*.log
+
+# OS files
+Thumbs.db
+.DS_Store?
