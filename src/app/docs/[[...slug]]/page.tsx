@@ -70,22 +70,22 @@ export async function generateMetadata(props: {
         {
           url:
             process.env.NODE_ENV === 'production'
-              ? '/neople-sdk-js-docs/images/neople.png'
-              : '/images/neople.png',
-          width: 180,
-          height: 32,
-          alt: 'Neople SDK JS',
+              ? '/neople-sdk-js-docs/og-image.png'
+              : '/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: 'Neople OpenAPI SDK for JavaScript/TypeScript',
         },
       ],
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title,
       description,
       images: [
         process.env.NODE_ENV === 'production'
-          ? '/neople-sdk-js-docs/images/neople.png'
-          : '/images/neople.png',
+          ? '/neople-sdk-js-docs/og-image.png'
+          : '/og-image.png',
       ],
     },
   };
