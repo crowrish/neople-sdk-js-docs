@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "next build",
-    "dev": "next dev --turbo",
+    "build": "yarn build-search && next build",
+    "build-search": "tsx scripts/build-search-index.ts",
+    "dev": "yarn build-search && next dev --turbo",
     "start": "next start",
     "postinstall": "fumadocs-mdx",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
@@ -16,9 +17,13 @@
   },
   "dependencies": {
     "@types/react-syntax-highlighter": "^15.5.13",
+    "es-hangul": "^2.3.5",
     "fumadocs-core": "15.6.9",
     "fumadocs-mdx": "11.7.3",
     "fumadocs-ui": "15.6.9",
+    "hangul-search-js": "^1.0.5",
+    "lucide-react": "^0.539.0",
+    "minisearch": "^7.1.2",
     "neople-sdk-js": "0.2.2",
     "next": "15.4.5",
     "react": "^19.1.1",
@@ -35,10 +40,12 @@
     "eslint-config-next": "15.4.5",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
+    "gray-matter": "^4.0.3",
     "neople-openapi-types": "0.3.0",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "tailwindcss": "^4.1.11",
+    "tsx": "^4.20.4",
     "typescript": "^5.9.2"
   }
 }

@@ -4,6 +4,8 @@ import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
+import { SearchProvider } from '@/components/SearchProvider';
+// import { KoreanSearchDialog } from '@/components/KoreanSearchDialog';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -97,7 +99,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             enabled: false,
           }}
         >
-          {children}
+          <SearchProvider>{children}</SearchProvider>
         </RootProvider>
       </body>
     </html>

@@ -47,21 +47,49 @@ This documentation site is a Next.js application built with [Fumadocs](https://f
 
 Read the [Fumadocs Introduction](https://fumadocs.dev/docs/mdx) for further details.
 
-## Development
+## Development & Build
+
+### Development Environment
 
 ```bash
 # Install dependencies
 yarn install
 
+# Build search index (required for first run)
+yarn build-search
+
 # Start development server
 yarn dev
+```
 
-# Build for production
+### Production Build
+
+⚠️ **Important**: This site includes Korean search functionality, so commands must be executed **in order**.
+
+```bash
+# 1. Build search index (Convert MDX documents to JSON)
+yarn build-search
+
+# 2. Build Next.js (Generate static site)
 yarn build
 
-# Start production server
+# 3. Start production server (optional)
 yarn start
 ```
+
+**Or build all at once:**
+```bash
+# Build search index + Next.js build in one command
+yarn build:full
+```
+
+### Korean Search Features
+
+This documentation site uses a **custom Korean search engine**:
+- ✅ **Chosung Search**: `ㄷㅈ` → `던전앤파이터` (Dungeon & Fighter)
+- ✅ **Partial Search**: `던전` → `던전앤파이터 API`
+- ✅ **Function Search**: `getCharacter` → Function descriptions
+- ✅ **Anchor Links**: Click results to jump to exact locations
 
 ## Links
 

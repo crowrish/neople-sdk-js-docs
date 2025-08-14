@@ -1,4 +1,5 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
+// import { CustomSearchTrigger } from '@/components/CustomSearchTrigger';
 
 /**
  * Shared layout configurations

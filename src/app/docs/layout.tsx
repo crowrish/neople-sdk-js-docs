@@ -2,6 +2,7 @@ import { baseOptions } from '@/app/layout.config';
 import { source } from '@/lib/source';
 import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import type { ReactNode } from 'react';
+import { CustomSearchTrigger } from '@/components/CustomSearchTrigger';
 
 // Custom page tree with separators
 function createCustomPageTree() {
@@ -117,7 +118,13 @@ export default function Layout({ children }: { children: ReactNode }) {
   const customTree = createCustomPageTree();
 
   return (
-    <DocsLayout tree={customTree as never} {...baseOptions}>
+    <DocsLayout
+      tree={customTree as never}
+      {...baseOptions}
+      sidebar={{
+        banner: <CustomSearchTrigger />,
+      }}
+    >
       {children}
     </DocsLayout>
   );
