@@ -24,7 +24,7 @@
     "hangul-search-js": "^1.0.5",
     "lucide-react": "^0.539.0",
     "minisearch": "^7.1.2",
-    "neople-sdk-js": "0.2.5",
+    "neople-sdk-js": "0.2.6",
     "next": "15.4.5",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

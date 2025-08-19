@@ -1578,7 +1578,7 @@
   {
     "id": "overview.mdx-main",
     "title": "개요",
-    "content": "네오플 오픈 API를 위한 TypeScript/JavaScript SDK입니다. TypeScript 지원 모든 API에 대한 타입 안전성과 자동완성을 제공합니다. 다중 HTTP 어댑터 지원 Fetch, Axios, Got, Node-fetch 중 선택하여 사용할 수 있습니다. 포괄적인 API 지원 46개의 API 엔드포인트 지원 (던전앤파이터 35개, 사이퍼즈 11개) URL Builder 지원 API 엔드포인트 URL 추출 가능 - Node.js 18+ - 서버 애플리케이션 - Next.js - API 라우트 및 서버 컴포넌트 - Express.js - 웹 서버 - 서버리스 함수 - Vercel, AWS Lambda 등 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/v/neople-sdk-js.svg?style=flat-square\"       alt=\"npm version\"     />   </a>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/dm/neople-sdk-js.svg?style=flat-square\"       alt=\"npm downloads\"     />   </a> </div> - 라이센스: MIT - 타입 정의: neople-openapi-types 1.0.0 포함 - GitHub: neople-sdk-js <Cards>   <Card title=\"설치 및 설정\" href=\"/docs/getting-started\" />   <Card title=\"던전앤파이터 API\" href=\"/docs/api-dungeon-fighter\" />   <Card title=\"사이퍼즈 API\" href=\"/docs/api-cyphers\" />   <Card title=\"설정 가이드\" href=\"/docs/configuration\" /> </Cards> <Cards>   <Card title=\"HTTP 어댑터\" href=\"/docs/adapter-fetch\" />   <Card title=\"오류 처리\" href=\"/docs/error-handling\" />   <Card title=\"타입 정의\" href=\"/docs/types\" />   <Card title=\"예제 코드\" href=\"/docs/examples\" /> </Cards>",
+    "content": "네오플 오픈 API를 위한 TypeScript/JavaScript SDK입니다. TypeScript 지원 모든 API에 대한 타입 안전성과 자동완성을 제공합니다. 다중 HTTP 어댑터 지원 Fetch, Axios, Got, Node-fetch 중 선택하여 사용할 수 있습니다. 포괄적인 API 지원 45개의 API 엔드포인트 지원 (던전앤파이터 34개, 사이퍼즈 11개) URL Builder 지원 API 엔드포인트 URL 추출 가능 - Node.js 18+ - 서버 애플리케이션 - Next.js - API 라우트 및 서버 컴포넌트 - Express.js - 웹 서버 - 서버리스 함수 - Vercel, AWS Lambda 등 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/v/neople-sdk-js.svg?style=flat-square\"       alt=\"npm version\"     />   </a>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/dm/neople-sdk-js.svg?style=flat-square\"       alt=\"npm downloads\"     />   </a> </div> - 라이센스: MIT - 타입 정의: neople-openapi-types 1.0.0 포함 - GitHub: neople-sdk-js <Cards>   <Card title=\"설치 및 설정\" href=\"/docs/getting-started\" />   <Card title=\"던전앤파이터 API\" href=\"/docs/api-dungeon-fighter\" />   <Card title=\"사이퍼즈 API\" href=\"/docs/api-cyphers\" />   <Card title=\"설정 가이드\" href=\"/docs/configuration\" /> </Cards> <Cards>   <Card title=\"HTTP 어댑터\" href=\"/docs/adapter-fetch\" />   <Card title=\"오류 처리\" href=\"/docs/error-handling\" />   <Card title=\"타입 정의\" href=\"/docs/types\" />   <Card title=\"예제 코드\" href=\"/docs/examples\" /> </Cards>",
     "url": "/docs/overview"
   },
   {
@@ -1602,7 +1602,7 @@
   {
     "id": "overview.mdx-6",
     "title": "개요",
-    "content": "46개의 API 엔드포인트 지원 (던전앤파이터 35개, 사이퍼즈 11개)",
+    "content": "45개의 API 엔드포인트 지원 (던전앤파이터 34개, 사이퍼즈 11개)",
     "url": "/docs/overview"
   },
   {
