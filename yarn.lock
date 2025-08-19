@@ -4251,10 +4251,10 @@ neople-openapi-types@1.0.0, neople-openapi-types@^1.0.0:
   resolved "https://registry.yarnpkg.com/neople-openapi-types/-/neople-openapi-types-1.0.0.tgz#150e7c81422ee3c7ceb79e20a81b653ee4197306"
   integrity sha512-zAt8PYZ5VugzWsXYks7Iro054M6tEWRsQYff1KunjzpfdxUaOLf4ASNl6cHPDFQfaNmR3AG+oJCoAu+r6ly6qQ==
 
-neople-sdk-js@0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/neople-sdk-js/-/neople-sdk-js-0.2.4.tgz#68ed0e5159517299ca6259634279fd3761b7ce5d"
-  integrity sha512-mOyE7D7ckV3hVQDMiTmCptLfOHgsNrCebFZfbp3gFesrFtphN5VCVfFURBh+o8A727DZ6SBk3S8LuBpqAuXZ0w==
+neople-sdk-js@0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/neople-sdk-js/-/neople-sdk-js-0.2.5.tgz#100fd1349f8d76d6e255f51cc19cc385753e76d1"
+  integrity sha512-YtMf4YtYRpz95VTxkjGgxtiI/WqxEfHGqVGnwbnoWjXV54+2jPnIu3WTbo2fQWULDgxgzYDVq7tWnMJ0xnLXFQ==
   dependencies:
     neople-openapi-types "^1.0.0"
 

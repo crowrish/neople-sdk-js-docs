@@ -175,24 +175,39 @@ const avatar = await dfClient.getCharacterAvatar('cain', 'characterId');
 
 **반환값:** Avatar[] - 아바타 장비 정보
 
-### getCharacterSkill(serverId, characterId, jobId?, jobGrowId?)
+### getCharacterCreature(serverId, characterId)
 
-캐릭터의 스킬 정보를 가져옵니다.
+캐릭터의 크리쳐 정보를 가져옵니다.
 
-**엔드포인트:** `GET /df/servers/{serverId}/characters/{characterId}/skill/style`
+**엔드포인트:** `GET /df/servers/{serverId}/characters/{characterId}/equip/creature`
 
 ```typescript
-const skills = await dfClient.getCharacterSkill('cain', 'characterId');
+const creature = await dfClient.getCharacterCreature('cain', 'characterId');
 ```
 
 **매개변수:**
 
 - `serverId` (string): 서버 식별자
 - `characterId` (string): 캐릭터 식별자
-- `jobId` (string, 선택사항): 직업 식별자
-- `jobGrowId` (string, 선택사항): 전직 식별자
 
-**반환값:** CharacterSkill[] - 캐릭터 스킬 정보와 레벨
+**반환값:** Creature - 크리쳐 정보와 스탯
+
+### getCharacterFlag(serverId, characterId)
+
+캐릭터의 휘장 정보를 가져옵니다.
+
+**엔드포인트:** `GET /df/servers/{serverId}/characters/{characterId}/equip/flag`
+
+```typescript
+const flag = await dfClient.getCharacterFlag('cain', 'characterId');
+```
+
+**매개변수:**
+
+- `serverId` (string): 서버 식별자
+- `characterId` (string): 캐릭터 식별자
+
+**반환값:** Flag - 휘장 정보와 스탯
 
 ### getCharacterTalisman(serverId, characterId)
 
@@ -364,14 +379,14 @@ const status = await dfClient.getCharacterStatus('cain', 'characterId');
 
 ## 아이템 메서드
 
-### searchItem(itemName, limit?)
+### searchItems(itemName, limit?)
 
 이름으로 아이템을 검색합니다.
 
 **엔드포인트:** `GET /df/items`
 
 ```typescript
-const items = await dfClient.searchItem('무기');
+const items = await dfClient.searchItems('무기');
 ```
 
 **매개변수:**
@@ -736,6 +751,29 @@ const auctionItem = await dfClient.getAuctionItem('auctionNo');
 - `auctionNo` (string): 경매 번호
 
 **반환값:** AuctionItem - 경매 아이템 상세 정보
+
+### getAuctionSold(params)
+
+판매된 경매 아이템을 검색합니다.
+
+**엔드포인트:** `GET /df/auction-sold`
+
+```typescript
+const soldItems = await dfClient.getAuctionSold({
+  itemId: 'itemId',
+  serverId: 'cain',
+  limit: 20
+});
+```
+
+**매개변수:**
+
+- `params` (AuctionSoldParams): 검색 매개변수
+  - `itemId` (string, 선택사항): 아이템 ID
+  - `serverId` (string, 선택사항): 서버 ID
+  - `limit` (number, 선택사항): 최대 결과 수
+
+**반환값:** AuctionSoldResult - 판매된 경매 아이템 목록
 
 ## 서버 정보
 

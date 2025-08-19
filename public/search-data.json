@@ -64,7 +64,7 @@
   {
     "id": "api-cyphers.mdx-main",
     "title": "사이퍼즈 API",
-    "content": "사이퍼즈 API 레퍼런스 NeopleCyphersClient는 네오플 오픈 API를 통해 사이퍼즈 게임 데이터에 접근을 제공합니다. - apiKey (string): 사이퍼즈 API 키 - options (object, 선택사항): 설정 옵션   - httpAdapter: 사용자 지정 HTTP 클라이언트 어댑터   - baseURL: API 요청을 위한 사용자 지정 기본 URL searchPlayer(playerName, options?) 이름으로 플레이어를 검색합니다. 엔드포인트: GET /cy/players - playerName (string): 검색할 플레이어 이름 - options (SearchPlayerOptions, 선택사항): 검색 옵션   - limit (number, 선택사항): 최대 결과 개수 (기본값: 10)   - wordType (string, 선택사항): 검색 방식     - 'match': 정확히 일치 (기본값)     - 'front': 앞 글자 일치     - 'full': 전체 검색 반환값: PlayerSearchResult - 기본 정보가 포함된 플레이어 검색 결과 getPlayerInfo(playerId) 상세한 플레이어 정보를 가져옵니다. 엔드포인트: GET /cy/players/{playerId} - playerId (string): 플레이어 식별자 반환값: PlayerDetail - 스탯과 랭킹이 포함된 상세 플레이어 정보 getPlayerRanking(playerId) 플레이어의 랭킹 정보를 가져옵니다. 엔드포인트: GET /cy/players/{playerId}/ranking - playerId (string): 플레이어 식별자 반환값: PlayerRanking - 다양한 게임 모드의 플레이어 랭킹 getPlayerMatches(playerId, options?) 플레이어의 경기 기록을 가져옵니다. 엔드포인트: GET /cy/players/{playerId}/matches - playerId (string): 플레이어 식별자 - options (GetMatchesOptions, 선택사항): 조회 옵션   - gameTypeId (string, 선택사항): 게임 타입 필터     - 'normal': 일반 경기     - 'rating': 랭킹 경기     - 'tutorial': 튜토리얼 경기     - 'custom': 커스텀 경기   - startDate (string, 선택사항): 시작 날짜 필터 (YYYY-MM-DD)   - endDate (string, 선택사항): 끝 날짜 필터 (YYYY-MM-DD)   - limit (number, 선택사항): 최대 결과 개수 (기본값: 10)   - next (string, 선택사항): 페이지네이션을 위한 다음 페이지 토큰 반환값: MatchesResult - 상세 정보가 포함된 경기 목록 getMatchDetail(matchId) 상세한 경기 정보를 가져옵니다. 엔드포인트: GET /cy/matches/{matchId} - matchId (string): 경기 식별자 반환값: MatchDetail - 모든 플레이어와 결과를 포함한 상세 경기 정보 getOverallRanking(rankingType, offset?, limit?) 전체 랭킹을 가져옵니다. 엔드포인트: GET /cy/ranking/ratingpoint - rankingType (string): 랭킹 타입 ('mmr', 'bp' 등) - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수 반환값: RankingResult - 전체 랭킹 목록 getCharacterRanking(characterId, offset?, limit?) 특정 캐릭터의 랭킹을 가져옵니다. 엔드포인트: GET /cy/ranking/characters/{characterId} - characterId (string): 캐릭터 식별자 - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수 반환값: CharacterRankingResult - 캐릭터별 랭킹 목록 getTsjRanking(rankingType, offset?, limit?) TSJ(Team vs Team) 랭킹을 가져옵니다. 엔드포인트: GET /cy/ranking/tsj - rankingType (string): TSJ 랭킹 타입 ('melee', 'ranged') - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수 반환값: TsjRankingResult - TSJ 랭킹 목록 searchCyphersItems() 사용 가능한 모든 아이템 목록을 검색합니다. 엔드포인트: GET /cy/battleitems/items 반환값: Item[] - 기본 정보가 포함된 모든 아이템 목록 getCyphersInfo() 사이퍼즈 게임 정보를 가져옵니다. 엔드포인트: GET /cy/cyphers 반환값: CyphersInfo - 사이퍼즈 게임 관련 정보 getCyphersItemDetail(itemId) 아이템의 상세 정보를 가져옵니다. 엔드포인트: GET /cy/battleitems/items/{itemId} - itemId (string): 아이템 식별자 반환값: ItemDetail - 상세 아이템 정보 및 스탯 getCyphersMultiItems(itemIds) 여러 아이템 정보를 한 번에 가져옵니다. 엔드포인트: GET /cy/multi/items - itemIds (string[]): 아이템 식별자 배열 반환값: ItemDetail[] - 여러 아이템의 상세 정보 모든 메서드는 다양한 이유로 오류를 발생시킬 수 있습니다: 일반적인 게임 타입 식별자: - normal: 일반 경기 - rating: 랭킹 경기 - tutorial: 튜토리얼 경기 - custom: 커스텀 경기 경기 결과에 포함되는 정보: - 플레이어 정보 및 통계 - 캐릭터 선택 및 빌드 - 팀 구성 - 경기 시간 및 결과 - 개별 플레이어 성능 지표",
+    "content": "사이퍼즈 API 레퍼런스 NeopleCyphersClient는 네오플 오픈 API를 통해 사이퍼즈 게임 데이터에 접근을 제공합니다. - apiKey (string): 사이퍼즈 API 키 - options (object, 선택사항): 설정 옵션   - httpAdapter: 사용자 지정 HTTP 클라이언트 어댑터   - baseURL: API 요청을 위한 사용자 지정 기본 URL searchPlayer(playerName, options?) 이름으로 플레이어를 검색합니다. 엔드포인트: GET /cy/players - playerName (string): 검색할 플레이어 이름 - options (SearchPlayerOptions, 선택사항): 검색 옵션   - limit (number, 선택사항): 최대 결과 개수 (기본값: 10)   - wordType (string, 선택사항): 검색 방식     - 'match': 정확히 일치 (기본값)     - 'front': 앞 글자 일치     - 'full': 전체 검색 반환값: PlayerSearchResult - 기본 정보가 포함된 플레이어 검색 결과 getPlayerInfo(playerId) 상세한 플레이어 정보를 가져옵니다. 엔드포인트: GET /cy/players/{playerId} - playerId (string): 플레이어 식별자 반환값: PlayerDetail - 스탯과 랭킹이 포함된 상세 플레이어 정보 getPlayerMatches(playerId, options?) 플레이어의 경기 기록을 가져옵니다. 엔드포인트: GET /cy/players/{playerId}/matches - playerId (string): 플레이어 식별자 - options (GetMatchesOptions, 선택사항): 조회 옵션   - gameTypeId (string, 선택사항): 게임 타입 필터     - 'normal': 일반 경기     - 'rating': 랭킹 경기     - 'tutorial': 튜토리얼 경기     - 'custom': 커스텀 경기   - startDate (string, 선택사항): 시작 날짜 필터 (YYYY-MM-DD)   - endDate (string, 선택사항): 끝 날짜 필터 (YYYY-MM-DD)   - limit (number, 선택사항): 최대 결과 개수 (기본값: 10)   - next (string, 선택사항): 페이지네이션을 위한 다음 페이지 토큰 반환값: MatchesResult - 상세 정보가 포함된 경기 목록 getMatchDetail(matchId) 상세한 경기 정보를 가져옵니다. 엔드포인트: GET /cy/matches/{matchId} - matchId (string): 경기 식별자 반환값: MatchDetail - 모든 플레이어와 결과를 포함한 상세 경기 정보 getOverallRanking(rankingType, offset?, limit?) 전체 랭킹을 가져옵니다. 엔드포인트: GET /cy/ranking/ratingpoint - rankingType (string): 랭킹 타입 ('mmr', 'bp' 등) - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수 반환값: RankingResult - 전체 랭킹 목록 getCharacterRanking(characterId, offset?, limit?) 특정 캐릭터의 랭킹을 가져옵니다. 엔드포인트: GET /cy/ranking/characters/{characterId} - characterId (string): 캐릭터 식별자 - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수 반환값: CharacterRankingResult - 캐릭터별 랭킹 목록 getTsjRanking(rankingType, offset?, limit?) TSJ(Team vs Team) 랭킹을 가져옵니다. 엔드포인트: GET /cy/ranking/tsj - rankingType (string): TSJ 랭킹 타입 ('melee', 'ranged') - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수 반환값: TsjRankingResult - TSJ 랭킹 목록 searchCyphersItems() 사용 가능한 모든 아이템 목록을 검색합니다. 엔드포인트: GET /cy/battleitems/items 반환값: Item[] - 기본 정보가 포함된 모든 아이템 목록 getCyphersInfo() 사이퍼즈 게임 정보를 가져옵니다. 엔드포인트: GET /cy/cyphers 반환값: CyphersInfo - 사이퍼즈 게임 관련 정보 getCyphersItemDetail(itemId) 아이템의 상세 정보를 가져옵니다. 엔드포인트: GET /cy/battleitems/items/{itemId} - itemId (string): 아이템 식별자 반환값: ItemDetail - 상세 아이템 정보 및 스탯 getCyphersMultiItems(itemIds) 여러 아이템 정보를 한 번에 가져옵니다. 엔드포인트: GET /cy/multi/items - itemIds (string[]): 아이템 식별자 배열 반환값: ItemDetail[] - 여러 아이템의 상세 정보 모든 메서드는 다양한 이유로 오류를 발생시킬 수 있습니다: 일반적인 게임 타입 식별자: - normal: 일반 경기 - rating: 랭킹 경기 - tutorial: 튜토리얼 경기 - custom: 커스텀 경기 경기 결과에 포함되는 정보: - 플레이어 정보 및 통계 - 캐릭터 선택 및 빌드 - 팀 구성 - 경기 시간 및 결과 - 개별 플레이어 성능 지표",
     "url": "/docs/api-cyphers"
   },
   {
@@ -134,268 +134,242 @@
   {
     "id": "api-cyphers.mdx-13",
     "title": "사이퍼즈 API",
-    "content": "getPlayerRanking(playerId)",
-    "url": "/docs/api-cyphers",
-    "anchorId": "getplayerrankingplayerid"
-  },
-  {
-    "id": "api-cyphers.mdx-15",
-    "title": "사이퍼즈 API",
-    "content": "엔드포인트: GET /cy/players/{playerId}/ranking",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-16",
-    "title": "사이퍼즈 API",
-    "content": "- playerId (string): 플레이어 식별자",
-    "url": "/docs/api-cyphers",
-    "anchorId": "getplayerinfoplayerid"
-  },
-  {
-    "id": "api-cyphers.mdx-17",
-    "title": "사이퍼즈 API",
-    "content": "반환값: PlayerRanking - 다양한 게임 모드의 플레이어 랭킹",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-18",
-    "title": "사이퍼즈 API",
     "content": "getPlayerMatches(playerId, options?)",
     "url": "/docs/api-cyphers",
     "anchorId": "getplayermatchesplayerid-options"
   },
   {
-    "id": "api-cyphers.mdx-20",
+    "id": "api-cyphers.mdx-15",
     "title": "사이퍼즈 API",
     "content": "엔드포인트: GET /cy/players/{playerId}/matches",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-21",
+    "id": "api-cyphers.mdx-16",
     "title": "사이퍼즈 API",
     "content": "- playerId (string): 플레이어 식별자 - options (GetMatchesOptions, 선택사항): 조회 옵션   - gameTypeId (string, 선택사항): 게임 타입 필터     - 'normal': 일반 경기     - 'rating': 랭킹 경기     - 'tutorial': 튜토리얼 경기     - 'custom': 커스텀 경기   - startDate (string, 선택사항): 시작 날짜 필터 (YYYY-MM-DD)   - endDate (string, 선택사항): 끝 날짜 필터 (YYYY-MM-DD)   - limit (number, 선택사항): 최대 결과 개수 (기본값: 10)   - next (string, 선택사항): 페이지네이션을 위한 다음 페이지 토큰",
     "url": "/docs/api-cyphers",
     "anchorId": "게임-타입"
   },
   {
-    "id": "api-cyphers.mdx-22",
+    "id": "api-cyphers.mdx-17",
     "title": "사이퍼즈 API",
     "content": "반환값: MatchesResult - 상세 정보가 포함된 경기 목록",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-23",
+    "id": "api-cyphers.mdx-18",
     "title": "사이퍼즈 API",
     "content": "getMatchDetail(matchId)",
     "url": "/docs/api-cyphers",
     "anchorId": "getmatchdetailmatchid"
   },
   {
-    "id": "api-cyphers.mdx-25",
+    "id": "api-cyphers.mdx-20",
     "title": "사이퍼즈 API",
     "content": "엔드포인트: GET /cy/matches/{matchId}",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-26",
+    "id": "api-cyphers.mdx-21",
     "title": "사이퍼즈 API",
     "content": "- matchId (string): 경기 식별자",
     "url": "/docs/api-cyphers",
     "anchorId": "getmatchdetailmatchid"
   },
   {
-    "id": "api-cyphers.mdx-27",
+    "id": "api-cyphers.mdx-22",
     "title": "사이퍼즈 API",
     "content": "반환값: MatchDetail - 모든 플레이어와 결과를 포함한 상세 경기 정보",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-28",
+    "id": "api-cyphers.mdx-23",
     "title": "사이퍼즈 API",
     "content": "getOverallRanking(rankingType, offset?, limit?)",
     "url": "/docs/api-cyphers",
     "anchorId": "getoverallrankingrankingtype-offset-limit"
   },
   {
-    "id": "api-cyphers.mdx-30",
+    "id": "api-cyphers.mdx-25",
     "title": "사이퍼즈 API",
     "content": "엔드포인트: GET /cy/ranking/ratingpoint",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-31",
+    "id": "api-cyphers.mdx-26",
     "title": "사이퍼즈 API",
     "content": "- rankingType (string): 랭킹 타입 ('mmr', 'bp' 등) - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수",
     "url": "/docs/api-cyphers",
     "anchorId": "getoverallrankingrankingtype-offset-limit"
   },
   {
-    "id": "api-cyphers.mdx-32",
+    "id": "api-cyphers.mdx-27",
     "title": "사이퍼즈 API",
     "content": "반환값: RankingResult - 전체 랭킹 목록",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-33",
+    "id": "api-cyphers.mdx-28",
     "title": "사이퍼즈 API",
     "content": "getCharacterRanking(characterId, offset?, limit?)",
     "url": "/docs/api-cyphers",
     "anchorId": "getcharacterrankingcharacterid-offset-limit"
   },
   {
-    "id": "api-cyphers.mdx-35",
+    "id": "api-cyphers.mdx-30",
     "title": "사이퍼즈 API",
     "content": "엔드포인트: GET /cy/ranking/characters/{characterId}",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-36",
+    "id": "api-cyphers.mdx-31",
     "title": "사이퍼즈 API",
     "content": "- characterId (string): 캐릭터 식별자 - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수",
     "url": "/docs/api-cyphers",
     "anchorId": "getcharacterrankingcharacterid-offset-limit"
   },
   {
-    "id": "api-cyphers.mdx-37",
+    "id": "api-cyphers.mdx-32",
     "title": "사이퍼즈 API",
     "content": "반환값: CharacterRankingResult - 캐릭터별 랭킹 목록",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-38",
+    "id": "api-cyphers.mdx-33",
     "title": "사이퍼즈 API",
     "content": "getTsjRanking(rankingType, offset?, limit?)",
     "url": "/docs/api-cyphers",
     "anchorId": "gettsjrankingrankingtype-offset-limit"
   },
   {
-    "id": "api-cyphers.mdx-39",
+    "id": "api-cyphers.mdx-34",
     "title": "사이퍼즈 API",
     "content": "TSJ(Team vs Team) 랭킹을 가져옵니다.",
     "url": "/docs/api-cyphers",
     "anchorId": "gettsjrankingrankingtype-offset-limit"
   },
   {
-    "id": "api-cyphers.mdx-40",
+    "id": "api-cyphers.mdx-35",
     "title": "사이퍼즈 API",
     "content": "엔드포인트: GET /cy/ranking/tsj",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-41",
+    "id": "api-cyphers.mdx-36",
     "title": "사이퍼즈 API",
     "content": "- rankingType (string): TSJ 랭킹 타입 ('melee', 'ranged') - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수",
     "url": "/docs/api-cyphers",
     "anchorId": "getoverallrankingrankingtype-offset-limit"
   },
   {
-    "id": "api-cyphers.mdx-42",
+    "id": "api-cyphers.mdx-37",
     "title": "사이퍼즈 API",
     "content": "반환값: TsjRankingResult - TSJ 랭킹 목록",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-44",
+    "id": "api-cyphers.mdx-39",
     "title": "사이퍼즈 API",
     "content": "사용 가능한 모든 아이템 목록을 검색합니다.",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-45",
+    "id": "api-cyphers.mdx-40",
     "title": "사이퍼즈 API",
     "content": "엔드포인트: GET /cy/battleitems/items",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-46",
+    "id": "api-cyphers.mdx-41",
     "title": "사이퍼즈 API",
     "content": "반환값: Item[] - 기본 정보가 포함된 모든 아이템 목록",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-49",
+    "id": "api-cyphers.mdx-44",
     "title": "사이퍼즈 API",
     "content": "엔드포인트: GET /cy/cyphers",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-50",
+    "id": "api-cyphers.mdx-45",
     "title": "사이퍼즈 API",
     "content": "반환값: CyphersInfo - 사이퍼즈 게임 관련 정보",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-51",
+    "id": "api-cyphers.mdx-46",
     "title": "사이퍼즈 API",
     "content": "getCyphersItemDetail(itemId)",
     "url": "/docs/api-cyphers",
     "anchorId": "getcyphersitemdetailitemid"
   },
   {
-    "id": "api-cyphers.mdx-53",
+    "id": "api-cyphers.mdx-48",
     "title": "사이퍼즈 API",
     "content": "엔드포인트: GET /cy/battleitems/items/{itemId}",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-54",
+    "id": "api-cyphers.mdx-49",
     "title": "사이퍼즈 API",
     "content": "- itemId (string): 아이템 식별자",
     "url": "/docs/api-cyphers",
     "anchorId": "getcyphersitemdetailitemid"
   },
   {
-    "id": "api-cyphers.mdx-55",
+    "id": "api-cyphers.mdx-50",
     "title": "사이퍼즈 API",
     "content": "반환값: ItemDetail - 상세 아이템 정보 및 스탯",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-56",
+    "id": "api-cyphers.mdx-51",
     "title": "사이퍼즈 API",
     "content": "getCyphersMultiItems(itemIds)",
     "url": "/docs/api-cyphers",
     "anchorId": "getcyphersmultiitemsitemids"
   },
   {
-    "id": "api-cyphers.mdx-57",
+    "id": "api-cyphers.mdx-52",
     "title": "사이퍼즈 API",
     "content": "여러 아이템 정보를 한 번에 가져옵니다.",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-58",
+    "id": "api-cyphers.mdx-53",
     "title": "사이퍼즈 API",
     "content": "엔드포인트: GET /cy/multi/items",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-59",
+    "id": "api-cyphers.mdx-54",
     "title": "사이퍼즈 API",
     "content": "- itemIds (string[]): 아이템 식별자 배열",
     "url": "/docs/api-cyphers",
     "anchorId": "getcyphersmultiitemsitemids"
   },
   {
-    "id": "api-cyphers.mdx-60",
+    "id": "api-cyphers.mdx-55",
     "title": "사이퍼즈 API",
     "content": "반환값: ItemDetail[] - 여러 아이템의 상세 정보",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-61",
+    "id": "api-cyphers.mdx-56",
     "title": "사이퍼즈 API",
     "content": "모든 메서드는 다양한 이유로 오류를 발생시킬 수 있습니다:",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-63",
+    "id": "api-cyphers.mdx-58",
     "title": "사이퍼즈 API",
     "content": "- normal: 일반 경기 - rating: 랭킹 경기 - tutorial: 튜토리얼 경기 - custom: 커스텀 경기",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-65",
+    "id": "api-cyphers.mdx-60",
     "title": "사이퍼즈 API",
     "content": "- 플레이어 정보 및 통계 - 캐릭터 선택 및 빌드 - 팀 구성 - 경기 시간 및 결과 - 개별 플레이어 성능 지표",
     "url": "/docs/api-cyphers"
@@ -403,7 +377,7 @@
   {
     "id": "api-dungeon-fighter.mdx-main",
     "title": "던전앤파이터 API",
-    "content": "던전앤파이터 API 레퍼런스 NeopleDFClient는 네오플 오픈 API를 통해 던전앤파이터 게임 데이터에 접근을 제공합니다. - apiKey (string): 던전앤파이터 API 키 - options (object, 선택사항): 설정 옵션   - httpAdapter: 사용자 지정 HTTP 클라이언트 어댑터   - baseURL: API 요청을 위한 사용자 지정 기본 URL searchCharacter(characterName, options?) 이름으로 캐릭터를 검색합니다. 엔드포인트: GET /df/characters | 매개변수            | 타입                   | 필수 | 기본값 | 설명                                  | | ------------------- | ---------------------- | ---- | ------ | ------------------------------------- | | characterName     | string                 | ✅   | -      | 검색할 캐릭터 이름 (URL 인코딩 필요)  | | options           | SearchCharacterOptions | -    | -      | 검색 옵션                             | | options.serverId  | string                 | -    | 'all'  | 서버 ID ('all'로 전체 서버 검색 가능) | | options.jobId     | string                 | -    | -      | 직업 코드로 필터링                    | | options.jobGrowId | string                 | -    | -      | 전직 코드로 필터링                    | | options.limit     | number                 | -    | 10     | 반환할 결과 수 (최대 200)             | 서버 ID 값: 서버 타입은 던전앤파이터 타입 → DFServerType을 참조하세요. 반환값: CharacterSearchResult - 페이지 정보가 포함된 캐릭터 검색 결과 getCharacter(serverId, characterId) 상세한 캐릭터 정보를 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId} | 매개변수      | 타입   | 필수 | 설명             | | ------------- | ------ | ---- | ---------------- | | serverId    | string | ✅   | 서버 ID          | | characterId | string | ✅   | 캐릭터 고유 코드 | 반환값: CharacterDetail - 기본 스탯과 직업 정보를 포함한 상세 캐릭터 정보 getCharacterEquipment(serverId, characterId) 캐릭터의 장착 아이템을 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/equip/equipment - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: Equipment[] - 상세 스탯이 포함된 장착 아이템 목록 getCharacterAvatar(serverId, characterId) 캐릭터의 아바타 장비를 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/equip/avatar - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: Avatar[] - 아바타 장비 정보 getCharacterSkill(serverId, characterId, jobId?, jobGrowId?) 캐릭터의 스킬 정보를 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/style - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 - jobId (string, 선택사항): 직업 식별자 - jobGrowId (string, 선택사항): 전직 식별자 반환값: CharacterSkill[] - 캐릭터 스킬 정보와 레벨 getCharacterTalisman(serverId, characterId) 캐릭터의 탈리스만 정보를 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/equip/talisman - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: Talisman[] - 탈리스만 장비 정보 getCharacterTimeline(serverId, characterId, code?, startDate?, endDate?, limit?) 캐릭터의 활동 타임라인을 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/timeline | 매개변수      | 타입   | 필수 | 기본값 | 설명                        | | ------------- | ------ | ---- | ------ | --------------------------- | | serverId    | string | ✅   | -      | 서버 ID                     | | characterId | string | ✅   | -      | 캐릭터 고유 코드            | | code        | string | -    | 'all'  | 타임라인 코드 필터          | | startDate   | string | -    | -      | 시작 날짜 (YYYY-MM-DD 형식) | | endDate     | string | -    | -      | 종료 날짜 (YYYY-MM-DD 형식) | | limit       | number | -    | 10     | 반환할 결과 수 (최대 100)   | - 'all': 모든 타임라인 정보 - 'level': 레벨업 기록 - 'dungeon': 던전 입장 기록 - 'quest': 퀘스트 완료 기록 반환값: Timeline[] - 캐릭터 활동 타임라인 getCharacterSkillStyle(serverId, characterId) 캐릭터의 스킬 스타일 정보를 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/style - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: SkillStyle - 스킬 스타일 정보 getCharacterBuffSkillEquipment(serverId, characterId) 캐릭터의 장비 버프 스킬을 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/buff/equip/equipment - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: BuffSkill[] - 장비 버프 스킬 정보 getCharacterBuffSkillAvatar(serverId, characterId) 캐릭터의 아바타 버프 스킬을 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/buff/equip/avatar - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: BuffSkill[] - 아바타 버프 스킬 정보 getCharacterBuffSkillCreature(serverId, characterId) 캐릭터의 크리처 버프 스킬을 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/buff/equip/creature - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: BuffSkill[] - 크리처 버프 스킬 정보 getCharactersByFame(serverId, jobId?, jobGrowId?, limit?) 서버별 명성도 상위 캐릭터를 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters | 매개변수    | 타입   | 필수 | 기본값 | 설명                      | | ----------- | ------ | ---- | ------ | ------------------------- | | serverId  | string | ✅   | -      | 서버 ID                   | | jobId     | string | -    | -      | 직업 코드로 필터링        | | jobGrowId | string | -    | -      | 전직 코드로 필터링        | | limit     | number | -    | 100    | 반환할 결과 수 (최대 200) | 반환값: Character[] - 명성도 상위 캐릭터 목록 getCharacterStatus(serverId, characterId) 캐릭터의 상세 상태 정보를 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/status - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: CharacterStatus - 상세 캐릭터 스탯과 속성 searchItem(itemName, limit?) 이름으로 아이템을 검색합니다. 엔드포인트: GET /df/items | 매개변수   | 타입   | 필수 | 기본값 | 설명                     | | ---------- | ------ | ---- | ------ | ------------------------ | | itemName | string | ✅   | -      | 검색할 아이템 이름       | | limit    | number | -    | 10     | 반환할 결과 수 (최대 30) | 반환값: ItemSearchResult - 아이템 검색 결과 getItem(itemId) 상세한 아이템 정보를 가져옵니다. 엔드포인트: GET /df/items/{itemId} | 매개변수 | 타입   | 필수 | 설명             | | -------- | ------ | ---- | ---------------- | | itemId | string | ✅   | 아이템 고유 코드 | 반환값: ItemDetail - 스탯과 설명을 포함한 상세 아이템 정보 getSetItem(setItemId) 세트 아이템 정보를 가져옵니다. 엔드포인트: GET /df/setitems/{setItemId} - setItemId (string): 세트 아이템 식별자 반환값: SetItemDetail - 세트 효과와 구성 아이템 정보 searchSetItems(setItemName, limit?) 이름으로 세트 아이템을 검색합니다. 엔드포인트: GET /df/setitems - setItemName (string): 검색할 세트 아이템 이름 - limit (number, 선택사항): 최대 결과 개수 반환값: SetItemSearchResult - 세트 아이템 검색 결과 getMultiItems(itemIds) 여러 아이템 정보를 한 번에 가져옵니다. 엔드포인트: GET /df/multi/items - itemIds (string[]): 아이템 식별자 배열 반환값: ItemDetail[] - 여러 아이템의 상세 정보 getMultiSetItems(setItemIds) 여러 세트 아이템 정보를 한 번에 가져옵니다. 엔드포인트: GET /df/multi/setitems - setItemIds (string[]): 세트 아이템 식별자 배열 반환값: SetItemDetail[] - 여러 세트 아이템의 상세 정보 getItemHashtags() 아이템 검색용 해시태그 목록을 가져옵니다. 엔드포인트: GET /df/items/hashtags 반환값: string[] - 아이템 검색에 사용할 수 있는 해시태그 목록 직업 및 스킬 메서드 사용 가능한 직업 목록을 가져옵니다. 엔드포인트: GET /df/jobs 반환값: Job[] - 직업 ID와 이름이 포함된 직업 목록 getSkillsByJob(jobId) 특정 직업의 스킬 목록을 가져옵니다. 엔드포인트: GET /df/skills/{jobId} | 매개변수 | 타입   | 필수 | 설명           | | -------- | ------ | ---- | -------------- | | jobId  | string | ✅   | 직업 고유 코드 | 반환값: Skill[] - 해당 직업의 모든 스킬 정보 getSkillDetail(jobId, skillId) 특정 스킬의 상세 정보를 가져옵니다. 엔드포인트: GET /df/skills/{jobId}/{skillId} | 매개변수  | 타입   | 필수 | 설명           | | --------- | ------ | ---- | -------------- | | jobId   | string | ✅   | 직업 고유 코드 | | skillId | string | ✅   | 스킬 고유 코드 | 반환값: SkillDetail - 스킬 상세 정보와 효과 getMultiSkills(jobId, skillIds) 여러 스킬 정보를 한 번에 가져옵니다. 엔드포인트: GET /df/multi/skills - jobId (string): 직업 식별자 - skillIds (string[]): 스킬 식별자 배열 반환값: SkillDetail[] - 여러 스킬의 상세 정보 getAvatarMarketSale(params) 아바타 마켓 판매 목록을 가져옵니다. 엔드포인트: GET /df/avatar-market/sale - params (object): 검색 매개변수   - jobId (string, 선택사항): 직업 필터   - limit (number, 선택사항): 최대 결과 개수   - hashtags (string[], 선택사항): 해시태그 필터 반환값: AvatarMarketSale[] - 아바타 마켓 판매 목록 getAvatarMarketSold(params) 아바타 마켓 판매 완료 목록을 가져옵니다. 엔드포인트: GET /df/avatar-market/sold - params (object): 검색 매개변수 반환값: AvatarMarketSold[] - 아바타 마켓 판매 완료 목록 getAvatarMarketItem(itemId) 아바타 마켓 특정 아이템 정보를 가져옵니다. 엔드포인트: GET /df/avatar-market/items/{itemId} - itemId (string): 아바타 아이템 식별자 반환값: AvatarItem - 아바타 아이템 상세 정보 getAvatarMarketSoldItem(itemId) 아바타 마켓 판매 완료 아이템 정보를 가져옵니다. 엔드포인트: GET /df/avatar-market/sold/{itemId} - itemId (string): 아바타 아이템 식별자 반환값: AvatarItem - 판매 완료된 아바타 아이템 정보 getAvatarMarketHashtags() 아바타 마켓 해시태그 목록을 가져옵니다. 엔드포인트: GET /df/avatar-market/hashtags 반환값: string[] - 아바타 마켓에서 사용할 수 있는 해시태그 목록 getItemShop() 아이템 상점 정보를 가져옵니다. 엔드포인트: GET /df/itemshop 반환값: ItemShop - 아이템 상점 판매 목록 searchAuction(params) 경매장 목록을 검색합니다. 엔드포인트: GET /df/auction | 매개변수              | 타입                         | 필수 | 기본값      | 설명                                | | --------------------- | ---------------------------- | ---- | ----------- | ----------------------------------- | | params.itemName     | string                       | -    | -           | 검색할 아이템 이름                  | | params.itemId       | string                       | -    | -           | 아이템 고유 코드                    | | params.itemIds      | string[]                     | -    | -           | 다중 아이템 고유 코드 (쉼표로 구분) | | params.wordType     | 'match' \\| 'front' \\| 'full' | -    | 'match'     | 검색 방식                           | | params.minLevel     | number                       | -    | -           | 최소 아이템 레벨                    | | params.maxLevel     | number                       | -    | -           | 최대 아이템 레벨                    | | params.rarity       | string                       | -    | -           | 아이템 희귀도                       | | params.minReinforce | number                       | -    | 0           | 최소 강화 수치 (0-15)               | | params.maxReinforce | number                       | -    | 15          | 최대 강화 수치 (0-15)               | | params.minRefine    | number                       | -    | 0           | 최소 제련 수치 (0-12)               | | params.maxRefine    | number                       | -    | 12          | 최대 제련 수치 (0-12)               | | params.auctionType  | 'sell' \\| 'buy'              | -    | 'sell'      | 경매 타입                           | | params.sort         | string                       | -    | 'unitPrice' | 정렬 방식                           | | params.limit        | number                       | -    | 10          | 반환할 결과 수 (최대 400)           | - 'common': 일반 - 'uncommon': 고급 - 'rare': 희귀 - 'unique': 유니크 - 'epic': 에픽 - 'legendary': 레전더리 - 'unitPrice': 개당 가격순 - 'reinforce': 강화 수치순 - 'level': 레벨순 - 'deadline': 마감시간순   - sort (string, 선택사항): 정렬 방식     - 'price_asc': 가격 낮은 순     - 'price_desc': 가격 높은 순     - 'reinforce_asc': 강화 낮은 순     - 'reinforce_desc': 강화 높은 순     - 'level_asc': 레벨 낮은 순     - 'level_desc': 레벨 높은 순   - limit (number, 선택사항): 결과 제한 반환값: AuctionSearchResult - 경매장 검색 결과 getAuctionItem(auctionNo) 특정 경매 아이템의 상세 정보를 가져옵니다. 엔드포인트: GET /df/auction/{auctionNo} - auctionNo (string): 경매 번호 반환값: AuctionItem - 경매 아이템 상세 정보 getServers() 사용 가능한 서버 목록을 가져옵니다. 엔드포인트: GET /df/servers 반환값: Server[] - 식별자가 포함된 사용 가능한 서버 목록 모든 메서드는 다양한 이유로 오류를 발생시킬 수 있습니다:",
+    "content": "던전앤파이터 API 레퍼런스 NeopleDFClient는 네오플 오픈 API를 통해 던전앤파이터 게임 데이터에 접근을 제공합니다. - apiKey (string): 던전앤파이터 API 키 - options (object, 선택사항): 설정 옵션   - httpAdapter: 사용자 지정 HTTP 클라이언트 어댑터   - baseURL: API 요청을 위한 사용자 지정 기본 URL searchCharacter(characterName, options?) 이름으로 캐릭터를 검색합니다. 엔드포인트: GET /df/characters | 매개변수            | 타입                   | 필수 | 기본값 | 설명                                  | | ------------------- | ---------------------- | ---- | ------ | ------------------------------------- | | characterName     | string                 | ✅   | -      | 검색할 캐릭터 이름 (URL 인코딩 필요)  | | options           | SearchCharacterOptions | -    | -      | 검색 옵션                             | | options.serverId  | string                 | -    | 'all'  | 서버 ID ('all'로 전체 서버 검색 가능) | | options.jobId     | string                 | -    | -      | 직업 코드로 필터링                    | | options.jobGrowId | string                 | -    | -      | 전직 코드로 필터링                    | | options.limit     | number                 | -    | 10     | 반환할 결과 수 (최대 200)             | 서버 ID 값: 서버 타입은 던전앤파이터 타입 → DFServerType을 참조하세요. 반환값: CharacterSearchResult - 페이지 정보가 포함된 캐릭터 검색 결과 getCharacter(serverId, characterId) 상세한 캐릭터 정보를 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId} | 매개변수      | 타입   | 필수 | 설명             | | ------------- | ------ | ---- | ---------------- | | serverId    | string | ✅   | 서버 ID          | | characterId | string | ✅   | 캐릭터 고유 코드 | 반환값: CharacterDetail - 기본 스탯과 직업 정보를 포함한 상세 캐릭터 정보 getCharacterEquipment(serverId, characterId) 캐릭터의 장착 아이템을 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/equip/equipment - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: Equipment[] - 상세 스탯이 포함된 장착 아이템 목록 getCharacterAvatar(serverId, characterId) 캐릭터의 아바타 장비를 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/equip/avatar - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: Avatar[] - 아바타 장비 정보 getCharacterCreature(serverId, characterId) 캐릭터의 크리쳐 정보를 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/equip/creature - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: Creature - 크리쳐 정보와 스탯 getCharacterFlag(serverId, characterId) 캐릭터의 휘장 정보를 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/equip/flag - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: Flag - 휘장 정보와 스탯 getCharacterTalisman(serverId, characterId) 캐릭터의 탈리스만 정보를 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/equip/talisman - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: Talisman[] - 탈리스만 장비 정보 getCharacterTimeline(serverId, characterId, code?, startDate?, endDate?, limit?) 캐릭터의 활동 타임라인을 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/timeline | 매개변수      | 타입   | 필수 | 기본값 | 설명                        | | ------------- | ------ | ---- | ------ | --------------------------- | | serverId    | string | ✅   | -      | 서버 ID                     | | characterId | string | ✅   | -      | 캐릭터 고유 코드            | | code        | string | -    | 'all'  | 타임라인 코드 필터          | | startDate   | string | -    | -      | 시작 날짜 (YYYY-MM-DD 형식) | | endDate     | string | -    | -      | 종료 날짜 (YYYY-MM-DD 형식) | | limit       | number | -    | 10     | 반환할 결과 수 (최대 100)   | - 'all': 모든 타임라인 정보 - 'level': 레벨업 기록 - 'dungeon': 던전 입장 기록 - 'quest': 퀘스트 완료 기록 반환값: Timeline[] - 캐릭터 활동 타임라인 getCharacterSkillStyle(serverId, characterId) 캐릭터의 스킬 스타일 정보를 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/style - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: SkillStyle - 스킬 스타일 정보 getCharacterBuffSkillEquipment(serverId, characterId) 캐릭터의 장비 버프 스킬을 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/buff/equip/equipment - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: BuffSkill[] - 장비 버프 스킬 정보 getCharacterBuffSkillAvatar(serverId, characterId) 캐릭터의 아바타 버프 스킬을 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/buff/equip/avatar - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: BuffSkill[] - 아바타 버프 스킬 정보 getCharacterBuffSkillCreature(serverId, characterId) 캐릭터의 크리처 버프 스킬을 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/buff/equip/creature - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: BuffSkill[] - 크리처 버프 스킬 정보 getCharactersByFame(serverId, jobId?, jobGrowId?, limit?) 서버별 명성도 상위 캐릭터를 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters | 매개변수    | 타입   | 필수 | 기본값 | 설명                      | | ----------- | ------ | ---- | ------ | ------------------------- | | serverId  | string | ✅   | -      | 서버 ID                   | | jobId     | string | -    | -      | 직업 코드로 필터링        | | jobGrowId | string | -    | -      | 전직 코드로 필터링        | | limit     | number | -    | 100    | 반환할 결과 수 (최대 200) | 반환값: Character[] - 명성도 상위 캐릭터 목록 getCharacterStatus(serverId, characterId) 캐릭터의 상세 상태 정보를 가져옵니다. 엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/status - serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 반환값: CharacterStatus - 상세 캐릭터 스탯과 속성 searchItems(itemName, limit?) 이름으로 아이템을 검색합니다. 엔드포인트: GET /df/items | 매개변수   | 타입   | 필수 | 기본값 | 설명                     | | ---------- | ------ | ---- | ------ | ------------------------ | | itemName | string | ✅   | -      | 검색할 아이템 이름       | | limit    | number | -    | 10     | 반환할 결과 수 (최대 30) | 반환값: ItemSearchResult - 아이템 검색 결과 getItem(itemId) 상세한 아이템 정보를 가져옵니다. 엔드포인트: GET /df/items/{itemId} | 매개변수 | 타입   | 필수 | 설명             | | -------- | ------ | ---- | ---------------- | | itemId | string | ✅   | 아이템 고유 코드 | 반환값: ItemDetail - 스탯과 설명을 포함한 상세 아이템 정보 getSetItem(setItemId) 세트 아이템 정보를 가져옵니다. 엔드포인트: GET /df/setitems/{setItemId} - setItemId (string): 세트 아이템 식별자 반환값: SetItemDetail - 세트 효과와 구성 아이템 정보 searchSetItems(setItemName, limit?) 이름으로 세트 아이템을 검색합니다. 엔드포인트: GET /df/setitems - setItemName (string): 검색할 세트 아이템 이름 - limit (number, 선택사항): 최대 결과 개수 반환값: SetItemSearchResult - 세트 아이템 검색 결과 getMultiItems(itemIds) 여러 아이템 정보를 한 번에 가져옵니다. 엔드포인트: GET /df/multi/items - itemIds (string[]): 아이템 식별자 배열 반환값: ItemDetail[] - 여러 아이템의 상세 정보 getMultiSetItems(setItemIds) 여러 세트 아이템 정보를 한 번에 가져옵니다. 엔드포인트: GET /df/multi/setitems - setItemIds (string[]): 세트 아이템 식별자 배열 반환값: SetItemDetail[] - 여러 세트 아이템의 상세 정보 getItemHashtags() 아이템 검색용 해시태그 목록을 가져옵니다. 엔드포인트: GET /df/items/hashtags 반환값: string[] - 아이템 검색에 사용할 수 있는 해시태그 목록 직업 및 스킬 메서드 사용 가능한 직업 목록을 가져옵니다. 엔드포인트: GET /df/jobs 반환값: Job[] - 직업 ID와 이름이 포함된 직업 목록 getSkillsByJob(jobId) 특정 직업의 스킬 목록을 가져옵니다. 엔드포인트: GET /df/skills/{jobId} | 매개변수 | 타입   | 필수 | 설명           | | -------- | ------ | ---- | -------------- | | jobId  | string | ✅   | 직업 고유 코드 | 반환값: Skill[] - 해당 직업의 모든 스킬 정보 getSkillDetail(jobId, skillId) 특정 스킬의 상세 정보를 가져옵니다. 엔드포인트: GET /df/skills/{jobId}/{skillId} | 매개변수  | 타입   | 필수 | 설명           | | --------- | ------ | ---- | -------------- | | jobId   | string | ✅   | 직업 고유 코드 | | skillId | string | ✅   | 스킬 고유 코드 | 반환값: SkillDetail - 스킬 상세 정보와 효과 getMultiSkills(jobId, skillIds) 여러 스킬 정보를 한 번에 가져옵니다. 엔드포인트: GET /df/multi/skills - jobId (string): 직업 식별자 - skillIds (string[]): 스킬 식별자 배열 반환값: SkillDetail[] - 여러 스킬의 상세 정보 getAvatarMarketSale(params) 아바타 마켓 판매 목록을 가져옵니다. 엔드포인트: GET /df/avatar-market/sale - params (object): 검색 매개변수   - jobId (string, 선택사항): 직업 필터   - limit (number, 선택사항): 최대 결과 개수   - hashtags (string[], 선택사항): 해시태그 필터 반환값: AvatarMarketSale[] - 아바타 마켓 판매 목록 getAvatarMarketSold(params) 아바타 마켓 판매 완료 목록을 가져옵니다. 엔드포인트: GET /df/avatar-market/sold - params (object): 검색 매개변수 반환값: AvatarMarketSold[] - 아바타 마켓 판매 완료 목록 getAvatarMarketItem(itemId) 아바타 마켓 특정 아이템 정보를 가져옵니다. 엔드포인트: GET /df/avatar-market/items/{itemId} - itemId (string): 아바타 아이템 식별자 반환값: AvatarItem - 아바타 아이템 상세 정보 getAvatarMarketSoldItem(itemId) 아바타 마켓 판매 완료 아이템 정보를 가져옵니다. 엔드포인트: GET /df/avatar-market/sold/{itemId} - itemId (string): 아바타 아이템 식별자 반환값: AvatarItem - 판매 완료된 아바타 아이템 정보 getAvatarMarketHashtags() 아바타 마켓 해시태그 목록을 가져옵니다. 엔드포인트: GET /df/avatar-market/hashtags 반환값: string[] - 아바타 마켓에서 사용할 수 있는 해시태그 목록 getItemShop() 아이템 상점 정보를 가져옵니다. 엔드포인트: GET /df/itemshop 반환값: ItemShop - 아이템 상점 판매 목록 searchAuction(params) 경매장 목록을 검색합니다. 엔드포인트: GET /df/auction | 매개변수              | 타입                         | 필수 | 기본값      | 설명                                | | --------------------- | ---------------------------- | ---- | ----------- | ----------------------------------- | | params.itemName     | string                       | -    | -           | 검색할 아이템 이름                  | | params.itemId       | string                       | -    | -           | 아이템 고유 코드                    | | params.itemIds      | string[]                     | -    | -           | 다중 아이템 고유 코드 (쉼표로 구분) | | params.wordType     | 'match' \\| 'front' \\| 'full' | -    | 'match'     | 검색 방식                           | | params.minLevel     | number                       | -    | -           | 최소 아이템 레벨                    | | params.maxLevel     | number                       | -    | -           | 최대 아이템 레벨                    | | params.rarity       | string                       | -    | -           | 아이템 희귀도                       | | params.minReinforce | number                       | -    | 0           | 최소 강화 수치 (0-15)               | | params.maxReinforce | number                       | -    | 15          | 최대 강화 수치 (0-15)               | | params.minRefine    | number                       | -    | 0           | 최소 제련 수치 (0-12)               | | params.maxRefine    | number                       | -    | 12          | 최대 제련 수치 (0-12)               | | params.auctionType  | 'sell' \\| 'buy'              | -    | 'sell'      | 경매 타입                           | | params.sort         | string                       | -    | 'unitPrice' | 정렬 방식                           | | params.limit        | number                       | -    | 10          | 반환할 결과 수 (최대 400)           | - 'common': 일반 - 'uncommon': 고급 - 'rare': 희귀 - 'unique': 유니크 - 'epic': 에픽 - 'legendary': 레전더리 - 'unitPrice': 개당 가격순 - 'reinforce': 강화 수치순 - 'level': 레벨순 - 'deadline': 마감시간순   - sort (string, 선택사항): 정렬 방식     - 'price_asc': 가격 낮은 순     - 'price_desc': 가격 높은 순     - 'reinforce_asc': 강화 낮은 순     - 'reinforce_desc': 강화 높은 순     - 'level_asc': 레벨 낮은 순     - 'level_desc': 레벨 높은 순   - limit (number, 선택사항): 결과 제한 반환값: AuctionSearchResult - 경매장 검색 결과 getAuctionItem(auctionNo) 특정 경매 아이템의 상세 정보를 가져옵니다. 엔드포인트: GET /df/auction/{auctionNo} - auctionNo (string): 경매 번호 반환값: AuctionItem - 경매 아이템 상세 정보 getAuctionSold(params) 판매된 경매 아이템을 검색합니다. 엔드포인트: GET /df/auction-sold - params (AuctionSoldParams): 검색 매개변수   - itemId (string, 선택사항): 아이템 ID   - serverId (string, 선택사항): 서버 ID   - limit (number, 선택사항): 최대 결과 수 반환값: AuctionSoldResult - 판매된 경매 아이템 목록 getServers() 사용 가능한 서버 목록을 가져옵니다. 엔드포인트: GET /df/servers 반환값: Server[] - 식별자가 포함된 사용 가능한 서버 목록 모든 메서드는 다양한 이유로 오류를 발생시킬 수 있습니다:",
     "url": "/docs/api-dungeon-fighter"
   },
   {
@@ -531,40 +505,40 @@
   {
     "id": "api-dungeon-fighter.mdx-24",
     "title": "던전앤파이터 API",
-    "content": "getCharacterSkill(serverId, characterId, jobId?, jobGrowId?)",
+    "content": "getCharacterCreature(serverId, characterId)",
     "url": "/docs/api-dungeon-fighter",
-    "anchorId": "getcharacterskillserverid-characterid-jobid-jobgrowid"
+    "anchorId": "getcharactercreatureserverid-characterid"
   },
   {
     "id": "api-dungeon-fighter.mdx-26",
     "title": "던전앤파이터 API",
-    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/style",
+    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/equip/creature",
     "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-27",
     "title": "던전앤파이터 API",
-    "content": "- serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자 - jobId (string, 선택사항): 직업 식별자 - jobGrowId (string, 선택사항): 전직 식별자",
+    "content": "- serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getcharacterserverid-characterid"
   },
   {
     "id": "api-dungeon-fighter.mdx-28",
     "title": "던전앤파이터 API",
-    "content": "반환값: CharacterSkill[] - 캐릭터 스킬 정보와 레벨",
+    "content": "반환값: Creature - 크리쳐 정보와 스탯",
     "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-29",
     "title": "던전앤파이터 API",
-    "content": "getCharacterTalisman(serverId, characterId)",
+    "content": "getCharacterFlag(serverId, characterId)",
     "url": "/docs/api-dungeon-fighter",
-    "anchorId": "getcharactertalismanserverid-characterid"
+    "anchorId": "getcharacterflagserverid-characterid"
   },
   {
     "id": "api-dungeon-fighter.mdx-31",
     "title": "던전앤파이터 API",
-    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/equip/talisman",
+    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/equip/flag",
     "url": "/docs/api-dungeon-fighter"
   },
   {
@@ -577,90 +551,84 @@
   {
     "id": "api-dungeon-fighter.mdx-33",
     "title": "던전앤파이터 API",
-    "content": "반환값: Talisman[] - 탈리스만 장비 정보",
+    "content": "반환값: Flag - 휘장 정보와 스탯",
     "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-34",
     "title": "던전앤파이터 API",
-    "content": "getCharacterTimeline(serverId, characterId, code?, startDate?, endDate?, limit?)",
+    "content": "getCharacterTalisman(serverId, characterId)",
     "url": "/docs/api-dungeon-fighter",
-    "anchorId": "getcharactertimelineserverid-characterid-code-startdate-enddate-limit"
+    "anchorId": "getcharactertalismanserverid-characterid"
   },
   {
     "id": "api-dungeon-fighter.mdx-36",
     "title": "던전앤파이터 API",
-    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/timeline",
+    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/equip/talisman",
     "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-37",
-    "title": "던전앤파이터 API",
-    "content": "| 매개변수      | 타입   | 필수 | 기본값 | 설명                        | | ------------- | ------ | ---- | ------ | --------------------------- | | serverId    | string | ✅   | -      | 서버 ID                     | | characterId | string | ✅   | -      | 캐릭터 고유 코드            | | code        | string | -    | 'all'  | 타임라인 코드 필터          | | startDate   | string | -    | -      | 시작 날짜 (YYYY-MM-DD 형식) | | endDate     | string | -    | -      | 종료 날짜 (YYYY-MM-DD 형식) | | limit       | number | -    | 10     | 반환할 결과 수 (최대 100)   |",
-    "url": "/docs/api-dungeon-fighter",
-    "anchorId": "매개변수"
-  },
-  {
-    "id": "api-dungeon-fighter.mdx-38",
-    "title": "던전앤파이터 API",
-    "content": "- 'all': 모든 타임라인 정보 - 'level': 레벨업 기록 - 'dungeon': 던전 입장 기록 - 'quest': 퀘스트 완료 기록",
-    "url": "/docs/api-dungeon-fighter"
-  },
-  {
-    "id": "api-dungeon-fighter.mdx-39",
-    "title": "던전앤파이터 API",
-    "content": "반환값: Timeline[] - 캐릭터 활동 타임라인",
-    "url": "/docs/api-dungeon-fighter"
-  },
-  {
-    "id": "api-dungeon-fighter.mdx-40",
-    "title": "던전앤파이터 API",
-    "content": "getCharacterSkillStyle(serverId, characterId)",
-    "url": "/docs/api-dungeon-fighter",
-    "anchorId": "getcharacterskillstyleserverid-characterid"
-  },
-  {
-    "id": "api-dungeon-fighter.mdx-41",
-    "title": "던전앤파이터 API",
-    "content": "캐릭터의 스킬 스타일 정보를 가져옵니다.",
-    "url": "/docs/api-dungeon-fighter"
-  },
-  {
-    "id": "api-dungeon-fighter.mdx-42",
-    "title": "던전앤파이터 API",
-    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/style",
-    "url": "/docs/api-dungeon-fighter"
-  },
-  {
-    "id": "api-dungeon-fighter.mdx-43",
     "title": "던전앤파이터 API",
     "content": "- serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getcharacterserverid-characterid"
   },
   {
+    "id": "api-dungeon-fighter.mdx-38",
+    "title": "던전앤파이터 API",
+    "content": "반환값: Talisman[] - 탈리스만 장비 정보",
+    "url": "/docs/api-dungeon-fighter"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-39",
+    "title": "던전앤파이터 API",
+    "content": "getCharacterTimeline(serverId, characterId, code?, startDate?, endDate?, limit?)",
+    "url": "/docs/api-dungeon-fighter",
+    "anchorId": "getcharactertimelineserverid-characterid-code-startdate-enddate-limit"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-41",
+    "title": "던전앤파이터 API",
+    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/timeline",
+    "url": "/docs/api-dungeon-fighter"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-42",
+    "title": "던전앤파이터 API",
+    "content": "| 매개변수      | 타입   | 필수 | 기본값 | 설명                        | | ------------- | ------ | ---- | ------ | --------------------------- | | serverId    | string | ✅   | -      | 서버 ID                     | | characterId | string | ✅   | -      | 캐릭터 고유 코드            | | code        | string | -    | 'all'  | 타임라인 코드 필터          | | startDate   | string | -    | -      | 시작 날짜 (YYYY-MM-DD 형식) | | endDate     | string | -    | -      | 종료 날짜 (YYYY-MM-DD 형식) | | limit       | number | -    | 10     | 반환할 결과 수 (최대 100)   |",
+    "url": "/docs/api-dungeon-fighter",
+    "anchorId": "매개변수"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-43",
+    "title": "던전앤파이터 API",
+    "content": "- 'all': 모든 타임라인 정보 - 'level': 레벨업 기록 - 'dungeon': 던전 입장 기록 - 'quest': 퀘스트 완료 기록",
+    "url": "/docs/api-dungeon-fighter"
+  },
+  {
     "id": "api-dungeon-fighter.mdx-44",
     "title": "던전앤파이터 API",
-    "content": "반환값: SkillStyle - 스킬 스타일 정보",
+    "content": "반환값: Timeline[] - 캐릭터 활동 타임라인",
     "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-45",
     "title": "던전앤파이터 API",
-    "content": "getCharacterBuffSkillEquipment(serverId, characterId)",
+    "content": "getCharacterSkillStyle(serverId, characterId)",
     "url": "/docs/api-dungeon-fighter",
-    "anchorId": "getcharacterbuffskillequipmentserverid-characterid"
+    "anchorId": "getcharacterskillstyleserverid-characterid"
   },
   {
     "id": "api-dungeon-fighter.mdx-46",
     "title": "던전앤파이터 API",
-    "content": "캐릭터의 장비 버프 스킬을 가져옵니다.",
+    "content": "캐릭터의 스킬 스타일 정보를 가져옵니다.",
     "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-47",
     "title": "던전앤파이터 API",
-    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/buff/equip/equipment",
+    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/style",
     "url": "/docs/api-dungeon-fighter"
   },
   {
@@ -673,26 +641,26 @@
   {
     "id": "api-dungeon-fighter.mdx-49",
     "title": "던전앤파이터 API",
-    "content": "반환값: BuffSkill[] - 장비 버프 스킬 정보",
+    "content": "반환값: SkillStyle - 스킬 스타일 정보",
     "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-50",
     "title": "던전앤파이터 API",
-    "content": "getCharacterBuffSkillAvatar(serverId, characterId)",
+    "content": "getCharacterBuffSkillEquipment(serverId, characterId)",
     "url": "/docs/api-dungeon-fighter",
-    "anchorId": "getcharacterbuffskillavatarserverid-characterid"
+    "anchorId": "getcharacterbuffskillequipmentserverid-characterid"
   },
   {
     "id": "api-dungeon-fighter.mdx-51",
     "title": "던전앤파이터 API",
-    "content": "캐릭터의 아바타 버프 스킬을 가져옵니다.",
+    "content": "캐릭터의 장비 버프 스킬을 가져옵니다.",
     "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-52",
     "title": "던전앤파이터 API",
-    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/buff/equip/avatar",
+    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/buff/equip/equipment",
     "url": "/docs/api-dungeon-fighter"
   },
   {
@@ -705,26 +673,26 @@
   {
     "id": "api-dungeon-fighter.mdx-54",
     "title": "던전앤파이터 API",
-    "content": "반환값: BuffSkill[] - 아바타 버프 스킬 정보",
+    "content": "반환값: BuffSkill[] - 장비 버프 스킬 정보",
     "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-55",
     "title": "던전앤파이터 API",
-    "content": "getCharacterBuffSkillCreature(serverId, characterId)",
+    "content": "getCharacterBuffSkillAvatar(serverId, characterId)",
     "url": "/docs/api-dungeon-fighter",
-    "anchorId": "getcharacterbuffskillcreatureserverid-characterid"
+    "anchorId": "getcharacterbuffskillavatarserverid-characterid"
   },
   {
     "id": "api-dungeon-fighter.mdx-56",
     "title": "던전앤파이터 API",
-    "content": "캐릭터의 크리처 버프 스킬을 가져옵니다.",
+    "content": "캐릭터의 아바타 버프 스킬을 가져옵니다.",
     "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-57",
     "title": "던전앤파이터 API",
-    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/buff/equip/creature",
+    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/buff/equip/avatar",
     "url": "/docs/api-dungeon-fighter"
   },
   {
@@ -737,443 +705,443 @@
   {
     "id": "api-dungeon-fighter.mdx-59",
     "title": "던전앤파이터 API",
-    "content": "반환값: BuffSkill[] - 크리처 버프 스킬 정보",
+    "content": "반환값: BuffSkill[] - 아바타 버프 스킬 정보",
     "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-60",
     "title": "던전앤파이터 API",
-    "content": "getCharactersByFame(serverId, jobId?, jobGrowId?, limit?)",
+    "content": "getCharacterBuffSkillCreature(serverId, characterId)",
     "url": "/docs/api-dungeon-fighter",
-    "anchorId": "getcharactersbyfameserverid-jobid-jobgrowid-limit"
+    "anchorId": "getcharacterbuffskillcreatureserverid-characterid"
   },
   {
     "id": "api-dungeon-fighter.mdx-61",
     "title": "던전앤파이터 API",
-    "content": "서버별 명성도 상위 캐릭터를 가져옵니다.",
+    "content": "캐릭터의 크리처 버프 스킬을 가져옵니다.",
     "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-62",
     "title": "던전앤파이터 API",
-    "content": "엔드포인트: GET /df/servers/{serverId}/characters",
+    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/skill/buff/equip/creature",
     "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-63",
-    "title": "던전앤파이터 API",
-    "content": "| 매개변수    | 타입   | 필수 | 기본값 | 설명                      | | ----------- | ------ | ---- | ------ | ------------------------- | | serverId  | string | ✅   | -      | 서버 ID                   | | jobId     | string | -    | -      | 직업 코드로 필터링        | | jobGrowId | string | -    | -      | 전직 코드로 필터링        | | limit     | number | -    | 100    | 반환할 결과 수 (최대 200) |",
-    "url": "/docs/api-dungeon-fighter",
-    "anchorId": "매개변수"
-  },
-  {
-    "id": "api-dungeon-fighter.mdx-64",
-    "title": "던전앤파이터 API",
-    "content": "반환값: Character[] - 명성도 상위 캐릭터 목록",
-    "url": "/docs/api-dungeon-fighter"
-  },
-  {
-    "id": "api-dungeon-fighter.mdx-65",
-    "title": "던전앤파이터 API",
-    "content": "getCharacterStatus(serverId, characterId)",
-    "url": "/docs/api-dungeon-fighter",
-    "anchorId": "getcharacterstatusserverid-characterid"
-  },
-  {
-    "id": "api-dungeon-fighter.mdx-66",
-    "title": "던전앤파이터 API",
-    "content": "캐릭터의 상세 상태 정보를 가져옵니다.",
-    "url": "/docs/api-dungeon-fighter"
-  },
-  {
-    "id": "api-dungeon-fighter.mdx-67",
-    "title": "던전앤파이터 API",
-    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/status",
-    "url": "/docs/api-dungeon-fighter"
-  },
-  {
-    "id": "api-dungeon-fighter.mdx-68",
     "title": "던전앤파이터 API",
     "content": "- serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getcharacterserverid-characterid"
   },
   {
+    "id": "api-dungeon-fighter.mdx-64",
+    "title": "던전앤파이터 API",
+    "content": "반환값: BuffSkill[] - 크리처 버프 스킬 정보",
+    "url": "/docs/api-dungeon-fighter"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-65",
+    "title": "던전앤파이터 API",
+    "content": "getCharactersByFame(serverId, jobId?, jobGrowId?, limit?)",
+    "url": "/docs/api-dungeon-fighter",
+    "anchorId": "getcharactersbyfameserverid-jobid-jobgrowid-limit"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-66",
+    "title": "던전앤파이터 API",
+    "content": "서버별 명성도 상위 캐릭터를 가져옵니다.",
+    "url": "/docs/api-dungeon-fighter"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-67",
+    "title": "던전앤파이터 API",
+    "content": "엔드포인트: GET /df/servers/{serverId}/characters",
+    "url": "/docs/api-dungeon-fighter"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-68",
+    "title": "던전앤파이터 API",
+    "content": "| 매개변수    | 타입   | 필수 | 기본값 | 설명                      | | ----------- | ------ | ---- | ------ | ------------------------- | | serverId  | string | ✅   | -      | 서버 ID                   | | jobId     | string | -    | -      | 직업 코드로 필터링        | | jobGrowId | string | -    | -      | 전직 코드로 필터링        | | limit     | number | -    | 100    | 반환할 결과 수 (최대 200) |",
+    "url": "/docs/api-dungeon-fighter",
+    "anchorId": "매개변수"
+  },
+  {
     "id": "api-dungeon-fighter.mdx-69",
     "title": "던전앤파이터 API",
-    "content": "반환값: CharacterStatus - 상세 캐릭터 스탯과 속성",
+    "content": "반환값: Character[] - 명성도 상위 캐릭터 목록",
     "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-70",
     "title": "던전앤파이터 API",
-    "content": "searchItem(itemName, limit?)",
+    "content": "getCharacterStatus(serverId, characterId)",
     "url": "/docs/api-dungeon-fighter",
-    "anchorId": "searchitemitemname-limit"
+    "anchorId": "getcharacterstatusserverid-characterid"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-71",
+    "title": "던전앤파이터 API",
+    "content": "캐릭터의 상세 상태 정보를 가져옵니다.",
+    "url": "/docs/api-dungeon-fighter"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-72",
+    "title": "던전앤파이터 API",
+    "content": "엔드포인트: GET /df/servers/{serverId}/characters/{characterId}/status",
+    "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-73",
+    "title": "던전앤파이터 API",
+    "content": "- serverId (string): 서버 식별자 - characterId (string): 캐릭터 식별자",
+    "url": "/docs/api-dungeon-fighter",
+    "anchorId": "getcharacterserverid-characterid"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-74",
+    "title": "던전앤파이터 API",
+    "content": "반환값: CharacterStatus - 상세 캐릭터 스탯과 속성",
+    "url": "/docs/api-dungeon-fighter"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-75",
+    "title": "던전앤파이터 API",
+    "content": "searchItems(itemName, limit?)",
+    "url": "/docs/api-dungeon-fighter",
+    "anchorId": "searchitemsitemname-limit"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-78",
     "title": "던전앤파이터 API",
     "content": "| 매개변수   | 타입   | 필수 | 기본값 | 설명                     | | ---------- | ------ | ---- | ------ | ------------------------ | | itemName | string | ✅   | -      | 검색할 아이템 이름       | | limit    | number | -    | 10     | 반환할 결과 수 (최대 30) |",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "매개변수"
   },
   {
-    "id": "api-dungeon-fighter.mdx-74",
+    "id": "api-dungeon-fighter.mdx-79",
     "title": "던전앤파이터 API",
     "content": "반환값: ItemSearchResult - 아이템 검색 결과",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-77",
+    "id": "api-dungeon-fighter.mdx-82",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/items/{itemId}",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-78",
+    "id": "api-dungeon-fighter.mdx-83",
     "title": "던전앤파이터 API",
     "content": "| 매개변수 | 타입   | 필수 | 설명             | | -------- | ------ | ---- | ---------------- | | itemId | string | ✅   | 아이템 고유 코드 |",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "매개변수"
   },
   {
-    "id": "api-dungeon-fighter.mdx-79",
+    "id": "api-dungeon-fighter.mdx-84",
     "title": "던전앤파이터 API",
     "content": "반환값: ItemDetail - 스탯과 설명을 포함한 상세 아이템 정보",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-80",
+    "id": "api-dungeon-fighter.mdx-85",
     "title": "던전앤파이터 API",
     "content": "getSetItem(setItemId)",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getsetitemsetitemid"
   },
   {
-    "id": "api-dungeon-fighter.mdx-82",
+    "id": "api-dungeon-fighter.mdx-87",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/setitems/{setItemId}",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-83",
+    "id": "api-dungeon-fighter.mdx-88",
     "title": "던전앤파이터 API",
     "content": "- setItemId (string): 세트 아이템 식별자",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getsetitemsetitemid"
   },
   {
-    "id": "api-dungeon-fighter.mdx-84",
+    "id": "api-dungeon-fighter.mdx-89",
     "title": "던전앤파이터 API",
     "content": "반환값: SetItemDetail - 세트 효과와 구성 아이템 정보",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-85",
+    "id": "api-dungeon-fighter.mdx-90",
     "title": "던전앤파이터 API",
     "content": "searchSetItems(setItemName, limit?)",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "searchsetitemssetitemname-limit"
   },
   {
-    "id": "api-dungeon-fighter.mdx-87",
+    "id": "api-dungeon-fighter.mdx-92",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/setitems",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-88",
+    "id": "api-dungeon-fighter.mdx-93",
     "title": "던전앤파이터 API",
     "content": "- setItemName (string): 검색할 세트 아이템 이름 - limit (number, 선택사항): 최대 결과 개수",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "searchsetitemssetitemname-limit"
   },
   {
-    "id": "api-dungeon-fighter.mdx-89",
+    "id": "api-dungeon-fighter.mdx-94",
     "title": "던전앤파이터 API",
     "content": "반환값: SetItemSearchResult - 세트 아이템 검색 결과",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-90",
+    "id": "api-dungeon-fighter.mdx-95",
     "title": "던전앤파이터 API",
     "content": "getMultiItems(itemIds)",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getmultiitemsitemids"
   },
   {
-    "id": "api-dungeon-fighter.mdx-91",
+    "id": "api-dungeon-fighter.mdx-96",
     "title": "던전앤파이터 API",
     "content": "여러 아이템 정보를 한 번에 가져옵니다.",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-92",
+    "id": "api-dungeon-fighter.mdx-97",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/multi/items",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-93",
+    "id": "api-dungeon-fighter.mdx-98",
     "title": "던전앤파이터 API",
     "content": "- itemIds (string[]): 아이템 식별자 배열",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getmultiitemsitemids"
   },
   {
-    "id": "api-dungeon-fighter.mdx-94",
+    "id": "api-dungeon-fighter.mdx-99",
     "title": "던전앤파이터 API",
     "content": "반환값: ItemDetail[] - 여러 아이템의 상세 정보",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-95",
+    "id": "api-dungeon-fighter.mdx-100",
     "title": "던전앤파이터 API",
     "content": "getMultiSetItems(setItemIds)",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getmultisetitemssetitemids"
   },
   {
-    "id": "api-dungeon-fighter.mdx-96",
+    "id": "api-dungeon-fighter.mdx-101",
     "title": "던전앤파이터 API",
     "content": "여러 세트 아이템 정보를 한 번에 가져옵니다.",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-97",
+    "id": "api-dungeon-fighter.mdx-102",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/multi/setitems",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-98",
+    "id": "api-dungeon-fighter.mdx-103",
     "title": "던전앤파이터 API",
     "content": "- setItemIds (string[]): 세트 아이템 식별자 배열",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getmultisetitemssetitemids"
   },
   {
-    "id": "api-dungeon-fighter.mdx-99",
+    "id": "api-dungeon-fighter.mdx-104",
     "title": "던전앤파이터 API",
     "content": "반환값: SetItemDetail[] - 여러 세트 아이템의 상세 정보",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-101",
+    "id": "api-dungeon-fighter.mdx-106",
     "title": "던전앤파이터 API",
     "content": "아이템 검색용 해시태그 목록을 가져옵니다.",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-102",
+    "id": "api-dungeon-fighter.mdx-107",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/items/hashtags",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-103",
+    "id": "api-dungeon-fighter.mdx-108",
     "title": "던전앤파이터 API",
     "content": "반환값: string[] - 아이템 검색에 사용할 수 있는 해시태그 목록",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-107",
+    "id": "api-dungeon-fighter.mdx-112",
     "title": "던전앤파이터 API",
     "content": "반환값: Job[] - 직업 ID와 이름이 포함된 직업 목록",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-108",
+    "id": "api-dungeon-fighter.mdx-113",
     "title": "던전앤파이터 API",
     "content": "getSkillsByJob(jobId)",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getskillsbyjobjobid"
   },
   {
-    "id": "api-dungeon-fighter.mdx-110",
+    "id": "api-dungeon-fighter.mdx-115",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/skills/{jobId}",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-111",
+    "id": "api-dungeon-fighter.mdx-116",
     "title": "던전앤파이터 API",
     "content": "| 매개변수 | 타입   | 필수 | 설명           | | -------- | ------ | ---- | -------------- | | jobId  | string | ✅   | 직업 고유 코드 |",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "매개변수"
   },
   {
-    "id": "api-dungeon-fighter.mdx-112",
+    "id": "api-dungeon-fighter.mdx-117",
     "title": "던전앤파이터 API",
     "content": "반환값: Skill[] - 해당 직업의 모든 스킬 정보",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-113",
+    "id": "api-dungeon-fighter.mdx-118",
     "title": "던전앤파이터 API",
     "content": "getSkillDetail(jobId, skillId)",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getskilldetailjobid-skillid"
   },
   {
-    "id": "api-dungeon-fighter.mdx-115",
+    "id": "api-dungeon-fighter.mdx-120",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/skills/{jobId}/{skillId}",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-116",
+    "id": "api-dungeon-fighter.mdx-121",
     "title": "던전앤파이터 API",
     "content": "| 매개변수  | 타입   | 필수 | 설명           | | --------- | ------ | ---- | -------------- | | jobId   | string | ✅   | 직업 고유 코드 | | skillId | string | ✅   | 스킬 고유 코드 |",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "매개변수"
   },
   {
-    "id": "api-dungeon-fighter.mdx-117",
+    "id": "api-dungeon-fighter.mdx-122",
     "title": "던전앤파이터 API",
     "content": "반환값: SkillDetail - 스킬 상세 정보와 효과",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-118",
+    "id": "api-dungeon-fighter.mdx-123",
     "title": "던전앤파이터 API",
     "content": "getMultiSkills(jobId, skillIds)",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getmultiskillsjobid-skillids"
   },
   {
-    "id": "api-dungeon-fighter.mdx-119",
+    "id": "api-dungeon-fighter.mdx-124",
     "title": "던전앤파이터 API",
     "content": "여러 스킬 정보를 한 번에 가져옵니다.",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-120",
+    "id": "api-dungeon-fighter.mdx-125",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/multi/skills",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-121",
+    "id": "api-dungeon-fighter.mdx-126",
     "title": "던전앤파이터 API",
     "content": "- jobId (string): 직업 식별자 - skillIds (string[]): 스킬 식별자 배열",
     "url": "/docs/api-dungeon-fighter",
-    "anchorId": "getcharacterskillserverid-characterid-jobid-jobgrowid"
+    "anchorId": "getcharactersbyfameserverid-jobid-jobgrowid-limit"
   },
   {
-    "id": "api-dungeon-fighter.mdx-122",
+    "id": "api-dungeon-fighter.mdx-127",
     "title": "던전앤파이터 API",
     "content": "반환값: SkillDetail[] - 여러 스킬의 상세 정보",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-123",
+    "id": "api-dungeon-fighter.mdx-128",
     "title": "던전앤파이터 API",
     "content": "getAvatarMarketSale(params)",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getavatarmarketsaleparams"
   },
   {
-    "id": "api-dungeon-fighter.mdx-125",
+    "id": "api-dungeon-fighter.mdx-130",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/avatar-market/sale",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-126",
+    "id": "api-dungeon-fighter.mdx-131",
     "title": "던전앤파이터 API",
     "content": "- params (object): 검색 매개변수   - jobId (string, 선택사항): 직업 필터   - limit (number, 선택사항): 최대 결과 개수   - hashtags (string[], 선택사항): 해시태그 필터",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "매개변수"
   },
   {
-    "id": "api-dungeon-fighter.mdx-127",
+    "id": "api-dungeon-fighter.mdx-132",
     "title": "던전앤파이터 API",
     "content": "반환값: AvatarMarketSale[] - 아바타 마켓 판매 목록",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-128",
+    "id": "api-dungeon-fighter.mdx-133",
     "title": "던전앤파이터 API",
     "content": "getAvatarMarketSold(params)",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getavatarmarketsoldparams"
   },
   {
-    "id": "api-dungeon-fighter.mdx-129",
+    "id": "api-dungeon-fighter.mdx-134",
     "title": "던전앤파이터 API",
     "content": "아바타 마켓 판매 완료 목록을 가져옵니다.",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-130",
+    "id": "api-dungeon-fighter.mdx-135",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/avatar-market/sold",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-131",
+    "id": "api-dungeon-fighter.mdx-136",
     "title": "던전앤파이터 API",
     "content": "- params (object): 검색 매개변수",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "매개변수"
   },
   {
-    "id": "api-dungeon-fighter.mdx-132",
+    "id": "api-dungeon-fighter.mdx-137",
     "title": "던전앤파이터 API",
     "content": "반환값: AvatarMarketSold[] - 아바타 마켓 판매 완료 목록",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-133",
+    "id": "api-dungeon-fighter.mdx-138",
     "title": "던전앤파이터 API",
     "content": "getAvatarMarketItem(itemId)",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getavatarmarketitemitemid"
   },
   {
-    "id": "api-dungeon-fighter.mdx-134",
+    "id": "api-dungeon-fighter.mdx-139",
     "title": "던전앤파이터 API",
     "content": "아바타 마켓 특정 아이템 정보를 가져옵니다.",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-135",
-    "title": "던전앤파이터 API",
-    "content": "엔드포인트: GET /df/avatar-market/items/{itemId}",
-    "url": "/docs/api-dungeon-fighter"
-  },
-  {
-    "id": "api-dungeon-fighter.mdx-136",
-    "title": "던전앤파이터 API",
-    "content": "- itemId (string): 아바타 아이템 식별자",
-    "url": "/docs/api-dungeon-fighter",
-    "anchorId": "getitemitemid"
-  },
-  {
-    "id": "api-dungeon-fighter.mdx-137",
-    "title": "던전앤파이터 API",
-    "content": "반환값: AvatarItem - 아바타 아이템 상세 정보",
-    "url": "/docs/api-dungeon-fighter"
-  },
-  {
-    "id": "api-dungeon-fighter.mdx-138",
-    "title": "던전앤파이터 API",
-    "content": "getAvatarMarketSoldItem(itemId)",
-    "url": "/docs/api-dungeon-fighter",
-    "anchorId": "getavatarmarketsolditemitemid"
-  },
-  {
-    "id": "api-dungeon-fighter.mdx-139",
-    "title": "던전앤파이터 API",
-    "content": "아바타 마켓 판매 완료 아이템 정보를 가져옵니다.",
-    "url": "/docs/api-dungeon-fighter"
-  },
-  {
     "id": "api-dungeon-fighter.mdx-140",
     "title": "던전앤파이터 API",
-    "content": "엔드포인트: GET /df/avatar-market/sold/{itemId}",
+    "content": "엔드포인트: GET /df/avatar-market/items/{itemId}",
     "url": "/docs/api-dungeon-fighter"
   },
   {
@@ -1186,130 +1154,188 @@
   {
     "id": "api-dungeon-fighter.mdx-142",
     "title": "던전앤파이터 API",
-    "content": "반환값: AvatarItem - 판매 완료된 아바타 아이템 정보",
+    "content": "반환값: AvatarItem - 아바타 아이템 상세 정보",
     "url": "/docs/api-dungeon-fighter"
   },
   {
     "id": "api-dungeon-fighter.mdx-143",
+    "title": "던전앤파이터 API",
+    "content": "getAvatarMarketSoldItem(itemId)",
+    "url": "/docs/api-dungeon-fighter",
+    "anchorId": "getavatarmarketsolditemitemid"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-144",
+    "title": "던전앤파이터 API",
+    "content": "아바타 마켓 판매 완료 아이템 정보를 가져옵니다.",
+    "url": "/docs/api-dungeon-fighter"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-145",
+    "title": "던전앤파이터 API",
+    "content": "엔드포인트: GET /df/avatar-market/sold/{itemId}",
+    "url": "/docs/api-dungeon-fighter"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-146",
+    "title": "던전앤파이터 API",
+    "content": "- itemId (string): 아바타 아이템 식별자",
+    "url": "/docs/api-dungeon-fighter",
+    "anchorId": "getitemitemid"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-147",
+    "title": "던전앤파이터 API",
+    "content": "반환값: AvatarItem - 판매 완료된 아바타 아이템 정보",
+    "url": "/docs/api-dungeon-fighter"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-148",
     "title": "던전앤파이터 API",
     "content": "getAvatarMarketHashtags()",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getavatarmarkethashtags"
   },
   {
-    "id": "api-dungeon-fighter.mdx-144",
+    "id": "api-dungeon-fighter.mdx-149",
     "title": "던전앤파이터 API",
     "content": "아바타 마켓 해시태그 목록을 가져옵니다.",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-145",
+    "id": "api-dungeon-fighter.mdx-150",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/avatar-market/hashtags",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-146",
+    "id": "api-dungeon-fighter.mdx-151",
     "title": "던전앤파이터 API",
     "content": "반환값: string[] - 아바타 마켓에서 사용할 수 있는 해시태그 목록",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-149",
+    "id": "api-dungeon-fighter.mdx-154",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/itemshop",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-150",
+    "id": "api-dungeon-fighter.mdx-155",
     "title": "던전앤파이터 API",
     "content": "반환값: ItemShop - 아이템 상점 판매 목록",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-151",
+    "id": "api-dungeon-fighter.mdx-156",
     "title": "던전앤파이터 API",
     "content": "searchAuction(params)",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "searchauctionparams"
   },
   {
-    "id": "api-dungeon-fighter.mdx-153",
+    "id": "api-dungeon-fighter.mdx-158",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/auction",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-154",
+    "id": "api-dungeon-fighter.mdx-159",
     "title": "던전앤파이터 API",
     "content": "| 매개변수              | 타입                         | 필수 | 기본값      | 설명                                | | --------------------- | ---------------------------- | ---- | ----------- | ----------------------------------- | | params.itemName     | string                       | -    | -           | 검색할 아이템 이름                  | | params.itemId       | string                       | -    | -           | 아이템 고유 코드                    | | params.itemIds      | string[]                     | -    | -           | 다중 아이템 고유 코드 (쉼표로 구분) | | params.wordType     | 'match' \\| 'front' \\| 'full' | -    | 'match'     | 검색 방식                           | | params.minLevel     | number                       | -    | -           | 최소 아이템 레벨                    | | params.maxLevel     | number                       | -    | -           | 최대 아이템 레벨                    | | params.rarity       | string                       | -    | -           | 아이템 희귀도                       | | params.minReinforce | number                       | -    | 0           | 최소 강화 수치 (0-15)               | | params.maxReinforce | number                       | -    | 15          | 최대 강화 수치 (0-15)               | | params.minRefine    | number                       | -    | 0           | 최소 제련 수치 (0-12)               | | params.maxRefine    | number                       | -    | 12          | 최대 제련 수치 (0-12)               | | params.auctionType  | 'sell' \\| 'buy'              | -    | 'sell'      | 경매 타입                           | | params.sort         | string                       | -    | 'unitPrice' | 정렬 방식                           | | params.limit        | number                       | -    | 10          | 반환할 결과 수 (최대 400)           |",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "매개변수"
   },
   {
-    "id": "api-dungeon-fighter.mdx-155",
+    "id": "api-dungeon-fighter.mdx-160",
     "title": "던전앤파이터 API",
     "content": "- 'common': 일반 - 'uncommon': 고급 - 'rare': 희귀 - 'unique': 유니크 - 'epic': 에픽 - 'legendary': 레전더리",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-156",
+    "id": "api-dungeon-fighter.mdx-161",
     "title": "던전앤파이터 API",
     "content": "- 'unitPrice': 개당 가격순 - 'reinforce': 강화 수치순 - 'level': 레벨순 - 'deadline': 마감시간순   - sort (string, 선택사항): 정렬 방식     - 'price_asc': 가격 낮은 순     - 'price_desc': 가격 높은 순     - 'reinforce_asc': 강화 낮은 순     - 'reinforce_desc': 강화 높은 순     - 'level_asc': 레벨 낮은 순     - 'level_desc': 레벨 높은 순   - limit (number, 선택사항): 결과 제한",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-157",
+    "id": "api-dungeon-fighter.mdx-162",
     "title": "던전앤파이터 API",
     "content": "반환값: AuctionSearchResult - 경매장 검색 결과",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-158",
+    "id": "api-dungeon-fighter.mdx-163",
     "title": "던전앤파이터 API",
     "content": "getAuctionItem(auctionNo)",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getauctionitemauctionno"
   },
   {
-    "id": "api-dungeon-fighter.mdx-159",
+    "id": "api-dungeon-fighter.mdx-164",
     "title": "던전앤파이터 API",
     "content": "특정 경매 아이템의 상세 정보를 가져옵니다.",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-160",
+    "id": "api-dungeon-fighter.mdx-165",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/auction/{auctionNo}",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-161",
+    "id": "api-dungeon-fighter.mdx-166",
     "title": "던전앤파이터 API",
     "content": "- auctionNo (string): 경매 번호",
     "url": "/docs/api-dungeon-fighter",
     "anchorId": "getauctionitemauctionno"
   },
   {
-    "id": "api-dungeon-fighter.mdx-162",
+    "id": "api-dungeon-fighter.mdx-167",
     "title": "던전앤파이터 API",
     "content": "반환값: AuctionItem - 경매 아이템 상세 정보",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-165",
+    "id": "api-dungeon-fighter.mdx-168",
+    "title": "던전앤파이터 API",
+    "content": "getAuctionSold(params)",
+    "url": "/docs/api-dungeon-fighter",
+    "anchorId": "getauctionsoldparams"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-170",
+    "title": "던전앤파이터 API",
+    "content": "엔드포인트: GET /df/auction-sold",
+    "url": "/docs/api-dungeon-fighter"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-171",
+    "title": "던전앤파이터 API",
+    "content": "- params (AuctionSoldParams): 검색 매개변수   - itemId (string, 선택사항): 아이템 ID   - serverId (string, 선택사항): 서버 ID   - limit (number, 선택사항): 최대 결과 수",
+    "url": "/docs/api-dungeon-fighter",
+    "anchorId": "매개변수"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-172",
+    "title": "던전앤파이터 API",
+    "content": "반환값: AuctionSoldResult - 판매된 경매 아이템 목록",
+    "url": "/docs/api-dungeon-fighter"
+  },
+  {
+    "id": "api-dungeon-fighter.mdx-175",
     "title": "던전앤파이터 API",
     "content": "엔드포인트: GET /df/servers",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-166",
+    "id": "api-dungeon-fighter.mdx-176",
     "title": "던전앤파이터 API",
     "content": "반환값: Server[] - 식별자가 포함된 사용 가능한 서버 목록",
     "url": "/docs/api-dungeon-fighter"
   },
   {
-    "id": "api-dungeon-fighter.mdx-167",
+    "id": "api-dungeon-fighter.mdx-177",
     "title": "던전앤파이터 API",
     "content": "모든 메서드는 다양한 이유로 오류를 발생시킬 수 있습니다:",
     "url": "/docs/api-dungeon-fighter"
@@ -1552,7 +1578,7 @@
   {
     "id": "overview.mdx-main",
     "title": "개요",
-    "content": "네오플 오픈 API를 위한 TypeScript/JavaScript SDK입니다. TypeScript 지원 모든 API에 대한 타입 안전성과 자동완성을 제공합니다. 다중 HTTP 어댑터 지원 Fetch, Axios, Got, Node-fetch 중 선택하여 사용할 수 있습니다. 포괄적인 API 지원 45개의 API 엔드포인트 지원 (던전앤파이터 34개, 사이퍼즈 11개) URL Builder 지원 API 엔드포인트 URL 추출 가능 - Node.js 18+ - 서버 애플리케이션 - Next.js - API 라우트 및 서버 컴포넌트 - Express.js - 웹 서버 - 서버리스 함수 - Vercel, AWS Lambda 등 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/v/neople-sdk-js.svg?style=flat-square\"       alt=\"npm version\"     />   </a>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/dm/neople-sdk-js.svg?style=flat-square\"       alt=\"npm downloads\"     />   </a> </div> - 라이센스: MIT - 타입 정의: neople-openapi-types 1.0.0 포함 - GitHub: neople-sdk-js <Cards>   <Card title=\"설치 및 설정\" href=\"/docs/getting-started\" />   <Card title=\"던전앤파이터 API\" href=\"/docs/api-dungeon-fighter\" />   <Card title=\"사이퍼즈 API\" href=\"/docs/api-cyphers\" />   <Card title=\"설정 가이드\" href=\"/docs/configuration\" /> </Cards> <Cards>   <Card title=\"HTTP 어댑터\" href=\"/docs/adapter-fetch\" />   <Card title=\"오류 처리\" href=\"/docs/error-handling\" />   <Card title=\"타입 정의\" href=\"/docs/types\" />   <Card title=\"예제 코드\" href=\"/docs/examples\" /> </Cards>",
+    "content": "네오플 오픈 API를 위한 TypeScript/JavaScript SDK입니다. TypeScript 지원 모든 API에 대한 타입 안전성과 자동완성을 제공합니다. 다중 HTTP 어댑터 지원 Fetch, Axios, Got, Node-fetch 중 선택하여 사용할 수 있습니다. 포괄적인 API 지원 46개의 API 엔드포인트 지원 (던전앤파이터 35개, 사이퍼즈 11개) URL Builder 지원 API 엔드포인트 URL 추출 가능 - Node.js 18+ - 서버 애플리케이션 - Next.js - API 라우트 및 서버 컴포넌트 - Express.js - 웹 서버 - 서버리스 함수 - Vercel, AWS Lambda 등 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/v/neople-sdk-js.svg?style=flat-square\"       alt=\"npm version\"     />   </a>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/dm/neople-sdk-js.svg?style=flat-square\"       alt=\"npm downloads\"     />   </a> </div> - 라이센스: MIT - 타입 정의: neople-openapi-types 1.0.0 포함 - GitHub: neople-sdk-js <Cards>   <Card title=\"설치 및 설정\" href=\"/docs/getting-started\" />   <Card title=\"던전앤파이터 API\" href=\"/docs/api-dungeon-fighter\" />   <Card title=\"사이퍼즈 API\" href=\"/docs/api-cyphers\" />   <Card title=\"설정 가이드\" href=\"/docs/configuration\" /> </Cards> <Cards>   <Card title=\"HTTP 어댑터\" href=\"/docs/adapter-fetch\" />   <Card title=\"오류 처리\" href=\"/docs/error-handling\" />   <Card title=\"타입 정의\" href=\"/docs/types\" />   <Card title=\"예제 코드\" href=\"/docs/examples\" /> </Cards>",
     "url": "/docs/overview"
   },
   {
@@ -1576,7 +1602,7 @@
   {
     "id": "overview.mdx-6",
     "title": "개요",
-    "content": "45개의 API 엔드포인트 지원 (던전앤파이터 34개, 사이퍼즈 11개)",
+    "content": "46개의 API 엔드포인트 지원 (던전앤파이터 35개, 사이퍼즈 11개)",
     "url": "/docs/overview"
   },
   {

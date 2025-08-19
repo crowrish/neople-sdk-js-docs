@@ -91,21 +91,6 @@ const player = await cyphersClient.getPlayerInfo('playerId');
 
 **반환값:** PlayerDetail - 스탯과 랭킹이 포함된 상세 플레이어 정보
 
-### getPlayerRanking(playerId)
-
-플레이어의 랭킹 정보를 가져옵니다.
-
-**엔드포인트:** `GET /cy/players/{playerId}/ranking`
-
-```typescript
-const ranking = await cyphersClient.getPlayerRanking('playerId');
-```
-
-**매개변수:**
-
-- `playerId` (string): 플레이어 식별자
-
-**반환값:** PlayerRanking - 다양한 게임 모드의 플레이어 랭킹
 
 ## 경기 메서드
 
@@ -365,14 +350,12 @@ async function getPlayerStats(playerName: string) {
     const playerId = searchResults.rows[0].playerId;
 
     // 플레이어 세부 정보와 최근 경기 조회
-    const [player, ranking, matches] = await Promise.all([
+    const [player, matches] = await Promise.all([
       cyphersClient.getPlayerInfo(playerId),
-      cyphersClient.getPlayerRanking(playerId),
       cyphersClient.getPlayerMatches(playerId, { gameTypeId: 'rating', limit: 10 }),
     ]);
 
     console.log('플레이어:', player);
-    console.log('랭킹:', ranking);
     console.log('최근 경기:', matches);
   } catch (error) {
     console.error('오류:', error.message);
