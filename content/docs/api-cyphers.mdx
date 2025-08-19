@@ -75,14 +75,14 @@ const advancedSearch = await cyphersClient.searchPlayer('플레이어명', {
 }
 ```
 
-### getPlayer(playerId)
+### getPlayerInfo(playerId)
 
 상세한 플레이어 정보를 가져옵니다.
 
 **엔드포인트:** `GET /cy/players/{playerId}`
 
 ```typescript
-const player = await cyphersClient.getPlayer('playerId');
+const player = await cyphersClient.getPlayerInfo('playerId');
 ```
 
 **매개변수:**
@@ -109,7 +109,7 @@ const ranking = await cyphersClient.getPlayerRanking('playerId');
 
 ## 경기 메서드
 
-### getMatches(playerId, options?)
+### getPlayerMatches(playerId, options?)
 
 플레이어의 경기 기록을 가져옵니다.
 
@@ -117,10 +117,10 @@ const ranking = await cyphersClient.getPlayerRanking('playerId');
 
 ```typescript
 // 기본 경기 기록 조회
-const matches = await cyphersClient.getMatches('playerId');
+const matches = await cyphersClient.getPlayerMatches('playerId');
 
 // 고급 옵션으로 경기 기록 조회
-const filteredMatches = await cyphersClient.getMatches('playerId', {
+const filteredMatches = await cyphersClient.getPlayerMatches('playerId', {
   gameTypeId: 'rating',
   startDate: '2024-01-01',
   endDate: '2024-01-31',
@@ -187,14 +187,14 @@ const filteredMatches = await cyphersClient.getMatches('playerId', {
 }
 ```
 
-### getMatch(matchId)
+### getMatchDetail(matchId)
 
 상세한 경기 정보를 가져옵니다.
 
 **엔드포인트:** `GET /cy/matches/{matchId}`
 
 ```typescript
-const match = await cyphersClient.getMatch('matchId');
+const match = await cyphersClient.getMatchDetail('matchId');
 ```
 
 **매개변수:**
@@ -203,102 +203,17 @@ const match = await cyphersClient.getMatch('matchId');
 
 **반환값:** MatchDetail - 모든 플레이어와 결과를 포함한 상세 경기 정보
 
-## 캐릭터 메서드
-
-### getCharacters()
-
-사용 가능한 모든 캐릭터 목록을 가져옵니다.
-
-**엔드포인트:** `GET /cy/battleitems/characters`
-
-```typescript
-const characters = await cyphersClient.getCharacters();
-```
-
-**반환값:** Character[] - 기본 정보가 포함된 모든 사이퍼즈 캐릭터 목록
-
-### getCharacter(characterId)
-
-상세한 캐릭터 정보를 가져옵니다.
-
-**엔드포인트:** `GET /cy/battleitems/characters/{characterId}`
-
-```typescript
-const character = await cyphersClient.getCharacter('characterId');
-```
-
-**매개변수:**
-
-- `characterId` (string): 캐릭터 식별자
-
-**반환값:** CharacterDetail - 능력과 스탯을 포함한 상세 캐릭터 정보
-
-## 아이템 메서드
-
-### getItems()
-
-사용 가능한 모든 아이템 목록을 가져옵니다.
-
-**엔드포인트:** `GET /cy/battleitems/items`
-
-```typescript
-const items = await cyphersClient.getItems();
-```
-
-**반환값:** Item[] - 기본 정보가 포함된 모든 아이템 목록
-
-### getItem(itemId)
-
-상세한 아이템 정보를 가져옵니다.
-
-**엔드포인트:** `GET /cy/battleitems/items/{itemId}`
-
-```typescript
-const item = await cyphersClient.getItem('itemId');
-```
-
-**매개변수:**
-
-- `itemId` (string): 아이템 식별자
-
-**반환값:** ItemDetail - 스탯과 효과를 포함한 상세 아이템 정보
-
-## 포지션 및 속성 메서드
-
-### getPositions()
-
-사용 가능한 포지션 목록을 가져옵니다.
-
-**엔드포인트:** `GET /cy/battleitems/positions`
-
-```typescript
-const positions = await cyphersClient.getPositions();
-```
-
-**반환값:** Position[] - 캐릭터 포지션 목록
-
-### getAttributes()
-
-사용 가능한 속성 목록을 가져옵니다.
-
-**엔드포인트:** `GET /cy/battleitems/attributes`
-
-```typescript
-const attributes = await cyphersClient.getAttributes();
-```
-
-**반환값:** Attribute[] - 캐릭터 속성 목록
 
 ## 랭킹 메서드
 
-### getRanking(rankingType, offset?, limit?)
+### getOverallRanking(rankingType, offset?, limit?)
 
 전체 랭킹을 가져옵니다.
 
 **엔드포인트:** `GET /cy/ranking/ratingpoint`
 
 ```typescript
-const ranking = await cyphersClient.getRanking('mmr', 0, 100);
+const ranking = await cyphersClient.getOverallRanking('mmr', 0, 100);
 ```
 
 **매개변수:**
@@ -308,6 +223,24 @@ const ranking = await cyphersClient.getRanking('mmr', 0, 100);
 - `limit` (number, 선택사항): 최대 결과 개수
 
 **반환값:** RankingResult - 전체 랭킹 목록
+
+### getCharacterRanking(characterId, offset?, limit?)
+
+특정 캐릭터의 랭킹을 가져옵니다.
+
+**엔드포인트:** `GET /cy/ranking/characters/{characterId}`
+
+```typescript
+const characterRanking = await cyphersClient.getCharacterRanking('characterId', 0, 50);
+```
+
+**매개변수:**
+
+- `characterId` (string): 캐릭터 식별자
+- `offset` (number, 선택사항): 페이지네이션을 위한 결과 오프셋
+- `limit` (number, 선택사항): 최대 결과 개수
+
+**반환값:** CharacterRankingResult - 캐릭터별 랭킹 목록
 
 ### getTsjRanking(rankingType, offset?, limit?)
 
@@ -327,16 +260,42 @@ const tsjRanking = await cyphersClient.getTsjRanking('melee', 0, 50);
 
 **반환값:** TsjRankingResult - TSJ 랭킹 목록
 
+## 아이템 메서드
+
+### searchCyphersItems()
+
+사용 가능한 모든 아이템 목록을 검색합니다.
+
+**엔드포인트:** `GET /cy/battleitems/items`
+
+```typescript
+const items = await cyphersClient.searchCyphersItems();
+```
+
+**반환값:** Item[] - 기본 정보가 포함된 모든 아이템 목록
+
+### getCyphersInfo()
+
+사이퍼즈 게임 정보를 가져옵니다.
+
+**엔드포인트:** `GET /cy/cyphers`
+
+```typescript
+const cyphersInfo = await cyphersClient.getCyphersInfo();
+```
+
+**반환값:** CyphersInfo - 사이퍼즈 게임 관련 정보
+
 ## 아이템 상세 메서드
 
-### getItemDetail(itemId)
+### getCyphersItemDetail(itemId)
 
 아이템의 상세 정보를 가져옵니다.
 
 **엔드포인트:** `GET /cy/battleitems/items/{itemId}`
 
 ```typescript
-const itemDetail = await cyphersClient.getItemDetail('itemId');
+const itemDetail = await cyphersClient.getCyphersItemDetail('itemId');
 ```
 
 **매개변수:**
@@ -345,14 +304,14 @@ const itemDetail = await cyphersClient.getItemDetail('itemId');
 
 **반환값:** ItemDetail - 상세 아이템 정보 및 스탯
 
-### getMultiItems(itemIds)
+### getCyphersMultiItems(itemIds)
 
 여러 아이템 정보를 한 번에 가져옵니다.
 
 **엔드포인트:** `GET /cy/multi/items`
 
 ```typescript
-const items = await cyphersClient.getMultiItems([
+const items = await cyphersClient.getCyphersMultiItems([
   'itemId1',
   'itemId2',
   'itemId3',
@@ -365,53 +324,6 @@ const items = await cyphersClient.getMultiItems([
 
 **반환값:** ItemDetail[] - 여러 아이템의 상세 정보
 
-## 추천 아이템 메서드
-
-### getRecommendedItems(characterId)
-
-특정 캐릭터의 추천 아이템을 가져옵니다.
-
-**엔드포인트:** `GET /cy/battleitems/characters/{characterId}/items`
-
-```typescript
-const recommendedItems = await cyphersClient.getRecommendedItems('characterId');
-```
-
-**매개변수:**
-
-- `characterId` (string): 캐릭터 식별자
-
-**반환값:** RecommendedItem[] - 캐릭터별 추천 아이템 목록
-
-## 사이퍼 정보 메서드
-
-### getCyphers()
-
-사용 가능한 모든 사이퍼 목록을 가져옵니다.
-
-**엔드포인트:** `GET /cy/battleitems/cyphers`
-
-```typescript
-const cyphers = await cyphersClient.getCyphers();
-```
-
-**반환값:** Cypher[] - 모든 사이퍼 목록
-
-### getCypher(cypherId)
-
-특정 사이퍼의 상세 정보를 가져옵니다.
-
-**엔드포인트:** `GET /cy/battleitems/cyphers/{cypherId}`
-
-```typescript
-const cypher = await cyphersClient.getCypher('cypherId');
-```
-
-**매개변수:**
-
-- `cypherId` (string): 사이퍼 식별자
-
-**반환값:** CypherDetail - 사이퍼 상세 정보
 
 ## 오류 처리
 
@@ -419,7 +331,7 @@ const cypher = await cyphersClient.getCypher('cypherId');
 
 ```typescript
 try {
-  const player = await cyphersClient.getPlayer('invalidId');
+  const player = await cyphersClient.getPlayerInfo('invalidId');
 } catch (error) {
   if (error.status === 404) {
     console.log('플레이어를 찾을 수 없습니다');
@@ -454,9 +366,9 @@ async function getPlayerStats(playerName: string) {
 
     // 플레이어 세부 정보와 최근 경기 조회
     const [player, ranking, matches] = await Promise.all([
-      cyphersClient.getPlayer(playerId),
+      cyphersClient.getPlayerInfo(playerId),
       cyphersClient.getPlayerRanking(playerId),
-      cyphersClient.getMatches(playerId, 'rating', undefined, undefined, 10),
+      cyphersClient.getPlayerMatches(playerId, { gameTypeId: 'rating', limit: 10 }),
     ]);
 
     console.log('플레이어:', player);
@@ -473,7 +385,7 @@ async function analyzeMatch(matchId: string) {
   );
 
   try {
-    const match = await cyphersClient.getMatch(matchId);
+    const match = await cyphersClient.getMatchDetail(matchId);
 
     console.log('경기 시간:', match.playTime);
     console.log(
@@ -481,16 +393,9 @@ async function analyzeMatch(matchId: string) {
       match.teams.find(team => team.result === 'win')
     );
 
-    // 각 플레이어의 캐릭터 정보 조회
-    const characterPromises = match.players.map(player =>
-      cyphersClient.getCharacter(player.characterId)
-    );
-
-    const characters = await Promise.all(characterPromises);
-    console.log(
-      '사용된 캐릭터:',
-      characters.map(char => char.characterName)
-    );
+    // 게임 정보 조회
+    const cyphersInfo = await cyphersClient.getCyphersInfo();
+    console.log('사이퍼즈 게임 정보:', cyphersInfo);
   } catch (error) {
     console.error('오류:', error.message);
   }

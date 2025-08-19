@@ -4246,17 +4246,17 @@ negotiator@^1.0.0:
   resolved "https://registry.npmjs.org/negotiator/-/negotiator-1.0.0.tgz"
   integrity sha512-8Ofs/AUQh8MaEcrlq5xOX0CQ9ypTF5dl78mjlMNfOK08fzpgTHQRQPBxcPlEtIw0yRpws+Zo/3r+5WRby7u3Gg==
 
-neople-openapi-types@0.3.0, neople-openapi-types@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/neople-openapi-types/-/neople-openapi-types-0.3.0.tgz#32fb419a6584761807d3cc03a0e39e172ff25358"
-  integrity sha512-P5aBTaF/nGKqJ4WKsh0XnKR83YjHWzXhmTeuIN+TfRDOJn22rI57T7Vhiwx6Q6t+nMrS5GmYyF8FYsLBKLRU8g==
+neople-openapi-types@1.0.0, neople-openapi-types@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/neople-openapi-types/-/neople-openapi-types-1.0.0.tgz#150e7c81422ee3c7ceb79e20a81b653ee4197306"
+  integrity sha512-zAt8PYZ5VugzWsXYks7Iro054M6tEWRsQYff1KunjzpfdxUaOLf4ASNl6cHPDFQfaNmR3AG+oJCoAu+r6ly6qQ==
 
-neople-sdk-js@0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/neople-sdk-js/-/neople-sdk-js-0.2.2.tgz#7f7287565969fcbd99308c112e706a692c6291dc"
-  integrity sha512-yHZHfnds4k9XE05OkylkFj55gfe+NZgKqcZ0OqGVnymzvez8tkdk2qT7SmuPhm/RfxScKZ6PewvO8UuKr3UoFw==
+neople-sdk-js@0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/neople-sdk-js/-/neople-sdk-js-0.2.4.tgz#68ed0e5159517299ca6259634279fd3761b7ce5d"
+  integrity sha512-mOyE7D7ckV3hVQDMiTmCptLfOHgsNrCebFZfbp3gFesrFtphN5VCVfFURBh+o8A727DZ6SBk3S8LuBpqAuXZ0w==
   dependencies:
-    neople-openapi-types "^0.3.0"
+    neople-openapi-types "^1.0.0"
 
 next-themes@^0.4.6:
   version "0.4.6"

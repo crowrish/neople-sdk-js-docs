@@ -64,7 +64,7 @@
   {
     "id": "api-cyphers.mdx-main",
     "title": "사이퍼즈 API",
-    "content": "사이퍼즈 API 레퍼런스 NeopleCyphersClient는 네오플 오픈 API를 통해 사이퍼즈 게임 데이터에 접근을 제공합니다. - apiKey (string): 사이퍼즈 API 키 - options (object, 선택사항): 설정 옵션   - httpAdapter: 사용자 지정 HTTP 클라이언트 어댑터   - baseURL: API 요청을 위한 사용자 지정 기본 URL searchPlayer(playerName, options?) 이름으로 플레이어를 검색합니다. 엔드포인트: GET /cy/players - playerName (string): 검색할 플레이어 이름 - options (SearchPlayerOptions, 선택사항): 검색 옵션   - limit (number, 선택사항): 최대 결과 개수 (기본값: 10)   - wordType (string, 선택사항): 검색 방식     - 'match': 정확히 일치 (기본값)     - 'front': 앞 글자 일치     - 'full': 전체 검색 반환값: PlayerSearchResult - 기본 정보가 포함된 플레이어 검색 결과 getPlayer(playerId) 상세한 플레이어 정보를 가져옵니다. 엔드포인트: GET /cy/players/{playerId} - playerId (string): 플레이어 식별자 반환값: PlayerDetail - 스탯과 랭킹이 포함된 상세 플레이어 정보 getPlayerRanking(playerId) 플레이어의 랭킹 정보를 가져옵니다. 엔드포인트: GET /cy/players/{playerId}/ranking - playerId (string): 플레이어 식별자 반환값: PlayerRanking - 다양한 게임 모드의 플레이어 랭킹 getMatches(playerId, options?) 플레이어의 경기 기록을 가져옵니다. 엔드포인트: GET /cy/players/{playerId}/matches - playerId (string): 플레이어 식별자 - options (GetMatchesOptions, 선택사항): 조회 옵션   - gameTypeId (string, 선택사항): 게임 타입 필터     - 'normal': 일반 경기     - 'rating': 랭킹 경기     - 'tutorial': 튜토리얼 경기     - 'custom': 커스텀 경기   - startDate (string, 선택사항): 시작 날짜 필터 (YYYY-MM-DD)   - endDate (string, 선택사항): 끝 날짜 필터 (YYYY-MM-DD)   - limit (number, 선택사항): 최대 결과 개수 (기본값: 10)   - next (string, 선택사항): 페이지네이션을 위한 다음 페이지 토큰 반환값: MatchesResult - 상세 정보가 포함된 경기 목록 getMatch(matchId) 상세한 경기 정보를 가져옵니다. 엔드포인트: GET /cy/matches/{matchId} - matchId (string): 경기 식별자 반환값: MatchDetail - 모든 플레이어와 결과를 포함한 상세 경기 정보 getCharacters() 사용 가능한 모든 캐릭터 목록을 가져옵니다. 엔드포인트: GET /cy/battleitems/characters 반환값: Character[] - 기본 정보가 포함된 모든 사이퍼즈 캐릭터 목록 getCharacter(characterId) 상세한 캐릭터 정보를 가져옵니다. 엔드포인트: GET /cy/battleitems/characters/{characterId} - characterId (string): 캐릭터 식별자 반환값: CharacterDetail - 능력과 스탯을 포함한 상세 캐릭터 정보 사용 가능한 모든 아이템 목록을 가져옵니다. 엔드포인트: GET /cy/battleitems/items 반환값: Item[] - 기본 정보가 포함된 모든 아이템 목록 getItem(itemId) 상세한 아이템 정보를 가져옵니다. 엔드포인트: GET /cy/battleitems/items/{itemId} - itemId (string): 아이템 식별자 반환값: ItemDetail - 스탯과 효과를 포함한 상세 아이템 정보 포지션 및 속성 메서드 getPositions() 사용 가능한 포지션 목록을 가져옵니다. 엔드포인트: GET /cy/battleitems/positions 반환값: Position[] - 캐릭터 포지션 목록 getAttributes() 사용 가능한 속성 목록을 가져옵니다. 엔드포인트: GET /cy/battleitems/attributes 반환값: Attribute[] - 캐릭터 속성 목록 getRanking(rankingType, offset?, limit?) 전체 랭킹을 가져옵니다. 엔드포인트: GET /cy/ranking/ratingpoint - rankingType (string): 랭킹 타입 ('mmr', 'bp' 등) - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수 반환값: RankingResult - 전체 랭킹 목록 getTsjRanking(rankingType, offset?, limit?) TSJ(Team vs Team) 랭킹을 가져옵니다. 엔드포인트: GET /cy/ranking/tsj - rankingType (string): TSJ 랭킹 타입 ('melee', 'ranged') - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수 반환값: TsjRankingResult - TSJ 랭킹 목록 getItemDetail(itemId) 아이템의 상세 정보를 가져옵니다. 엔드포인트: GET /cy/battleitems/items/{itemId} - itemId (string): 아이템 식별자 반환값: ItemDetail - 상세 아이템 정보 및 스탯 getMultiItems(itemIds) 여러 아이템 정보를 한 번에 가져옵니다. 엔드포인트: GET /cy/multi/items - itemIds (string[]): 아이템 식별자 배열 반환값: ItemDetail[] - 여러 아이템의 상세 정보 getRecommendedItems(characterId) 특정 캐릭터의 추천 아이템을 가져옵니다. 엔드포인트: GET /cy/battleitems/characters/{characterId}/items - characterId (string): 캐릭터 식별자 반환값: RecommendedItem[] - 캐릭터별 추천 아이템 목록 getCyphers() 사용 가능한 모든 사이퍼 목록을 가져옵니다. 엔드포인트: GET /cy/battleitems/cyphers 반환값: Cypher[] - 모든 사이퍼 목록 getCypher(cypherId) 특정 사이퍼의 상세 정보를 가져옵니다. 엔드포인트: GET /cy/battleitems/cyphers/{cypherId} - cypherId (string): 사이퍼 식별자 반환값: CypherDetail - 사이퍼 상세 정보 모든 메서드는 다양한 이유로 오류를 발생시킬 수 있습니다: 일반적인 게임 타입 식별자: - normal: 일반 경기 - rating: 랭킹 경기 - tutorial: 튜토리얼 경기 - custom: 커스텀 경기 경기 결과에 포함되는 정보: - 플레이어 정보 및 통계 - 캐릭터 선택 및 빌드 - 팀 구성 - 경기 시간 및 결과 - 개별 플레이어 성능 지표",
+    "content": "사이퍼즈 API 레퍼런스 NeopleCyphersClient는 네오플 오픈 API를 통해 사이퍼즈 게임 데이터에 접근을 제공합니다. - apiKey (string): 사이퍼즈 API 키 - options (object, 선택사항): 설정 옵션   - httpAdapter: 사용자 지정 HTTP 클라이언트 어댑터   - baseURL: API 요청을 위한 사용자 지정 기본 URL searchPlayer(playerName, options?) 이름으로 플레이어를 검색합니다. 엔드포인트: GET /cy/players - playerName (string): 검색할 플레이어 이름 - options (SearchPlayerOptions, 선택사항): 검색 옵션   - limit (number, 선택사항): 최대 결과 개수 (기본값: 10)   - wordType (string, 선택사항): 검색 방식     - 'match': 정확히 일치 (기본값)     - 'front': 앞 글자 일치     - 'full': 전체 검색 반환값: PlayerSearchResult - 기본 정보가 포함된 플레이어 검색 결과 getPlayerInfo(playerId) 상세한 플레이어 정보를 가져옵니다. 엔드포인트: GET /cy/players/{playerId} - playerId (string): 플레이어 식별자 반환값: PlayerDetail - 스탯과 랭킹이 포함된 상세 플레이어 정보 getPlayerRanking(playerId) 플레이어의 랭킹 정보를 가져옵니다. 엔드포인트: GET /cy/players/{playerId}/ranking - playerId (string): 플레이어 식별자 반환값: PlayerRanking - 다양한 게임 모드의 플레이어 랭킹 getPlayerMatches(playerId, options?) 플레이어의 경기 기록을 가져옵니다. 엔드포인트: GET /cy/players/{playerId}/matches - playerId (string): 플레이어 식별자 - options (GetMatchesOptions, 선택사항): 조회 옵션   - gameTypeId (string, 선택사항): 게임 타입 필터     - 'normal': 일반 경기     - 'rating': 랭킹 경기     - 'tutorial': 튜토리얼 경기     - 'custom': 커스텀 경기   - startDate (string, 선택사항): 시작 날짜 필터 (YYYY-MM-DD)   - endDate (string, 선택사항): 끝 날짜 필터 (YYYY-MM-DD)   - limit (number, 선택사항): 최대 결과 개수 (기본값: 10)   - next (string, 선택사항): 페이지네이션을 위한 다음 페이지 토큰 반환값: MatchesResult - 상세 정보가 포함된 경기 목록 getMatchDetail(matchId) 상세한 경기 정보를 가져옵니다. 엔드포인트: GET /cy/matches/{matchId} - matchId (string): 경기 식별자 반환값: MatchDetail - 모든 플레이어와 결과를 포함한 상세 경기 정보 getOverallRanking(rankingType, offset?, limit?) 전체 랭킹을 가져옵니다. 엔드포인트: GET /cy/ranking/ratingpoint - rankingType (string): 랭킹 타입 ('mmr', 'bp' 등) - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수 반환값: RankingResult - 전체 랭킹 목록 getCharacterRanking(characterId, offset?, limit?) 특정 캐릭터의 랭킹을 가져옵니다. 엔드포인트: GET /cy/ranking/characters/{characterId} - characterId (string): 캐릭터 식별자 - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수 반환값: CharacterRankingResult - 캐릭터별 랭킹 목록 getTsjRanking(rankingType, offset?, limit?) TSJ(Team vs Team) 랭킹을 가져옵니다. 엔드포인트: GET /cy/ranking/tsj - rankingType (string): TSJ 랭킹 타입 ('melee', 'ranged') - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수 반환값: TsjRankingResult - TSJ 랭킹 목록 searchCyphersItems() 사용 가능한 모든 아이템 목록을 검색합니다. 엔드포인트: GET /cy/battleitems/items 반환값: Item[] - 기본 정보가 포함된 모든 아이템 목록 getCyphersInfo() 사이퍼즈 게임 정보를 가져옵니다. 엔드포인트: GET /cy/cyphers 반환값: CyphersInfo - 사이퍼즈 게임 관련 정보 getCyphersItemDetail(itemId) 아이템의 상세 정보를 가져옵니다. 엔드포인트: GET /cy/battleitems/items/{itemId} - itemId (string): 아이템 식별자 반환값: ItemDetail - 상세 아이템 정보 및 스탯 getCyphersMultiItems(itemIds) 여러 아이템 정보를 한 번에 가져옵니다. 엔드포인트: GET /cy/multi/items - itemIds (string[]): 아이템 식별자 배열 반환값: ItemDetail[] - 여러 아이템의 상세 정보 모든 메서드는 다양한 이유로 오류를 발생시킬 수 있습니다: 일반적인 게임 타입 식별자: - normal: 일반 경기 - rating: 랭킹 경기 - tutorial: 튜토리얼 경기 - custom: 커스텀 경기 경기 결과에 포함되는 정보: - 플레이어 정보 및 통계 - 캐릭터 선택 및 빌드 - 팀 구성 - 경기 시간 및 결과 - 개별 플레이어 성능 지표",
     "url": "/docs/api-cyphers"
   },
   {
@@ -106,6 +106,13 @@
     "url": "/docs/api-cyphers"
   },
   {
+    "id": "api-cyphers.mdx-8",
+    "title": "사이퍼즈 API",
+    "content": "getPlayerInfo(playerId)",
+    "url": "/docs/api-cyphers",
+    "anchorId": "getplayerinfoplayerid"
+  },
+  {
     "id": "api-cyphers.mdx-10",
     "title": "사이퍼즈 API",
     "content": "엔드포인트: GET /cy/players/{playerId}",
@@ -116,7 +123,7 @@
     "title": "사이퍼즈 API",
     "content": "- playerId (string): 플레이어 식별자",
     "url": "/docs/api-cyphers",
-    "anchorId": "getplayerplayerid"
+    "anchorId": "getplayerinfoplayerid"
   },
   {
     "id": "api-cyphers.mdx-12",
@@ -142,7 +149,7 @@
     "title": "사이퍼즈 API",
     "content": "- playerId (string): 플레이어 식별자",
     "url": "/docs/api-cyphers",
-    "anchorId": "getplayerplayerid"
+    "anchorId": "getplayerinfoplayerid"
   },
   {
     "id": "api-cyphers.mdx-17",
@@ -153,9 +160,9 @@
   {
     "id": "api-cyphers.mdx-18",
     "title": "사이퍼즈 API",
-    "content": "getMatches(playerId, options?)",
+    "content": "getPlayerMatches(playerId, options?)",
     "url": "/docs/api-cyphers",
-    "anchorId": "getmatchesplayerid-options"
+    "anchorId": "getplayermatchesplayerid-options"
   },
   {
     "id": "api-cyphers.mdx-20",
@@ -177,6 +184,13 @@
     "url": "/docs/api-cyphers"
   },
   {
+    "id": "api-cyphers.mdx-23",
+    "title": "사이퍼즈 API",
+    "content": "getMatchDetail(matchId)",
+    "url": "/docs/api-cyphers",
+    "anchorId": "getmatchdetailmatchid"
+  },
+  {
     "id": "api-cyphers.mdx-25",
     "title": "사이퍼즈 API",
     "content": "엔드포인트: GET /cy/matches/{matchId}",
@@ -187,7 +201,7 @@
     "title": "사이퍼즈 API",
     "content": "- matchId (string): 경기 식별자",
     "url": "/docs/api-cyphers",
-    "anchorId": "getmatchmatchid"
+    "anchorId": "getmatchdetailmatchid"
   },
   {
     "id": "api-cyphers.mdx-27",
@@ -196,322 +210,192 @@
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-29",
+    "id": "api-cyphers.mdx-28",
     "title": "사이퍼즈 API",
-    "content": "사용 가능한 모든 캐릭터 목록을 가져옵니다.",
-    "url": "/docs/api-cyphers"
+    "content": "getOverallRanking(rankingType, offset?, limit?)",
+    "url": "/docs/api-cyphers",
+    "anchorId": "getoverallrankingrankingtype-offset-limit"
   },
   {
     "id": "api-cyphers.mdx-30",
-    "title": "사이퍼즈 API",
-    "content": "엔드포인트: GET /cy/battleitems/characters",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-31",
-    "title": "사이퍼즈 API",
-    "content": "반환값: Character[] - 기본 정보가 포함된 모든 사이퍼즈 캐릭터 목록",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-32",
-    "title": "사이퍼즈 API",
-    "content": "getCharacter(characterId)",
-    "url": "/docs/api-cyphers",
-    "anchorId": "getcharactercharacterid"
-  },
-  {
-    "id": "api-cyphers.mdx-34",
-    "title": "사이퍼즈 API",
-    "content": "엔드포인트: GET /cy/battleitems/characters/{characterId}",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-35",
-    "title": "사이퍼즈 API",
-    "content": "- characterId (string): 캐릭터 식별자",
-    "url": "/docs/api-cyphers",
-    "anchorId": "getcharactercharacterid"
-  },
-  {
-    "id": "api-cyphers.mdx-36",
-    "title": "사이퍼즈 API",
-    "content": "반환값: CharacterDetail - 능력과 스탯을 포함한 상세 캐릭터 정보",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-37",
-    "title": "사이퍼즈 API",
-    "content": "사용 가능한 모든 아이템 목록을 가져옵니다.",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-38",
-    "title": "사이퍼즈 API",
-    "content": "엔드포인트: GET /cy/battleitems/items",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-39",
-    "title": "사이퍼즈 API",
-    "content": "반환값: Item[] - 기본 정보가 포함된 모든 아이템 목록",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-42",
-    "title": "사이퍼즈 API",
-    "content": "엔드포인트: GET /cy/battleitems/items/{itemId}",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-43",
-    "title": "사이퍼즈 API",
-    "content": "- itemId (string): 아이템 식별자",
-    "url": "/docs/api-cyphers",
-    "anchorId": "getitemitemid"
-  },
-  {
-    "id": "api-cyphers.mdx-44",
-    "title": "사이퍼즈 API",
-    "content": "반환값: ItemDetail - 스탯과 효과를 포함한 상세 아이템 정보",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-47",
-    "title": "사이퍼즈 API",
-    "content": "사용 가능한 포지션 목록을 가져옵니다.",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-48",
-    "title": "사이퍼즈 API",
-    "content": "엔드포인트: GET /cy/battleitems/positions",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-49",
-    "title": "사이퍼즈 API",
-    "content": "반환값: Position[] - 캐릭터 포지션 목록",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-52",
-    "title": "사이퍼즈 API",
-    "content": "엔드포인트: GET /cy/battleitems/attributes",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-53",
-    "title": "사이퍼즈 API",
-    "content": "반환값: Attribute[] - 캐릭터 속성 목록",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-54",
-    "title": "사이퍼즈 API",
-    "content": "getRanking(rankingType, offset?, limit?)",
-    "url": "/docs/api-cyphers",
-    "anchorId": "getrankingrankingtype-offset-limit"
-  },
-  {
-    "id": "api-cyphers.mdx-56",
     "title": "사이퍼즈 API",
     "content": "엔드포인트: GET /cy/ranking/ratingpoint",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-57",
+    "id": "api-cyphers.mdx-31",
     "title": "사이퍼즈 API",
     "content": "- rankingType (string): 랭킹 타입 ('mmr', 'bp' 등) - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수",
     "url": "/docs/api-cyphers",
-    "anchorId": "getrankingrankingtype-offset-limit"
+    "anchorId": "getoverallrankingrankingtype-offset-limit"
   },
   {
-    "id": "api-cyphers.mdx-58",
+    "id": "api-cyphers.mdx-32",
     "title": "사이퍼즈 API",
     "content": "반환값: RankingResult - 전체 랭킹 목록",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-59",
+    "id": "api-cyphers.mdx-33",
+    "title": "사이퍼즈 API",
+    "content": "getCharacterRanking(characterId, offset?, limit?)",
+    "url": "/docs/api-cyphers",
+    "anchorId": "getcharacterrankingcharacterid-offset-limit"
+  },
+  {
+    "id": "api-cyphers.mdx-35",
+    "title": "사이퍼즈 API",
+    "content": "엔드포인트: GET /cy/ranking/characters/{characterId}",
+    "url": "/docs/api-cyphers"
+  },
+  {
+    "id": "api-cyphers.mdx-36",
+    "title": "사이퍼즈 API",
+    "content": "- characterId (string): 캐릭터 식별자 - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수",
+    "url": "/docs/api-cyphers",
+    "anchorId": "getcharacterrankingcharacterid-offset-limit"
+  },
+  {
+    "id": "api-cyphers.mdx-37",
+    "title": "사이퍼즈 API",
+    "content": "반환값: CharacterRankingResult - 캐릭터별 랭킹 목록",
+    "url": "/docs/api-cyphers"
+  },
+  {
+    "id": "api-cyphers.mdx-38",
     "title": "사이퍼즈 API",
     "content": "getTsjRanking(rankingType, offset?, limit?)",
     "url": "/docs/api-cyphers",
     "anchorId": "gettsjrankingrankingtype-offset-limit"
   },
   {
-    "id": "api-cyphers.mdx-60",
+    "id": "api-cyphers.mdx-39",
     "title": "사이퍼즈 API",
     "content": "TSJ(Team vs Team) 랭킹을 가져옵니다.",
     "url": "/docs/api-cyphers",
     "anchorId": "gettsjrankingrankingtype-offset-limit"
   },
   {
-    "id": "api-cyphers.mdx-61",
+    "id": "api-cyphers.mdx-40",
     "title": "사이퍼즈 API",
     "content": "엔드포인트: GET /cy/ranking/tsj",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-62",
+    "id": "api-cyphers.mdx-41",
     "title": "사이퍼즈 API",
     "content": "- rankingType (string): TSJ 랭킹 타입 ('melee', 'ranged') - offset (number, 선택사항): 페이지네이션을 위한 결과 오프셋 - limit (number, 선택사항): 최대 결과 개수",
     "url": "/docs/api-cyphers",
-    "anchorId": "getrankingrankingtype-offset-limit"
+    "anchorId": "getoverallrankingrankingtype-offset-limit"
   },
   {
-    "id": "api-cyphers.mdx-63",
+    "id": "api-cyphers.mdx-42",
     "title": "사이퍼즈 API",
     "content": "반환값: TsjRankingResult - TSJ 랭킹 목록",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-64",
+    "id": "api-cyphers.mdx-44",
     "title": "사이퍼즈 API",
-    "content": "getItemDetail(itemId)",
-    "url": "/docs/api-cyphers",
-    "anchorId": "getitemdetailitemid"
+    "content": "사용 가능한 모든 아이템 목록을 검색합니다.",
+    "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-66",
+    "id": "api-cyphers.mdx-45",
+    "title": "사이퍼즈 API",
+    "content": "엔드포인트: GET /cy/battleitems/items",
+    "url": "/docs/api-cyphers"
+  },
+  {
+    "id": "api-cyphers.mdx-46",
+    "title": "사이퍼즈 API",
+    "content": "반환값: Item[] - 기본 정보가 포함된 모든 아이템 목록",
+    "url": "/docs/api-cyphers"
+  },
+  {
+    "id": "api-cyphers.mdx-49",
+    "title": "사이퍼즈 API",
+    "content": "엔드포인트: GET /cy/cyphers",
+    "url": "/docs/api-cyphers"
+  },
+  {
+    "id": "api-cyphers.mdx-50",
+    "title": "사이퍼즈 API",
+    "content": "반환값: CyphersInfo - 사이퍼즈 게임 관련 정보",
+    "url": "/docs/api-cyphers"
+  },
+  {
+    "id": "api-cyphers.mdx-51",
+    "title": "사이퍼즈 API",
+    "content": "getCyphersItemDetail(itemId)",
+    "url": "/docs/api-cyphers",
+    "anchorId": "getcyphersitemdetailitemid"
+  },
+  {
+    "id": "api-cyphers.mdx-53",
     "title": "사이퍼즈 API",
     "content": "엔드포인트: GET /cy/battleitems/items/{itemId}",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-67",
+    "id": "api-cyphers.mdx-54",
     "title": "사이퍼즈 API",
     "content": "- itemId (string): 아이템 식별자",
     "url": "/docs/api-cyphers",
-    "anchorId": "getitemitemid"
+    "anchorId": "getcyphersitemdetailitemid"
   },
   {
-    "id": "api-cyphers.mdx-68",
+    "id": "api-cyphers.mdx-55",
     "title": "사이퍼즈 API",
     "content": "반환값: ItemDetail - 상세 아이템 정보 및 스탯",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-69",
+    "id": "api-cyphers.mdx-56",
     "title": "사이퍼즈 API",
-    "content": "getMultiItems(itemIds)",
+    "content": "getCyphersMultiItems(itemIds)",
     "url": "/docs/api-cyphers",
-    "anchorId": "getmultiitemsitemids"
+    "anchorId": "getcyphersmultiitemsitemids"
   },
   {
-    "id": "api-cyphers.mdx-70",
+    "id": "api-cyphers.mdx-57",
     "title": "사이퍼즈 API",
     "content": "여러 아이템 정보를 한 번에 가져옵니다.",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-71",
+    "id": "api-cyphers.mdx-58",
     "title": "사이퍼즈 API",
     "content": "엔드포인트: GET /cy/multi/items",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-72",
+    "id": "api-cyphers.mdx-59",
     "title": "사이퍼즈 API",
     "content": "- itemIds (string[]): 아이템 식별자 배열",
     "url": "/docs/api-cyphers",
-    "anchorId": "getmultiitemsitemids"
+    "anchorId": "getcyphersmultiitemsitemids"
   },
   {
-    "id": "api-cyphers.mdx-73",
+    "id": "api-cyphers.mdx-60",
     "title": "사이퍼즈 API",
     "content": "반환값: ItemDetail[] - 여러 아이템의 상세 정보",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-74",
-    "title": "사이퍼즈 API",
-    "content": "getRecommendedItems(characterId)",
-    "url": "/docs/api-cyphers",
-    "anchorId": "getrecommendeditemscharacterid"
-  },
-  {
-    "id": "api-cyphers.mdx-75",
-    "title": "사이퍼즈 API",
-    "content": "특정 캐릭터의 추천 아이템을 가져옵니다.",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-76",
-    "title": "사이퍼즈 API",
-    "content": "엔드포인트: GET /cy/battleitems/characters/{characterId}/items",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-77",
-    "title": "사이퍼즈 API",
-    "content": "- characterId (string): 캐릭터 식별자",
-    "url": "/docs/api-cyphers",
-    "anchorId": "getcharactercharacterid"
-  },
-  {
-    "id": "api-cyphers.mdx-78",
-    "title": "사이퍼즈 API",
-    "content": "반환값: RecommendedItem[] - 캐릭터별 추천 아이템 목록",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-80",
-    "title": "사이퍼즈 API",
-    "content": "사용 가능한 모든 사이퍼 목록을 가져옵니다.",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-81",
-    "title": "사이퍼즈 API",
-    "content": "엔드포인트: GET /cy/battleitems/cyphers",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-82",
-    "title": "사이퍼즈 API",
-    "content": "반환값: Cypher[] - 모든 사이퍼 목록",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-84",
-    "title": "사이퍼즈 API",
-    "content": "특정 사이퍼의 상세 정보를 가져옵니다.",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-85",
-    "title": "사이퍼즈 API",
-    "content": "엔드포인트: GET /cy/battleitems/cyphers/{cypherId}",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-86",
-    "title": "사이퍼즈 API",
-    "content": "- cypherId (string): 사이퍼 식별자",
-    "url": "/docs/api-cyphers",
-    "anchorId": "getcyphercypherid"
-  },
-  {
-    "id": "api-cyphers.mdx-87",
-    "title": "사이퍼즈 API",
-    "content": "반환값: CypherDetail - 사이퍼 상세 정보",
-    "url": "/docs/api-cyphers"
-  },
-  {
-    "id": "api-cyphers.mdx-88",
+    "id": "api-cyphers.mdx-61",
     "title": "사이퍼즈 API",
     "content": "모든 메서드는 다양한 이유로 오류를 발생시킬 수 있습니다:",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-90",
+    "id": "api-cyphers.mdx-63",
     "title": "사이퍼즈 API",
     "content": "- normal: 일반 경기 - rating: 랭킹 경기 - tutorial: 튜토리얼 경기 - custom: 커스텀 경기",
     "url": "/docs/api-cyphers"
   },
   {
-    "id": "api-cyphers.mdx-92",
+    "id": "api-cyphers.mdx-65",
     "title": "사이퍼즈 API",
     "content": "- 플레이어 정보 및 통계 - 캐릭터 선택 및 빌드 - 팀 구성 - 경기 시간 및 결과 - 개별 플레이어 성능 지표",
     "url": "/docs/api-cyphers"
@@ -1668,7 +1552,7 @@
   {
     "id": "overview.mdx-main",
     "title": "개요",
-    "content": "네오플 오픈 API를 위한 TypeScript/JavaScript SDK입니다. TypeScript 지원 모든 API에 대한 타입 안전성과 자동완성을 제공합니다. 다중 HTTP 어댑터 지원 Fetch, Axios, Got, Node-fetch 중 선택하여 사용할 수 있습니다. URL Builder 지원 API 엔드포인트 URL 추출 가능 - Node.js 18+ - 서버 애플리케이션 - Next.js - API 라우트 및 서버 컴포넌트 - Express.js - 웹 서버 - 서버리스 함수 - Vercel, AWS Lambda 등 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/v/neople-sdk-js.svg?style=flat-square\"       alt=\"npm version\"     />   </a>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/dm/neople-sdk-js.svg?style=flat-square\"       alt=\"npm downloads\"     />   </a> </div> - 라이센스: MIT - 타입 정의: neople-openapi-types 0.3.0 포함 - GitHub: neople-sdk-js <Cards>   <Card title=\"설치 및 설정\" href=\"/docs/getting-started\" />   <Card title=\"던전앤파이터 API\" href=\"/docs/api-dungeon-fighter\" />   <Card title=\"사이퍼즈 API\" href=\"/docs/api-cyphers\" />   <Card title=\"설정 가이드\" href=\"/docs/configuration\" /> </Cards> <Cards>   <Card title=\"HTTP 어댑터\" href=\"/docs/adapter-fetch\" />   <Card title=\"오류 처리\" href=\"/docs/error-handling\" />   <Card title=\"타입 정의\" href=\"/docs/types\" />   <Card title=\"예제 코드\" href=\"/docs/examples\" /> </Cards>",
+    "content": "네오플 오픈 API를 위한 TypeScript/JavaScript SDK입니다. TypeScript 지원 모든 API에 대한 타입 안전성과 자동완성을 제공합니다. 다중 HTTP 어댑터 지원 Fetch, Axios, Got, Node-fetch 중 선택하여 사용할 수 있습니다. 포괄적인 API 지원 45개의 API 엔드포인트 지원 (던전앤파이터 34개, 사이퍼즈 11개) URL Builder 지원 API 엔드포인트 URL 추출 가능 - Node.js 18+ - 서버 애플리케이션 - Next.js - API 라우트 및 서버 컴포넌트 - Express.js - 웹 서버 - 서버리스 함수 - Vercel, AWS Lambda 등 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/v/neople-sdk-js.svg?style=flat-square\"       alt=\"npm version\"     />   </a>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/dm/neople-sdk-js.svg?style=flat-square\"       alt=\"npm downloads\"     />   </a> </div> - 라이센스: MIT - 타입 정의: neople-openapi-types 1.0.0 포함 - GitHub: neople-sdk-js <Cards>   <Card title=\"설치 및 설정\" href=\"/docs/getting-started\" />   <Card title=\"던전앤파이터 API\" href=\"/docs/api-dungeon-fighter\" />   <Card title=\"사이퍼즈 API\" href=\"/docs/api-cyphers\" />   <Card title=\"설정 가이드\" href=\"/docs/configuration\" /> </Cards> <Cards>   <Card title=\"HTTP 어댑터\" href=\"/docs/adapter-fetch\" />   <Card title=\"오류 처리\" href=\"/docs/error-handling\" />   <Card title=\"타입 정의\" href=\"/docs/types\" />   <Card title=\"예제 코드\" href=\"/docs/examples\" /> </Cards>",
     "url": "/docs/overview"
   },
   {
@@ -1690,32 +1574,38 @@
     "url": "/docs/overview"
   },
   {
-    "id": "overview.mdx-7",
+    "id": "overview.mdx-6",
     "title": "개요",
-    "content": "- Node.js 18+ - 서버 애플리케이션 - Next.js - API 라우트 및 서버 컴포넌트 - Express.js - 웹 서버 - 서버리스 함수 - Vercel, AWS Lambda 등",
-    "url": "/docs/overview"
-  },
-  {
-    "id": "overview.mdx-8",
-    "title": "개요",
-    "content": "<div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/v/neople-sdk-js.svg?style=flat-square\"       alt=\"npm version\"     />   </a>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/dm/neople-sdk-js.svg?style=flat-square\"       alt=\"npm downloads\"     />   </a> </div>",
+    "content": "45개의 API 엔드포인트 지원 (던전앤파이터 34개, 사이퍼즈 11개)",
     "url": "/docs/overview"
   },
   {
     "id": "overview.mdx-9",
     "title": "개요",
-    "content": "- 라이센스: MIT - 타입 정의: neople-openapi-types 0.3.0 포함 - GitHub: neople-sdk-js",
+    "content": "- Node.js 18+ - 서버 애플리케이션 - Next.js - API 라우트 및 서버 컴포넌트 - Express.js - 웹 서버 - 서버리스 함수 - Vercel, AWS Lambda 등",
     "url": "/docs/overview"
   },
   {
     "id": "overview.mdx-10",
+    "title": "개요",
+    "content": "<div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/v/neople-sdk-js.svg?style=flat-square\"       alt=\"npm version\"     />   </a>   <a href=\"https://www.npmjs.com/package/neople-sdk-js\">     <img       src=\"https://img.shields.io/npm/dm/neople-sdk-js.svg?style=flat-square\"       alt=\"npm downloads\"     />   </a> </div>",
+    "url": "/docs/overview"
+  },
+  {
+    "id": "overview.mdx-11",
+    "title": "개요",
+    "content": "- 라이센스: MIT - 타입 정의: neople-openapi-types 1.0.0 포함 - GitHub: neople-sdk-js",
+    "url": "/docs/overview"
+  },
+  {
+    "id": "overview.mdx-12",
     "title": "개요",
     "content": "<Cards>   <Card title=\"설치 및 설정\" href=\"/docs/getting-started\" />   <Card title=\"던전앤파이터 API\" href=\"/docs/api-dungeon-fighter\" />   <Card title=\"사이퍼즈 API\" href=\"/docs/api-cyphers\" />   <Card title=\"설정 가이드\" href=\"/docs/configuration\" /> </Cards>",
     "url": "/docs/overview",
     "anchorId": "설치"
   },
   {
-    "id": "overview.mdx-11",
+    "id": "overview.mdx-13",
     "title": "개요",
     "content": "<Cards>   <Card title=\"HTTP 어댑터\" href=\"/docs/adapter-fetch\" />   <Card title=\"오류 처리\" href=\"/docs/error-handling\" />   <Card title=\"타입 정의\" href=\"/docs/types\" />   <Card title=\"예제 코드\" href=\"/docs/examples\" /> </Cards>",
     "url": "/docs/overview"
