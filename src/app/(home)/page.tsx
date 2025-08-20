@@ -24,26 +24,38 @@ export default function HomePage() {
 
           {/* NPM & GitHub Badges */}
           <div className="flex justify-center flex-wrap gap-2 mb-12">
-            <a
-              href="https://github.com/crowrish/neople-sdk-js"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="https://img.shields.io/badge/GitHub-neople--sdk--js-blue?style=flat-square&logo=github"
-                alt="GitHub"
-              />
-            </a>
-            <a
-              href="https://www.npmjs.com/package/neople-sdk-js"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="https://img.shields.io/npm/v/neople-sdk-js.svg?style=flat-square"
-                alt="npm version"
-              />
-            </a>
+            <div className="flex gap-2 h-5 items-center">
+              <a
+                href="https://github.com/crowrish/neople-sdk-js"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block h-5 w-auto"
+              >
+                <img
+                  src="https://img.shields.io/badge/GitHub-neople--sdk--js-blue?style=flat-square&logo=github"
+                  alt="GitHub"
+                  width="120"
+                  height="20"
+                  className="h-5 w-auto block"
+                  style={{ display: 'block', height: '20px', width: 'auto' }}
+                />
+              </a>
+              <a
+                href="https://www.npmjs.com/package/neople-sdk-js"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block h-5 w-auto"
+              >
+                <img
+                  src="https://img.shields.io/npm/v/neople-sdk-js.svg?style=flat-square"
+                  alt="npm version"
+                  width="80"
+                  height="20"
+                  className="h-5 w-auto block"
+                  style={{ display: 'block', height: '20px', width: 'auto' }}
+                />
+              </a>
+            </div>
           </div>
 
           {/* CTA Buttons */}
@@ -249,8 +261,8 @@ const players = await client.searchPlayer('홍길동');`}
                   : '/images/neople.png'
               }
               alt="Neople 오픈 API"
-              width={180}
-              height={32}
+              width="180"
+              height="32"
               className="h-8 mx-auto"
             />
           </a>
